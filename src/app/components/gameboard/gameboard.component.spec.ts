@@ -1,6 +1,7 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 
 import { GameboardComponent } from './gameboard.component';
@@ -31,15 +32,18 @@ describe('GameboardComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create 10*10 table as gameboard', () => {
+  it('should create a table as gameboard', () => {
     let gameboard = el.queryAll(By.css("#gameboard"));
 
-    console.log(gameboard);
+    fixture.detectChanges();
     
     expect(gameboard).toBeTruthy("Could not find gameboard");
-    expect(gameboard.length).toEqual(1, "Could not find gameboard");
-    expect(gameboard[0].nativeElement.childNodes.length).toEqual(10, "Not enough rows");
-    expect(gameboard[0].nativeElement.childNodes[0].childNodes.length).toEqual(10, "Not enough columns");
+    expect(gameboard.length).toEqual(1, "Could not find gameboard")
+  });
+
+  it('should fill the 10*10 board with cells', () => {
+    expect(component.cells.length).toBe(10);
+    expect(component.cells[0].length).toBe(10);
   });
 
   it('should place planes', () => {
@@ -48,6 +52,7 @@ describe('GameboardComponent', () => {
     expect(component.planes[0].position.x).toEqual(3);
     expect(component.planes[0].position.y).toEqual(2);
     expect(component.planes[0].direction).toEqual(DirectionEnum.UP);
+    expect(component.cells[2][3].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
   it('should not place plane on the top op an other plane', () => {
