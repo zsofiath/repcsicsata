@@ -3,6 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
+import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 
 import { GameboardComponent } from './gameboard.component';
 
@@ -49,9 +50,12 @@ describe('GameboardComponent', () => {
   it('should place plane', () => {
     component.placePlane({x:3, y:2}, DirectionEnum.UP);
     
+    console.log(component.planes[0]);
+    
+
     expect(component.planes[0].position.x).toEqual(3);
     expect(component.planes[0].position.y).toEqual(2);
-    expect(component.planes[0].direction).toEqual(DirectionEnum.UP);
+    expect(component.planes[0].drawer instanceof PlaneDrawerUp).toBeTruthy();
     expect(component.cells[2][3].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
@@ -61,7 +65,7 @@ describe('GameboardComponent', () => {
     
     expect(component.planes[1].position.x).toEqual(3);
     expect(component.planes[1].position.y).toEqual(5);
-    expect(component.planes[1].direction).toEqual(DirectionEnum.UP);
+    expect(component.planes[1].drawer instanceof PlaneDrawerUp).toBeTruthy();
     expect(component.cells[5][3].state).toBe(BoardCellStateEnum.RESERVED);
   });
 

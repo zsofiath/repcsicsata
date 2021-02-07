@@ -1,21 +1,21 @@
-import { DirectionEnum } from "../constants/DirectionEnum";
 import Coordinate from "./Coordinate";
+import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 
 export default class Plane {
-    private _direction: DirectionEnum;
+    private _drawer: IPlaneDrawer;
     private _position: Coordinate;
 
-    constructor(direction: DirectionEnum, position: Coordinate) {
-        this._direction = direction;
+    constructor(drawer: IPlaneDrawer, position: Coordinate) {
+        this._drawer = drawer;
         this._position = position;
     }
 
-    get direction(){
-        return this._direction;
+    get drawer(){
+        return this._drawer;
     }
 
-    set direction(value: DirectionEnum){
-        this._direction = value;
+    set drawer(value: IPlaneDrawer){
+        this._drawer = value;
     }
     
     get position(){
@@ -29,44 +29,12 @@ export default class Plane {
     getCoordinates(): Coordinate[]{
         const planeCoordinates = [];
 
-        this.drawHead(this.position, planeCoordinates);
-        this.drawWings(this.position, planeCoordinates);
-        this.drawBody(this.position, planeCoordinates);
-        this.drawTail(this.position, planeCoordinates);
+        planeCoordinates.push(...this.drawer.drawHead(this.position));
+        planeCoordinates.push(...this.drawer.drawWings(this.position));
+        planeCoordinates.push(...this.drawer.drawBody(this.position));
+        planeCoordinates.push(...this.drawer.drawTail(this.position));
 
         return planeCoordinates;
-    }
-
-    private drawHead(planeCenter, planeCoordinates){
-        let c = new Coordinate();
-        c.x = planeCenter.x;
-        c.y = planeCenter.y-1;
-        planeCoordinates.push(c)
-    }
-
-    private drawWings(planeCenter, planeCoordinates){
-        for (let i = 0; i < 5; i++) {
-            let c = new Coordinate();
-            c.x = planeCenter.x+i-2;
-            c.y = planeCenter.y;
-            planeCoordinates.push(c)  
-        }
-    }
-
-    private drawBody(planeCenter, planeCoordinates){
-        let b = new Coordinate();
-        b.x = planeCenter.x;
-        b.y = planeCenter.y+1;
-        planeCoordinates.push(b);
-    }
-
-    private drawTail(planeCenter, planeCoordinates){
-        for (let i = 0; i < 3; i++) {
-            let c = new Coordinate();
-            c.x = planeCenter.x+i-1;
-            c.y = planeCenter.y+2;
-            planeCoordinates.push(c)  
-        }
     }
 
 }

@@ -1,8 +1,8 @@
 import { DirectionEnum } from "../constants/DirectionEnum";
-import BoardCell from "./BoardCell";
 import Coordinate from "./Coordinate";
 import Plane from "./Plane";
-import PlaneDrawer from "./PlaneDrawer";
+import PlaneDrawerRight from "./planeDrawer/PlaneDrawerRight";
+import PlaneDrawerUp from "./planeDrawer/PlaneDrawerUp";
 
 describe('Plane', () => {
 
@@ -12,7 +12,7 @@ describe('Plane', () => {
         centerPosition.x = 3;
         centerPosition.y = 2;
 
-        let drawer = new Plane(DirectionEnum.UP, centerPosition);
+        let drawer = new Plane(new PlaneDrawerUp(), centerPosition);
          
         let planeCoordinates = drawer.getCoordinates();
 
@@ -45,5 +45,45 @@ describe('Plane', () => {
         expect(planeCoordinates[9].y).toEqual(4);
     });
 
+    it('should return its coordinates, direction:right', () => {
+        
+        let centerPosition = new Coordinate();
+        centerPosition.x = 3;
+        centerPosition.y = 3;
+
+        let drawer = new Plane(new PlaneDrawerRight(), centerPosition);
+         
+        let planeCoordinates = drawer.getCoordinates();
+
+        // head
+        expect(planeCoordinates[0].x).toEqual(4);
+        expect(planeCoordinates[0].y).toEqual(3);
+
+        // wings
+        expect(planeCoordinates[1].x).toEqual(3);
+        expect(planeCoordinates[1].y).toEqual(1);
+        expect(planeCoordinates[2].x).toEqual(3);
+        expect(planeCoordinates[2].y).toEqual(2);
+        expect(planeCoordinates[3].x).toEqual(3);
+        expect(planeCoordinates[3].y).toEqual(3);
+        expect(planeCoordinates[4].x).toEqual(3);
+        expect(planeCoordinates[4].y).toEqual(4);
+        expect(planeCoordinates[5].x).toEqual(3);
+        expect(planeCoordinates[5].y).toEqual(5);
+
+        // body
+        expect(planeCoordinates[6].x).toEqual(2);
+        expect(planeCoordinates[6].y).toEqual(3);
+
+        //tail
+        expect(planeCoordinates[7].x).toEqual(1);
+        expect(planeCoordinates[7].y).toEqual(2);
+        expect(planeCoordinates[8].x).toEqual(1);
+        expect(planeCoordinates[8].y).toEqual(3);
+        expect(planeCoordinates[9].x).toEqual(1);
+        expect(planeCoordinates[9].y).toEqual(4);
+    });
+
     
-});
+    
+}); 
