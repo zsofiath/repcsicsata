@@ -1,38 +1,19 @@
-import { DirectionEnum } from "../constants/DirectionEnum";
+import BoardCell from "./BoardCell";
 import Coordinate from "./Coordinate";
 
-export default class Plane {
-    private _direction: DirectionEnum;
-    private _position: Coordinate;
-
-    constructor(direction: DirectionEnum, position: Coordinate) {
-        this._direction = direction;
-        this._position = position;
+export default class PlaneDrawer {
+    cells: BoardCell[][];
+    constructor(c: BoardCell[][]){
+        this.cells = c;
     }
 
-    get direction(){
-        return this._direction;
-    }
-
-    set direction(value: DirectionEnum){
-        this._direction = value;
-    }
-    
-    get position(){
-        return this._position;
-    }
-    
-    set position(value: Coordinate){
-        this._position = value;
-    }
-
-    getCoordinates(): Coordinate[]{
+    drawToUp(planeCenter: Coordinate): Coordinate[]{
         const planeCoordinates = [];
 
-        this.drawHead(this.position, planeCoordinates);
-        this.drawWings(this.position, planeCoordinates);
-        this.drawBody(this.position, planeCoordinates);
-        this.drawTail(this.position, planeCoordinates);
+        this.drawHead(planeCenter, planeCoordinates);
+        this.drawWings(planeCenter, planeCoordinates);
+        this.drawBody(planeCenter, planeCoordinates);
+        this.drawTail(planeCenter, planeCoordinates);
 
         return planeCoordinates;
     }

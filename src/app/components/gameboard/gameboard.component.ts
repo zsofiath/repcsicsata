@@ -42,9 +42,7 @@ export class GameboardComponent implements OnInit {
   }
 
   placePlane(coordinate: Coordinate, direction: DirectionEnum){
-    let placedPlane = new Plane();
-    placedPlane.direction = direction;
-    placedPlane.position = coordinate;
+    let placedPlane = new Plane(direction, coordinate);
 
     this.checkIfOverlappongAPlacedPlane(placedPlane);   
 
