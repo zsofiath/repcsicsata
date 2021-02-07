@@ -5,6 +5,9 @@ import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 import Plane from 'src/app/model/Plane';
 
+const MAX_PLANES_NUM = 4;
+
+
 @Component({
   selector: 'app-gameboard',
   templateUrl: './gameboard.component.html',
@@ -14,6 +17,7 @@ export class GameboardComponent implements OnInit {
 
   planes: Plane[];
   cells: BoardCell[][];
+  allPlanePlaced: Boolean;
 
   constructor() {
     this.planes = [];
@@ -38,27 +42,31 @@ export class GameboardComponent implements OnInit {
   }
 
   placePlane(coordinate: Coordinate, direction: DirectionEnum){
-    let placedPlane = new Plane;
+    let placedPlane = new Plane();
     placedPlane.direction = direction;
     placedPlane.position = coordinate;
 
-    if(this.planes.length > 0) this.checkIfOverlapsAnyOtherPlane(placedPlane);
-    this.cells[coordinate.y.toString()][coordinate.x].state = BoardCellStateEnum.RESERVED;
+    this.checkIfOverlappongAPlacedPlane(placedPlane);   
 
     this.planes.push(placedPlane);
+
+    this.cells[placedPlane.position.y][placedPlane.position.x].state = BoardCellStateEnum.RESERVED;
+
+    if(this.planes.length == 4) this.allPlanePlaced = true;  
   }
 
-  private checkIfOverlapsAnyOtherPlane(placedPlane: Plane){
-      let i = 0;
-      while(this.notOverlappingTheIthPlane(placedPlane, i)) {
-        i++;
-      }
+  private checkIfOverlappongAPlacedPlane(placedPlane: Plane){
+    let i=0;
+    while(i< this.planes.length && this.isNotOverlappingIthPlane(placedPlane, i)){
+      i++;
+    }
 
-      if(i < this.planes.length) throw new Error('Bad position');
+    if(i< this.planes.length) throw new Error('Bad position');
   }
 
-  private notOverlappingTheIthPlane(placedPlane: Plane, i){
-    return !(this.planes[i].position.x == placedPlane.position.x || this.planes[i].position.y == placedPlane.position.y)
+  private isNotOverlappingIthPlane(placedPlane: Plane, i){
+    return !(this.planes[i].position.x == placedPlane.position.x && 
+      this.planes[i].position.y == placedPlane.position.y)
   }
 
 }

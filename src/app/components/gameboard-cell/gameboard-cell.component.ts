@@ -1,6 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import BoardCell from 'src/app/model/BoardCell';
+import Coordinate from 'src/app/model/Coordinate';
 
 @Component({
   selector: 'app-gameboard-cell',
@@ -10,27 +12,42 @@ import BoardCell from 'src/app/model/BoardCell';
 export class GameboardCellComponent implements OnInit {
 
   @Input() properties: BoardCell;
-  cellIsFree;
+  @Output() hoverEvent = new EventEmitter<Coordinate>();
+  @Output() clickEvent = new EventEmitter<Coordinate>();
+
   constructor() { }
 
   ngOnInit() {
-    this.cellIsFree = true;
   }
 
-  isCellFree(): Boolean{
+  isCellFree(): Boolean {
     return this.properties && this.properties.state == BoardCellStateEnum.FREE;
   }
 
-  isCellHighlighted(): Boolean{
+  isCellHighlighted(): Boolean {
     return this.properties && this.properties.state == BoardCellStateEnum.HIGHLIGHTED;
   }
 
-  isCellError(): Boolean{
+  isCellError(): Boolean {
     return this.properties && this.properties.state == BoardCellStateEnum.ERROR;
   }
 
-  isCellReserved(): Boolean{
+  isCellReserved(): Boolean {
     return this.properties && this.properties.state == BoardCellStateEnum.RESERVED;
+  }
+
+  onHover(){
+    let coordinate = new Coordinate();
+    coordinate.x = this.properties.x;
+    coordinate.y = this.properties.y;
+    this.hoverEvent.emit(coordinate);
+  }
+
+  onClick(){
+    let coordinate = new Coordinate();
+    coordinate.x = this.properties.x;
+    coordinate.y = this.properties.y;
+    this.clickEvent.emit(coordinate);
   }
 
 }

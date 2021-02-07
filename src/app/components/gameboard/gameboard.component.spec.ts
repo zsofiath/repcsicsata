@@ -46,13 +46,23 @@ describe('GameboardComponent', () => {
     expect(component.cells[0].length).toBe(10);
   });
 
-  it('should place planes', () => {
+  it('should place plane', () => {
     component.placePlane({x:3, y:2}, DirectionEnum.UP);
     
     expect(component.planes[0].position.x).toEqual(3);
     expect(component.planes[0].position.y).toEqual(2);
     expect(component.planes[0].direction).toEqual(DirectionEnum.UP);
     expect(component.cells[2][3].state).toBe(BoardCellStateEnum.RESERVED);
+  });
+
+  it('should place 2 planes', () => {
+    component.placePlane({x:3, y:2}, DirectionEnum.UP);
+    component.placePlane({x:3, y:5}, DirectionEnum.UP);
+    
+    expect(component.planes[1].position.x).toEqual(3);
+    expect(component.planes[1].position.y).toEqual(5);
+    expect(component.planes[1].direction).toEqual(DirectionEnum.UP);
+    expect(component.cells[5][3].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
   it('should not place plane on the top op an other plane', () => {
@@ -62,5 +72,15 @@ describe('GameboardComponent', () => {
     expect(function(){
       component.placePlane({x:3, y:2}, DirectionEnum.UP);
     }).toThrow(new Error('Bad position'));
+  });
+
+  it('should place only 4 planes', () => {
+    component.placePlane({x:3, y:1}, DirectionEnum.UP);
+    component.placePlane({x:3, y:5}, DirectionEnum.UP);
+    component.placePlane({x:5, y:4}, DirectionEnum.LEFT);
+    component.placePlane({x:8, y:7}, DirectionEnum.LEFT);
+    
+    
+    expect(component.allPlanePlaced).toBeTruthy();
   });
 });

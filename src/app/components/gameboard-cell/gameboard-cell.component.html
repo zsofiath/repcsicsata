@@ -1,7 +1,10 @@
-<div [ngClass]="{
+<div 
+(mouseover)="onHover()"
+(click)="onClick()"
+[ngClass]="{
     'cell': true,
     'cell-free': isCellFree(),
     'cell-highlighted': isCellHighlighted(),
     'cell-error': isCellError(),
     'cell-reserved': isCellReserved()
-}"></div>
+}">o</div>

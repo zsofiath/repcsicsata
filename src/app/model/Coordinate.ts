@@ -1,4 +1,4 @@
 export default class Coordinate {
-    x: Number;
-    y: Number;
+    x: number;
+    y: number;
 }

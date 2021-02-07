@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import BoardCell from 'src/app/model/BoardCell';
@@ -69,4 +69,44 @@ describe('GameboardCellComponent', () => {
 
     expect(element[0].nativeElement.classList.contains('cell-reserved')).toBeTruthy();
   });
+
+  it('should trigger an event on hover', fakeAsync(() => {
+    component.properties = new BoardCell();
+    component.properties.x=1;
+    component.properties.y=1;
+    let element = el.queryAll(By.css(".cell"));
+
+    let x, y;
+    component.hoverEvent.subscribe((position)=> {
+      x=position.x;
+      y=position.y;
+    });
+
+    element[0].triggerEventHandler('mouseover', null);
+
+    flush();
+
+    expect(x).toEqual(1);
+    expect(y).toEqual(1);
+  }));
+
+  it('should trigger an event on click', fakeAsync(() => {
+    component.properties = new BoardCell();
+    component.properties.x=1;
+    component.properties.y=1;
+    let element = el.queryAll(By.css(".cell"));
+
+    let x, y;
+    component.clickEvent.subscribe((position)=> {
+      x=position.x;
+      y=position.y;
+    });
+
+    element[0].triggerEventHandler('click', null);
+
+    flush();
+
+    expect(x).toEqual(1);
+    expect(y).toEqual(1);
+  }));
 });
