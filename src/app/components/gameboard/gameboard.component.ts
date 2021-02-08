@@ -27,16 +27,16 @@ export class GameboardComponent implements OnInit {
     this.cells = [];
     for (let i = 0; i < 10; i++) {
       this.cells.push([
-        new BoardCell(),
-        new BoardCell(),
-        new BoardCell(),
-        new BoardCell(),
-        new BoardCell(),
-        new BoardCell(),
-        new BoardCell(),
-        new BoardCell(),
-        new BoardCell(),
-        new BoardCell(),
+        new BoardCell(0, i),
+        new BoardCell(1, i),
+        new BoardCell(2, i),
+        new BoardCell(3, i),
+        new BoardCell(4, i),
+        new BoardCell(5, i),
+        new BoardCell(6, i),
+        new BoardCell(7, i),
+        new BoardCell(8, i),
+        new BoardCell(9, i),
       ]);
     }
   }
@@ -57,17 +57,27 @@ export class GameboardComponent implements OnInit {
     if(this.planes.length == 4) this.allPlanePlaced = true;  
   }
 
-  drawPlaneOnCells(plane: Plane) {
+  onHover(coord: Coordinate){
+    let pl = new Plane(new PlaneDrawerUp(), coord);
+    console.log(pl);
+    
+    this.drawPlaneOnCells(pl);
+  }
 
+  drawPlaneOnCells(plane: Plane) {
+    
     this.cells.forEach(row => {
       row.forEach(cell => {
         if(cell.state != BoardCellStateEnum.RESERVED) cell.state = BoardCellStateEnum.FREE;
       });
     });
 
+    
     plane.getCoordinates().forEach(c => {
+      console.log(c.y,c.x);
+      
       this.cells[c.y][c.x].state = BoardCellStateEnum.HIGHLIGHTED;
-    })
+    });
   }
 
   private checkIfOverlappongAPlacedPlane(placedPlane: Plane){

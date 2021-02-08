@@ -1,0 +1,9 @@
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+}
+
+.cell-highlighted {
+    background-color: aquamarine;
+}
