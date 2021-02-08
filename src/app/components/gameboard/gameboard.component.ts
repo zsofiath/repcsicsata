@@ -4,6 +4,7 @@ import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 import Plane from 'src/app/model/Plane';
+import IPlaneDrawer from 'src/app/model/planeDrawer/IPlaneDrawer';
 import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
 import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 
@@ -56,6 +57,19 @@ export class GameboardComponent implements OnInit {
     if(this.planes.length == 4) this.allPlanePlaced = true;  
   }
 
+  drawPlaneOnCells(plane: Plane) {
+
+    this.cells.forEach(row => {
+      row.forEach(cell => {
+        if(cell.state != BoardCellStateEnum.RESERVED) cell.state = BoardCellStateEnum.FREE;
+      });
+    });
+
+    plane.getCoordinates().forEach(c => {
+      this.cells[c.y][c.x].state = BoardCellStateEnum.HIGHLIGHTED;
+    })
+  }
+
   private checkIfOverlappongAPlacedPlane(placedPlane: Plane){
     let i=0;
     while(i< this.planes.length && this.isNotOverlappingIthPlane(placedPlane, i)){
@@ -69,5 +83,7 @@ export class GameboardComponent implements OnInit {
     return !(this.planes[i].position.x == placedPlane.position.x && 
       this.planes[i].position.y == placedPlane.position.y)
   }
+
+
 
 }

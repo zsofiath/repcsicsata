@@ -3,6 +3,11 @@ import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testi
 import { By } from '@angular/platform-browser';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
+import BoardCell from 'src/app/model/BoardCell';
+import Coordinate from 'src/app/model/Coordinate';
+import Plane from 'src/app/model/Plane';
+import FakePlaneDrawer from 'src/app/model/planeDrawer/FakePlaneDrawer';
+import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
 import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 
@@ -50,9 +55,6 @@ describe('GameboardComponent', () => {
 
   it('should place plane', () => {
     component.placePlane({x:3, y:2}, DirectionEnum.UP);
-    
-    console.log(component.planes[0]);
-    
 
     expect(component.planes[0].position.x).toEqual(3);
     expect(component.planes[0].position.y).toEqual(2);
@@ -89,9 +91,127 @@ describe('GameboardComponent', () => {
     expect(component.allPlanePlaced).toBeTruthy();
   });
 
-  it('should use bord cell', fakeAsync(() => {
+  it('should use board cell', fakeAsync(() => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('app-gameboard-cell')).not.toBe(null);
   }));
+
+  it('should show plane by cells on hover', () => {
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+
+    component.cells = cells;
+
+    let coordinate = new Coordinate();
+    coordinate.x = 0;
+    coordinate.y = 0;
+
+
+    let factory = new PlaneDrawerFactory(null);
+    let spy = spyOn(factory, 'get').and.returnValue(new FakePlaneDrawer());
+
+    let plane = new Plane(factory.get(), coordinate);
+
+    component.drawPlaneOnCells(plane);
+
+    expect(cells[0][0].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
+    expect(cells[0][1].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[1][1].state).toEqual(BoardCellStateEnum.FREE);
+  });
+
+  it('should show only current plane position by cells on hover', () => {
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+
+    component.cells = cells;
+
+    let coordinate = new Coordinate();
+    coordinate.x = 0;
+    coordinate.y = 0;
+
+
+    let factory = new PlaneDrawerFactory(null);
+    let spy = spyOn(factory, 'get').and.returnValue(new FakePlaneDrawer());
+
+    let plane = new Plane(factory.get(), coordinate);
+
+    component.drawPlaneOnCells(plane);
+
+    plane.position.x = 1; 
+
+    component.drawPlaneOnCells(plane);
+
+    expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[0][1].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
+    expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[1][1].state).toEqual(BoardCellStateEnum.FREE);
+  });
+
+  it('should show only current plane position by cells on hover, and show reserved cells', () => {
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.RESERVED;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+
+    console.log(cells);
+    
+
+    component.cells = cells;
+
+    let coordinate = new Coordinate();
+    coordinate.x = 0;
+    coordinate.y = 0;
+
+
+    let factory = new PlaneDrawerFactory(null);
+    let spy = spyOn(factory, 'get').and.returnValue(new FakePlaneDrawer());
+
+    let plane = new Plane(factory.get(), coordinate);
+
+    component.drawPlaneOnCells(plane);
+
+    expect(cells[0][0].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
+    expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
+    expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
+  });
 });
