@@ -3,14 +3,16 @@ import Coordinate from "../Coordinate";
 import IPlaneDrawer from "./IPlaneDrawer";
 
 export default class PlaneDrawerUp implements IPlaneDrawer {
+    boardSideSize: number;
 
-    constructor(){
+    constructor(boardSideSize: number = 10){
+        this.boardSideSize = boardSideSize;
     }
     drawHead(planeCenter: Coordinate): Coordinate[] {
         let c = new Coordinate();
         c.x = planeCenter.x;
         c.y = planeCenter.y-1;
-        return [c];
+        return c.y >= 0 ? [c] : [];
     }
     drawWings(planeCenter: Coordinate): Coordinate[] {
         let wings = [];

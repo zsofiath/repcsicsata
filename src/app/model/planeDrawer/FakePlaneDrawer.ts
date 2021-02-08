@@ -4,8 +4,12 @@ import IPlaneDrawer from "./IPlaneDrawer";
 
 export default class FakePlaneDrawer implements IPlaneDrawer {
 
-    constructor(){
+    boardSideSize: number;
+
+    constructor(boardSideSize: number = 10){
+        this.boardSideSize = boardSideSize;
     }
+
     drawHead(planeCenter: Coordinate): Coordinate[] {
         let c = new Coordinate();
         c.x = planeCenter.x;
