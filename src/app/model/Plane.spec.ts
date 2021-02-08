@@ -165,3 +165,36 @@ describe('Plane', () => {
     });
     
 }); 
+
+it('should return its coordinates, direction:up - out of board', () => {
+        
+    let centerPosition = new Coordinate();
+    centerPosition.x = 0;
+    centerPosition.y = 1;
+
+    let drawer = new Plane(new PlaneDrawerUp(), centerPosition);
+     
+    let planeCoordinates = drawer.getCoordinates();
+
+    // head
+    expect(planeCoordinates[0].x).toEqual(0);
+    expect(planeCoordinates[0].y).toEqual(0);
+
+    // wings
+    expect(planeCoordinates[1].x).toEqual(0);
+    expect(planeCoordinates[1].y).toEqual(1);
+    expect(planeCoordinates[2].x).toEqual(1);
+    expect(planeCoordinates[2].y).toEqual(1);
+    expect(planeCoordinates[3].x).toEqual(2);
+    expect(planeCoordinates[3].y).toEqual(1);
+
+    // body
+    expect(planeCoordinates[4].x).toEqual(0);
+    expect(planeCoordinates[4].y).toEqual(2);
+
+    //tail
+    expect(planeCoordinates[5].x).toEqual(0);
+    expect(planeCoordinates[5].y).toEqual(3);
+    expect(planeCoordinates[6].x).toEqual(1);
+    expect(planeCoordinates[6].y).toEqual(3);
+});

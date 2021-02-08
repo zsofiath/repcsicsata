@@ -19,7 +19,7 @@ export default class PlaneDrawerUp implements IPlaneDrawer {
             let c = new Coordinate();
             c.x = planeCenter.x+i-2;
             c.y = planeCenter.y;
-            wings.push(c);
+            if(c.x >= 0) wings.push(c);
         }
         return wings;
     }
@@ -36,7 +36,7 @@ export default class PlaneDrawerUp implements IPlaneDrawer {
             let c = new Coordinate();
             c.x = planeCenter.x+i-1;
             c.y = planeCenter.y+2;
-            tail.push(c)  
+            if(c.x >= 0) tail.push(c);  
         }
 
         return tail;
