@@ -1,9 +1,10 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
+import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 
 import { GameboardComponent } from './gameboard.component';
 
@@ -14,7 +15,7 @@ describe('GameboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameboardComponent ]
+      declarations: [ GameboardComponent, GameboardCellComponent ]
     })
     .compileComponents().then(()=>{
       fixture = TestBed.createComponent(GameboardComponent);
@@ -87,4 +88,10 @@ describe('GameboardComponent', () => {
     
     expect(component.allPlanePlaced).toBeTruthy();
   });
+
+  it('should use bord cell', fakeAsync(() => {
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-gameboard-cell')).not.toBe(null);
+  }));
 });
