@@ -191,10 +191,7 @@ describe('GameboardComponent', () => {
         c2,
       ]);
     }
-
-    console.log(cells);
     
-
     component.cells = cells;
 
     let coordinate = new Coordinate();
