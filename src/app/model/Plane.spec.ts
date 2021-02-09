@@ -113,7 +113,6 @@ it('should return its coordinates, direction:up - out of board left', () => {
      
     let planeCoordinates = drawer.getCoordinates();
 
-    console.log(coordinatesToArray(planeCoordinates));
     expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
         ['x',' ',' ',' ',' '],
         ['x','x','x',' ',' '],
@@ -124,7 +123,7 @@ it('should return its coordinates, direction:up - out of board left', () => {
 });
 
 
-it('should return its coordinates, direction:up - out of board top', () => {
+it('should return its coordinates, direction:up - out of board top and left', () => {
         
     let centerPosition = new Coordinate();
     centerPosition.x = 0;
@@ -143,5 +142,41 @@ it('should return its coordinates, direction:up - out of board top', () => {
     ]));
 });
 
+it('should return its coordinates, direction:up - out of board top and left', () => {
+        
+    let centerPosition = new Coordinate();
+    centerPosition.x = 1;
+    centerPosition.y = 0;
 
+    let drawer = new Plane(new PlaneDrawerUp(5), centerPosition);
+     
+    let planeCoordinates = drawer.getCoordinates();
+
+    expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
+        ['x','x','x','x',' '],
+        [' ','x',' ',' ',' '],
+        ['x','x','x',' ',' '],
+        [' ',' ',' ',' ',' '],
+        [' ',' ',' ',' ',' '],
+    ]));
+});
+
+it('should return its coordinates, direction:up - out of board bottom and right', () => {
+        
+    let centerPosition = new Coordinate();
+    centerPosition.x = 4;
+    centerPosition.y = 4;
+
+    let drawer = new Plane(new PlaneDrawerUp(5), centerPosition);
+     
+    let planeCoordinates = drawer.getCoordinates();
+
+    expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
+        [' ',' ',' ',' ',' '],
+        [' ',' ',' ',' ',' '],
+        [' ',' ',' ',' ',' '],
+        [' ',' ',' ',' ','x'],
+        [' ',' ','x','x','x'],
+    ]));
+});
 

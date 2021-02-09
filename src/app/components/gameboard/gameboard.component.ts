@@ -58,9 +58,7 @@ export class GameboardComponent implements OnInit {
   }
 
   onHover(coord: Coordinate){
-    let pl = new Plane(new PlaneDrawerUp(), coord);
-    console.log(pl);
-    
+    let pl = new Plane(new PlaneDrawerUp(), coord);    
     this.drawPlaneOnCells(pl);
   }
 
@@ -73,9 +71,7 @@ export class GameboardComponent implements OnInit {
     });
 
     
-    plane.getCoordinates().forEach(c => {
-      console.log(c.y,c.x);
-      
+    plane.getCoordinates().forEach(c => {      
       this.cells[c.y][c.x].state = BoardCellStateEnum.HIGHLIGHTED;
     });
   }
