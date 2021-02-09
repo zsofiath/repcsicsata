@@ -10,6 +10,7 @@ import FakePlaneDrawer from 'src/app/model/planeDrawer/FakePlaneDrawer';
 import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
 import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
+import { PlaneRotationButtonsComponent } from '../plane-rotation-buttons/plane-rotation-buttons.component';
 
 import { GameboardComponent } from './gameboard.component';
 
@@ -20,7 +21,7 @@ describe('GameboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameboardComponent, GameboardCellComponent ]
+      declarations: [ GameboardComponent, GameboardCellComponent, PlaneRotationButtonsComponent ]
     })
     .compileComponents().then(()=>{
       fixture = TestBed.createComponent(GameboardComponent);
@@ -95,6 +96,12 @@ describe('GameboardComponent', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('app-gameboard-cell')).not.toBe(null);
+  }));
+
+  it('should rotation button component', fakeAsync(() => {
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-plane-rotation-buttons')).not.toBe(null);
   }));
 
   it('should show plane by cells on hover', () => {
