@@ -82,7 +82,7 @@ describe('Plane', () => {
         ]));
     });
 
-    fit('should return its coordinates, direction:down overflows rightbottom', () => {
+    it('should return its coordinates, direction:down overflows rightbottom', () => {
         
         let centerPosition = new Coordinate();
         centerPosition.x = 4;
@@ -117,6 +117,74 @@ describe('Plane', () => {
             ['x','x','x','x',' '],
             ['x',' ','x',' ',' '],
             [' ',' ','x',' ',' '],
+        ]));
+    });
+
+    it('should return its coordinates, direction:right left top corner', () => {
+        
+        let centerPosition = new Coordinate();
+        centerPosition.x = 0;
+        centerPosition.y = 0;
+
+        let drawer = new Plane(new PlaneDrawerRight(5), centerPosition);
+         
+        let planeCoordinates = drawer.getCoordinates();
+
+        expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
+            ['x','x',' ',' ',' '],
+            ['x',' ',' ',' ',' '],
+            ['x',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' '],
+        ]));
+    });
+
+    it('should return its coordinates, direction:right left top corner 1:1', () => {
+        
+        let centerPosition = new Coordinate();
+        centerPosition.x = 1;
+        centerPosition.y = 1;
+
+        let drawer = new Plane(new PlaneDrawerRight(5), centerPosition);
+         
+        let planeCoordinates = drawer.getCoordinates();
+
+        expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
+            [' ','x',' ',' ',' '],
+            ['x','x','x',' ',' '],
+            [' ','x',' ',' ',' '],
+            [' ','x',' ',' ',' '],
+            [' ',' ',' ',' ',' '],
+        ]));
+    });
+
+    it('should return its coordinates, direction:right right bottom corner', () => {
+        
+        let centerPosition = new Coordinate();
+        centerPosition.x = 4;
+        centerPosition.y = 4;
+
+        let drawer = new Plane(new PlaneDrawerRight(5), centerPosition);
+         
+        let planeCoordinates = drawer.getCoordinates();
+
+        console.log(planeCoordinates);
+        console.log([
+            [' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ','x'],
+            [' ',' ','x',' ','x'],
+            [' ',' ','x','x','x'],
+        ]);
+        
+        
+
+        expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
+            [' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ','x'],
+            [' ',' ','x',' ','x'],
+            [' ',' ','x','x','x'],
         ]));
     });
 

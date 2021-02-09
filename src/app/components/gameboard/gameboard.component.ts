@@ -7,6 +7,7 @@ import Plane from 'src/app/model/Plane';
 import IPlaneDrawer from 'src/app/model/planeDrawer/IPlaneDrawer';
 import PlaneDrawerDown from 'src/app/model/planeDrawer/PlaneDrawerDown';
 import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
+import PlaneDrawerRight from 'src/app/model/planeDrawer/PlaneDrawerRight';
 import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 
 const MAX_PLANES_NUM = 4;
@@ -59,7 +60,7 @@ export class GameboardComponent implements OnInit {
   }
 
   onHover(coord: Coordinate){
-    let pl = new Plane(new PlaneDrawerDown(), coord);    
+    let pl = new Plane(new PlaneDrawerRight(), coord);    
     this.drawPlaneOnCells(pl);
   }
 
