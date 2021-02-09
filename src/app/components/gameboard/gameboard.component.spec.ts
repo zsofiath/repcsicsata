@@ -133,7 +133,7 @@ describe('GameboardComponent', () => {
 
     let plane = new Plane(factory.get(), coordinate);
 
-    component.drawPlaneOnCells(plane);
+    component.drawPlaneOnCells(plane, coordinate);
 
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.FREE);
@@ -170,11 +170,13 @@ describe('GameboardComponent', () => {
 
     let plane = new Plane(factory.get(), coordinate);
 
-    component.drawPlaneOnCells(plane);
+    component.drawPlaneOnCells(plane, coordinate);
 
-    plane.position.x = 1; 
+    let coordinate2 = new Coordinate();
+    coordinate2.x = 1;
+    coordinate2.y = 0; 
 
-    component.drawPlaneOnCells(plane);
+    component.drawPlaneOnCells(plane, coordinate2);
 
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
@@ -211,11 +213,20 @@ describe('GameboardComponent', () => {
 
     let plane = new Plane(factory.get(), coordinate);
 
-    component.drawPlaneOnCells(plane);
+    component.drawPlaneOnCells(plane, coordinate);
 
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
     expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
+  });
+
+
+  it('should rotate the plane', () => {
+    component.currentPlane = new Plane(new PlaneDrawerUp(5), {x:1, y:1});
+
+    component.rotatePlane(DirectionEnum.UP);
+
+    expect(component.currentPlane.drawer instanceof PlaneDrawerUp).toBeTruthy();
   });
 });

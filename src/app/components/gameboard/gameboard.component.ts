@@ -24,10 +24,12 @@ export class GameboardComponent implements OnInit {
   planes: Plane[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
+  currentPlane: Plane;
 
   constructor() {
     this.planes = [];
     this.cells = [];
+    this.currentPlane = new Plane(new PlaneDrawerUp(), {x:3, y:2});
     for (let i = 0; i < 10; i++) {
       this.cells.push([
         new BoardCell(0, i),
@@ -60,12 +62,17 @@ export class GameboardComponent implements OnInit {
     if(this.planes.length == 4) this.allPlanePlaced = true;  
   }
 
-  onHover(coord: Coordinate){
-    let pl = new Plane(new PlaneDrawerLeft(), coord);    
-    this.drawPlaneOnCells(pl);
+  rotation(direction: DirectionEnum){
+    this.rotatePlane(direction);
   }
 
-  drawPlaneOnCells(plane: Plane) {
+  onHover(coord: Coordinate){
+    this.drawPlaneOnCells(this.currentPlane, coord);
+  }
+
+  drawPlaneOnCells(plane: Plane, coord: Coordinate) {
+    
+    plane.position = coord;
     
     this.cells.forEach(row => {
       row.forEach(cell => {
@@ -74,9 +81,14 @@ export class GameboardComponent implements OnInit {
     });
 
     
-    plane.getCoordinates().forEach(c => {      
+    plane.getCoordinates().forEach(c => {            
       this.cells[c.y][c.x].state = BoardCellStateEnum.HIGHLIGHTED;
     });
+  }
+
+  rotatePlane(direction: DirectionEnum){
+    let factory = new PlaneDrawerFactory(direction);
+    this.currentPlane = new Plane(factory.get(), {x:1, y:1});
   }
 
   private checkIfOverlappongAPlacedPlane(placedPlane: Plane){

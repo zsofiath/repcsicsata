@@ -1,4 +1,4 @@
-<app-plane-rotation-buttons></app-plane-rotation-buttons>
+<app-plane-rotation-buttons (clickEvent)="rotation($event)"></app-plane-rotation-buttons>
 <table id="gameboard">
     <tr *ngFor="let rows of cells">
         <td *ngFor="let column of rows">

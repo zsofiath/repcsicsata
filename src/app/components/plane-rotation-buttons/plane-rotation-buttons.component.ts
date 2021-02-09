@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 
 @Component({
@@ -8,7 +8,7 @@ import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 })
 export class PlaneRotationButtonsComponent implements OnInit {
 
-  clickEvent = new EventEmitter<DirectionEnum>();
+  @Output() clickEvent = new EventEmitter<DirectionEnum>();
   constructor() { }
 
   ngOnInit() {
