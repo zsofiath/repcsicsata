@@ -15,7 +15,7 @@ function coordinatesToArray(coordinates){
         [' ',' ',' ',' ',' '],
     ];
 
-    coordinates.forEach(element => {
+    coordinates.forEach(element => {      
         board[element.y][element.x] = 'x';
     });
 
@@ -79,6 +79,25 @@ describe('Plane', () => {
             [' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' '],
             [' ',' ',' ',' ',' '],
+        ]));
+    });
+
+    fit('should return its coordinates, direction:down overflows rightbottom', () => {
+        
+        let centerPosition = new Coordinate();
+        centerPosition.x = 4;
+        centerPosition.y = 4;
+
+        let drawer = new Plane(new PlaneDrawerDown(5), centerPosition);
+         
+        let planeCoordinates = drawer.getCoordinates();
+
+        expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
+            [' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' '],
+            [' ',' ',' ','x','x'],
+            [' ',' ',' ',' ','x'],
+            [' ',' ','x','x','x'],
         ]));
     });
 

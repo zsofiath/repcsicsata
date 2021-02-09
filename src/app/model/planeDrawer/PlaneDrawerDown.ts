@@ -14,8 +14,9 @@ export default class PlaneDrawerDown implements IPlaneDrawer {
         let c = new Coordinate();
         c.x = planeCenter.x;
         c.y = planeCenter.y+1;
-        return [c];
+        return c.y < this.boardSideSize ? [c] : [];
     }
+
     drawWings(planeCenter: Coordinate): Coordinate[] {
         let wings = [];
 
@@ -23,7 +24,7 @@ export default class PlaneDrawerDown implements IPlaneDrawer {
             let c = new Coordinate();
             c.x = planeCenter.x+i-2;
             c.y = planeCenter.y;
-            if(c.x >= 0) wings.push(c);
+            if(c.x >= 0 && c.x < this.boardSideSize) wings.push(c);
         }
         return wings;
     }
@@ -43,7 +44,7 @@ export default class PlaneDrawerDown implements IPlaneDrawer {
                 let c = new Coordinate();
                 c.x = planeCenter.x+i-1;
                 c.y = planeCenter.y-2;
-                if(c.x >= 0) tail.push(c)  
+                if(c.x >= 0 && c.x < this.boardSideSize) tail.push(c)  
             }
         }
 
