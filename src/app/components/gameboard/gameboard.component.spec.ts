@@ -1,3 +1,4 @@
+import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -55,38 +56,50 @@ describe('GameboardComponent', () => {
   });
 
   it('should place plane', () => {
-    component.placePlane({x:3, y:2}, DirectionEnum.UP);
+    component.currentPlane = new Plane(new FakePlaneDrawer, {x:3, y:2});
+    component.currentPlane.position = {x:3, y:2};
+    component.placePlane();
 
     expect(component.planes[0].position.x).toEqual(3);
     expect(component.planes[0].position.y).toEqual(2);
-    expect(component.planes[0].drawer instanceof PlaneDrawerUp).toBeTruthy();
     expect(component.cells[2][3].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
-  it('should place 2 planes', () => {
-    component.placePlane({x:3, y:2}, DirectionEnum.UP);
-    component.placePlane({x:3, y:5}, DirectionEnum.UP);
-    
-    expect(component.planes[1].position.x).toEqual(3);
-    expect(component.planes[1].position.y).toEqual(5);
-    expect(component.planes[1].drawer instanceof PlaneDrawerUp).toBeTruthy();
-    expect(component.cells[5][3].state).toBe(BoardCellStateEnum.RESERVED);
-  });
+ 
 
   it('should not place plane on the top op an other plane', () => {
-    component.placePlane({x:3, y:2}, DirectionEnum.UP);
+    component.currentPlane = new Plane(new FakePlaneDrawer, {x:3, y:2});
+    component.currentPlane.position = {x:3, y:2};
+    component.placePlane();
     
     
     expect(function(){
-      component.placePlane({x:3, y:2}, DirectionEnum.UP);
+      component.placePlane();
     }).toThrow(new Error('Bad position'));
   });
 
+  it('should place 2 planes', () => {
+    component.currentPlane = new Plane(new FakePlaneDrawer(), {x:3, y:2});
+    component.placePlane();
+    component.currentPlane.position = {x:3, y:5};
+    component.placePlane();
+    
+    expect(component.planes[1].position.x).toEqual(3);
+    expect(component.planes[1].position.y).toEqual(5);
+    expect(component.cells[5][3].state).toBe(BoardCellStateEnum.RESERVED);
+  });
+
   it('should place only 4 planes', () => {
-    component.placePlane({x:3, y:1}, DirectionEnum.UP);
-    component.placePlane({x:3, y:5}, DirectionEnum.UP);
-    component.placePlane({x:5, y:4}, DirectionEnum.LEFT);
-    component.placePlane({x:8, y:7}, DirectionEnum.LEFT);
+    component.currentPlane = new Plane(new FakePlaneDrawer, {x:3, y:2});
+
+    component.currentPlane.position =  {x:3, y:1};
+    component.placePlane();
+    component.currentPlane.position =  {x:3, y:5};
+    component.placePlane();
+    component.currentPlane.position =  {x:5, y:4};
+    component.placePlane();
+    component.currentPlane.position =  {x:8, y:7};
+    component.placePlane();
     
     
     expect(component.allPlanePlaced).toBeTruthy();
@@ -98,7 +111,7 @@ describe('GameboardComponent', () => {
     expect(compiled.querySelector('app-gameboard-cell')).not.toBe(null);
   }));
 
-  it('should rotation button component', fakeAsync(() => {
+  it('should use rotation button component', fakeAsync(() => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('app-plane-rotation-buttons')).not.toBe(null);

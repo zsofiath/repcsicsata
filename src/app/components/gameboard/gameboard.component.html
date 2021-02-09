@@ -2,7 +2,7 @@
 <table id="gameboard">
     <tr *ngFor="let rows of cells">
         <td *ngFor="let column of rows">
-            <app-gameboard-cell [properties]="column" (hoverEvent)="onHover($event)"></app-gameboard-cell>
+            <app-gameboard-cell [properties]="column" (clickEvent)="placePlane()" (hoverEvent)="onHover($event)"></app-gameboard-cell>
         </td>
     </tr>
 </table>

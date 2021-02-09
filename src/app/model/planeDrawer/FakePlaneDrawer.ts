@@ -1,3 +1,4 @@
+import { DirectionEnum } from "src/app/constants/DirectionEnum";
 import BoardCell from "../BoardCell";
 import Coordinate from "../Coordinate";
 import IPlaneDrawer from "./IPlaneDrawer";
@@ -5,6 +6,8 @@ import IPlaneDrawer from "./IPlaneDrawer";
 export default class FakePlaneDrawer implements IPlaneDrawer {
 
     boardSideSize: number;
+    key: DirectionEnum = DirectionEnum.UP;
+
 
     constructor(boardSideSize: number = 10){
         this.boardSideSize = boardSideSize;

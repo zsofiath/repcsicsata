@@ -49,13 +49,18 @@ export class GameboardComponent implements OnInit {
   ngOnInit() {
   }
 
-  placePlane(coordinate: Coordinate, direction: DirectionEnum){
-    let drawerFactory = new PlaneDrawerFactory(direction);
-    let placedPlane = new Plane(drawerFactory.get(), coordinate);
+  placePlane(){
+    let placedPlane = this.currentPlane;
 
     this.checkIfOverlappongAPlacedPlane(placedPlane);   
 
-    this.planes.push(placedPlane);
+    let factory = new PlaneDrawerFactory(placedPlane.drawer.key);
+    let position = new Coordinate();
+    position.x = placedPlane.position.x;
+    position.y = placedPlane.position.y;
+
+    let plane = new Plane(factory.get(), position);
+    this.planes.push(plane);
 
     this.cells[placedPlane.position.y][placedPlane.position.x].state = BoardCellStateEnum.RESERVED;
 
@@ -93,14 +98,14 @@ export class GameboardComponent implements OnInit {
 
   private checkIfOverlappongAPlacedPlane(placedPlane: Plane){
     let i=0;
-    while(i< this.planes.length && this.isNotOverlappingIthPlane(placedPlane, i)){
+    while(i < this.planes.length && this.isNotOverlappingIthPlane(placedPlane, i)){      
       i++;
     }
 
     if(i< this.planes.length) throw new Error('Bad position');
   }
 
-  private isNotOverlappingIthPlane(placedPlane: Plane, i){
+  private isNotOverlappingIthPlane(placedPlane: Plane, i){    
     return !(this.planes[i].position.x == placedPlane.position.x && 
       this.planes[i].position.y == placedPlane.position.y)
   }
