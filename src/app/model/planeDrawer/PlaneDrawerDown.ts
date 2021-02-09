@@ -23,24 +23,28 @@ export default class PlaneDrawerDown implements IPlaneDrawer {
             let c = new Coordinate();
             c.x = planeCenter.x+i-2;
             c.y = planeCenter.y;
-            wings.push(c);
+            if(c.x >= 0) wings.push(c);
         }
         return wings;
     }
+
     drawBody(planeCenter: Coordinate): Coordinate[] {
-        let b = new Coordinate();
-        b.x = planeCenter.x;
-        b.y = planeCenter.y-1;
-        return [b];
+        let c = new Coordinate();
+        c.x = planeCenter.x;
+        c.y = planeCenter.y-1;
+        return c.y >= 0 ? [c] : [];
     }
+
     drawTail(planeCenter: Coordinate): Coordinate[] {
         let tail = [];
 
-        for (let i = 0; i < 3; i++) {
-            let c = new Coordinate();
-            c.x = planeCenter.x+i-1;
-            c.y = planeCenter.y-2;
-            tail.push(c)  
+        if(planeCenter.y > 1){
+            for (let i = 0; i < 3; i++) {
+                let c = new Coordinate();
+                c.x = planeCenter.x+i-1;
+                c.y = planeCenter.y-2;
+                if(c.x >= 0) tail.push(c)  
+            }
         }
 
         return tail;

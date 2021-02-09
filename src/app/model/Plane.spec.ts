@@ -63,6 +63,25 @@ describe('Plane', () => {
         ]));
     });
 
+    it('should return its coordinates, direction:down overflows lefttop', () => {
+        
+        let centerPosition = new Coordinate();
+        centerPosition.x = 0;
+        centerPosition.y = 0;
+
+        let drawer = new Plane(new PlaneDrawerDown(), centerPosition);
+         
+        let planeCoordinates = drawer.getCoordinates();
+
+        expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
+            ['x','x','x',' ',' '],
+            ['x',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' '],
+            [' ',' ',' ',' ',' '],
+        ]));
+    });
+
     it('should return its coordinates, direction:right', () => {
         
         let centerPosition = new Coordinate();
