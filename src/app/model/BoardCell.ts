@@ -9,4 +9,8 @@ export default class BoardCell {
         this.x = x;
         this.y = y;
     }
+
+    setHighlighted(){
+       if(this.state != BoardCellStateEnum.RESERVED) this.state = BoardCellStateEnum.HIGHLIGHTED;
+    }
 }

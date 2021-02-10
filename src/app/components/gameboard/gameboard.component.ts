@@ -87,12 +87,8 @@ export class GameboardComponent implements OnInit {
 
   private setHighlightedCells(plane: Plane){
     plane.getCoordinates().forEach(c => {            
-      this.setHighlighted(c);
+      this.cells[c.y][c.x].setHighlighted();
     });
-  }
-
-  private setHighlighted(c: Coordinate){
-    if(this.cells[c.y][c.x].state != BoardCellStateEnum.RESERVED) this.cells[c.y][c.x].state = BoardCellStateEnum.HIGHLIGHTED;
   }
 
   private resetHighlightedCells(){
