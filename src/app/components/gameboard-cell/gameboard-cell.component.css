@@ -11,3 +11,7 @@
 .cell-reserved {
     background-color:gray;
 }
+
+.cell-error {
+    background-color:red;
+}

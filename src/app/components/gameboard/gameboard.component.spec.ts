@@ -290,4 +290,42 @@ describe('GameboardComponent', () => {
     component.drawPlaneOnCells(plane, {x:1, y:0});
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
   });
+
+  it('it should show error when plane is drawen on an already placed plane', () => {
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    component.cells = cells;
+
+    let fakeDrawer1 = new FakePlaneDrawer();
+    spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0},{x:1, y:1}]);
+    let plane = new Plane(fakeDrawer1, {x:1, y:0});
+    component.currentPlane = plane;
+    component.drawPlaneOnCells(plane, {x:1, y:0});
+    
+    component.placePlane();
+
+    let fakeDrawer2 = new FakePlaneDrawer();
+    spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0},{x:1, y:0}]);
+    let plane2 = new Plane(fakeDrawer2, {x:0, y:0});
+
+    component.drawPlaneOnCells(plane2, {x:0, y:0});
+    expect(cells[0][0].state).toEqual(BoardCellStateEnum.ERROR);
+    expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
+    expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
+  });
 });

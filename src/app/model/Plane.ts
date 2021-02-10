@@ -55,9 +55,26 @@ export default class Plane {
         return i < planes.length ? planes[i] : null;
       }
     
-      private isNotOverlappingIthPlane(otherPlane: Plane){    
-        return !(otherPlane.position.x == this.position.x && 
-          otherPlane.position.y == this.position.y)
+      private isNotOverlappingIthPlane(otherPlane: Plane){
+          
+        let current = this.getCoordinates();
+        let other = otherPlane.getCoordinates();
+
+        
+
+        let i = 0;
+        let found = false;
+        while(i < current.length && !found){
+            let j = 0;
+            while(j < other.length && !(current[i].x == other[j].x && current[i].y == other[j].y)){
+                j++;
+            }
+            if(j < other.length) found = true;
+            i++;
+        }
+
+        
+        return !found;
       }
 
 }

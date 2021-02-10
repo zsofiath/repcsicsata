@@ -17,4 +17,8 @@ export default class BoardCell {
     setFree(){
         if(this.state != BoardCellStateEnum.RESERVED) this.state = BoardCellStateEnum.FREE;
     }
+
+    setErrored(){
+        if(this.state != BoardCellStateEnum.RESERVED) this.state = BoardCellStateEnum.ERROR;
+    }
 }

@@ -35,6 +35,7 @@ export class GameboardComponent implements OnInit {
 
   placePlane(){
     if(this.currentPlane.isOverlappingOtherPlane(this.planes)) throw new Error('Bad position');
+    
     let plane = this.currentPlane.deepCopy();
     this.putPlaneToRowAndSetCells(plane);
 
@@ -43,8 +44,8 @@ export class GameboardComponent implements OnInit {
 
   private putPlaneToRowAndSetCells(plane: Plane){
     this.planes.push(plane);
-
-    plane.getCoordinates().forEach(coord => {
+    
+    plane.getCoordinates().forEach(coord => {   
       this.cells[coord.y][coord.x].state = BoardCellStateEnum.RESERVED;
     });  
   }
@@ -59,8 +60,18 @@ export class GameboardComponent implements OnInit {
 
   drawPlaneOnCells(plane: Plane, coord: Coordinate) {
     plane.position = coord;
-    this.resetHighlightedCells();
-    this.setHighlightedCells(plane);
+    
+    if(plane.isOverlappingOtherPlane(this.planes)) this.setErrorCells(plane);
+    else {
+      this.resetHighlightedCells();
+      this.setHighlightedCells(plane);
+    }
+  }
+
+  private setErrorCells(plane: Plane){
+    plane.getCoordinates().forEach(c => {            
+      this.cells[c.y][c.x].setErrored();
+    });
   }
 
   private setHighlightedCells(plane: Plane){
