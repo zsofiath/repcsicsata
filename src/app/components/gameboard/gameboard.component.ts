@@ -4,11 +4,7 @@ import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 import Plane from 'src/app/model/Plane';
-import IPlaneDrawer from 'src/app/model/planeDrawer/IPlaneDrawer';
-import PlaneDrawerDown from 'src/app/model/planeDrawer/PlaneDrawerDown';
 import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
-import PlaneDrawerLeft from 'src/app/model/planeDrawer/PlaneDrawerLeft';
-import PlaneDrawerRight from 'src/app/model/planeDrawer/PlaneDrawerRight';
 import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 
 const MAX_PLANES_NUM = 4;
@@ -94,7 +90,7 @@ export class GameboardComponent implements OnInit {
   private resetHighlightedCells(){
     this.cells.forEach(row => {
       row.forEach(cell => {
-        if(cell.state != BoardCellStateEnum.RESERVED) cell.state = BoardCellStateEnum.FREE;
+        cell.setFree();
       });
     });
   }
