@@ -30,6 +30,10 @@ export class GameboardComponent implements OnInit {
     this.planes = [];
     this.cells = [];
     this.currentPlane = new Plane(new PlaneDrawerUp(), {x:3, y:2});
+    this.makeBoard();
+  }
+
+  private makeBoard(){
     for (let i = 0; i < 10; i++) {
       this.cells.push([
         new BoardCell(0, i),
@@ -53,18 +57,25 @@ export class GameboardComponent implements OnInit {
     let placedPlane = this.currentPlane;
 
     this.checkIfOverlappongAPlacedPlane(placedPlane);   
+    let plane = this.deepCopy(placedPlane);
+    this.putPlaneToRow(plane);
 
+    if(this.planes.length == 4) this.allPlanePlaced = true;  
+  }
+
+  private deepCopy(placedPlane: Plane){
     let factory = new PlaneDrawerFactory(placedPlane.drawer.key);
     let position = new Coordinate();
     position.x = placedPlane.position.x;
     position.y = placedPlane.position.y;
 
-    let plane = new Plane(factory.get(), position);
+    return new Plane(factory.get(), position);
+  }
+
+  private putPlaneToRow(plane: Plane){
     this.planes.push(plane);
 
-    this.cells[placedPlane.position.y][placedPlane.position.x].state = BoardCellStateEnum.RESERVED;
-
-    if(this.planes.length == 4) this.allPlanePlaced = true;  
+    this.cells[plane.position.y][plane.position.x].state = BoardCellStateEnum.RESERVED;
   }
 
   rotation(direction: DirectionEnum){
@@ -76,18 +87,26 @@ export class GameboardComponent implements OnInit {
   }
 
   drawPlaneOnCells(plane: Plane, coord: Coordinate) {
-    
     plane.position = coord;
-    
+    this.resetHighlightedCells();
+    this.setHighlightedCells(plane);
+  }
+
+  private setHighlightedCells(plane: Plane){
+    plane.getCoordinates().forEach(c => {            
+      this.setHighlighted(c);
+    });
+  }
+
+  private setHighlighted(c: Coordinate){
+    if(this.cells[c.y][c.x].state != BoardCellStateEnum.RESERVED) this.cells[c.y][c.x].state = BoardCellStateEnum.HIGHLIGHTED;
+  }
+
+  private resetHighlightedCells(){
     this.cells.forEach(row => {
       row.forEach(cell => {
         if(cell.state != BoardCellStateEnum.RESERVED) cell.state = BoardCellStateEnum.FREE;
       });
-    });
-
-    
-    plane.getCoordinates().forEach(c => {            
-      if(this.cells[c.y][c.x].state != BoardCellStateEnum.RESERVED) this.cells[c.y][c.x].state = BoardCellStateEnum.HIGHLIGHTED;
     });
   }
 
