@@ -1,5 +1,6 @@
 import Coordinate from "./Coordinate";
 import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
+import PlaneDrawerFactory from "./planeDrawer/PlaneDrawerFactory";
 
 export default class Plane {
     private _drawer: IPlaneDrawer;
@@ -35,6 +36,15 @@ export default class Plane {
         planeCoordinates.push(...this.drawer.drawTail(this.position));
 
         return planeCoordinates;
+    }
+
+    deepCopy(){
+        let factory = new PlaneDrawerFactory(this.drawer.key);
+        let position = new Coordinate();
+        position.x = this.position.x;
+        position.y = this.position.y;
+    
+        return new Plane(factory.get(), position);
     }
 
 }

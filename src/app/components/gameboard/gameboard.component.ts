@@ -57,20 +57,13 @@ export class GameboardComponent implements OnInit {
     let placedPlane = this.currentPlane;
 
     this.checkIfOverlappongAPlacedPlane(placedPlane);   
-    let plane = this.deepCopy(placedPlane);
+    let plane = placedPlane.deepCopy();
     this.putPlaneToRow(plane);
 
     if(this.planes.length == 4) this.allPlanePlaced = true;  
   }
 
-  private deepCopy(placedPlane: Plane){
-    let factory = new PlaneDrawerFactory(placedPlane.drawer.key);
-    let position = new Coordinate();
-    position.x = placedPlane.position.x;
-    position.y = placedPlane.position.y;
-
-    return new Plane(factory.get(), position);
-  }
+  
 
   private putPlaneToRow(plane: Plane){
     this.planes.push(plane);
