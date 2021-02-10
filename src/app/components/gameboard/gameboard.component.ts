@@ -36,15 +36,17 @@ export class GameboardComponent implements OnInit {
   placePlane(){
     if(this.currentPlane.isOverlappingOtherPlane(this.planes)) throw new Error('Bad position');
     let plane = this.currentPlane.deepCopy();
-    this.putPlaneToRow(plane);
+    this.putPlaneToRowAndSetCells(plane);
 
     if(this.planes.length == 4) this.allPlanePlaced = true;  
   }
 
-  private putPlaneToRow(plane: Plane){
+  private putPlaneToRowAndSetCells(plane: Plane){
     this.planes.push(plane);
 
-    this.cells[plane.position.y][plane.position.x].state = BoardCellStateEnum.RESERVED;
+    plane.getCoordinates().forEach(coord => {
+      this.cells[coord.y][coord.x].state = BoardCellStateEnum.RESERVED;
+    });  
   }
 
   rotation(direction: DirectionEnum){

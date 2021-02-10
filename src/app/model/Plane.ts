@@ -39,12 +39,11 @@ export default class Plane {
     }
 
     deepCopy(){
-        let factory = new PlaneDrawerFactory(this.drawer.key);
         let position = new Coordinate();
         position.x = this.position.x;
         position.y = this.position.y;
     
-        return new Plane(factory.get(), position);
+        return new Plane(this.drawer, position);
     }
 
     isOverlappingOtherPlane(planes: Plane[]): Plane{

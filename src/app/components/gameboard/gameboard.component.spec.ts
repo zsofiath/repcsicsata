@@ -56,13 +56,33 @@ describe('GameboardComponent', () => {
   });
 
   it('should place plane', () => {
-    component.currentPlane = new Plane(new FakePlaneDrawer, {x:3, y:2});
-    component.currentPlane.position = {x:3, y:2};
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+
+    component.cells = cells;
+
+    let fakeDrawer = new FakePlaneDrawer();
+    spyOn(fakeDrawer, 'drawHead').and.returnValue([{x:0, y:0},{x:0, y:1}]);
+    component.currentPlane = new Plane(fakeDrawer, {x:0, y:0});
     component.placePlane();
 
-    expect(component.planes[0].position.x).toEqual(3);
-    expect(component.planes[0].position.y).toEqual(2);
-    expect(component.cells[2][3].state).toBe(BoardCellStateEnum.RESERVED);
+    expect(component.planes[0].position.x).toEqual(0);
+    expect(component.planes[0].position.y).toEqual(0);
+    expect(component.cells[0][0].state).toBe(BoardCellStateEnum.RESERVED);
+    expect(component.cells[1][0].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
  
