@@ -50,16 +50,12 @@ export class GameboardComponent implements OnInit {
   }
 
   placePlane(){
-    let placedPlane = this.currentPlane;
-
-    this.checkIfOverlappongAPlacedPlane(placedPlane);   
-    let plane = placedPlane.deepCopy();
+    if(this.currentPlane.isOverlappingOtherPlane(this.planes)) throw new Error('Bad position');
+    let plane = this.currentPlane.deepCopy();
     this.putPlaneToRow(plane);
 
     if(this.planes.length == 4) this.allPlanePlaced = true;  
   }
-
-  
 
   private putPlaneToRow(plane: Plane){
     this.planes.push(plane);
@@ -99,21 +95,5 @@ export class GameboardComponent implements OnInit {
     let factory = new PlaneDrawerFactory(direction);
     this.currentPlane = new Plane(factory.get(), {x:1, y:1});
   }
-
-  private checkIfOverlappongAPlacedPlane(placedPlane: Plane){
-    let i=0;
-    while(i < this.planes.length && this.isNotOverlappingIthPlane(placedPlane, i)){      
-      i++;
-    }
-
-    if(i< this.planes.length) throw new Error('Bad position');
-  }
-
-  private isNotOverlappingIthPlane(placedPlane: Plane, i){    
-    return !(this.planes[i].position.x == placedPlane.position.x && 
-      this.planes[i].position.y == placedPlane.position.y)
-  }
-
-
 
 }

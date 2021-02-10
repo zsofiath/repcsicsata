@@ -47,4 +47,18 @@ export default class Plane {
         return new Plane(factory.get(), position);
     }
 
+    isOverlappingOtherPlane(planes: Plane[]): Plane{
+        let i=0;
+        while(i < planes.length && this.isNotOverlappingIthPlane(planes[i])){      
+          i++;
+        }
+    
+        return i < planes.length ? planes[i] : null;
+      }
+    
+      private isNotOverlappingIthPlane(otherPlane: Plane){    
+        return !(otherPlane.position.x == this.position.x && 
+          otherPlane.position.y == this.position.y)
+      }
+
 }
