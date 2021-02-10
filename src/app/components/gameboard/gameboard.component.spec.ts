@@ -242,4 +242,32 @@ describe('GameboardComponent', () => {
 
     expect(component.currentPlane.drawer instanceof PlaneDrawerUp).toBeTruthy();
   });
+
+  it('it should not ovewrite the reserved cell when hover happens', () => {
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.RESERVED;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    component.cells = cells;
+
+    let factory = new PlaneDrawerFactory(null);
+    let spy = spyOn(factory, 'get').and.returnValue(new FakePlaneDrawer());
+
+    let plane = new Plane(factory.get(), {x:0, y:0});
+
+    component.drawPlaneOnCells(plane, {x:1, y:0});
+    expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
+  });
 });

@@ -7,3 +7,7 @@
 .cell-highlighted {
     background-color: aquamarine;
 }
+
+.cell-reserved {
+    background-color:gray;
+}

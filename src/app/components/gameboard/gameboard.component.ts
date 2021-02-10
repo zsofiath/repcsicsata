@@ -87,7 +87,7 @@ export class GameboardComponent implements OnInit {
 
     
     plane.getCoordinates().forEach(c => {            
-      this.cells[c.y][c.x].state = BoardCellStateEnum.HIGHLIGHTED;
+      if(this.cells[c.y][c.x].state != BoardCellStateEnum.RESERVED) this.cells[c.y][c.x].state = BoardCellStateEnum.HIGHLIGHTED;
     });
   }
 
