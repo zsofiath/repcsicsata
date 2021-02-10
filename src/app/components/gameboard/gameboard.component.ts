@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
+import GameBoard from 'src/app/model/Board';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 import Plane from 'src/app/model/Plane';
@@ -24,27 +25,10 @@ export class GameboardComponent implements OnInit {
 
   constructor() {
     this.planes = [];
-    this.cells = [];
     this.currentPlane = new Plane(new PlaneDrawerUp(), {x:3, y:2});
-    this.makeBoard();
-  }
-
-  private makeBoard(){
-    for (let i = 0; i < 10; i++) {
-      this.cells.push([
-        new BoardCell(0, i),
-        new BoardCell(1, i),
-        new BoardCell(2, i),
-        new BoardCell(3, i),
-        new BoardCell(4, i),
-        new BoardCell(5, i),
-        new BoardCell(6, i),
-        new BoardCell(7, i),
-        new BoardCell(8, i),
-        new BoardCell(9, i),
-      ]);
-    }
-  }
+    let board = new GameBoard();
+    this.cells = board.get();
+  } 
 
   ngOnInit() {
   }
