@@ -60,10 +60,10 @@ export class GameboardComponent implements OnInit {
 
   drawPlaneOnCells(plane: Plane, coord: Coordinate) {
     plane.position = coord;
-    
+    this.resetHighlightedCells();
+        
     if(plane.isOverlappingOtherPlane(this.planes)) this.setErrorCells(plane);
     else {
-      this.resetHighlightedCells();
       this.setHighlightedCells(plane);
     }
   }
