@@ -1,4 +1,4 @@
-export enum PlaneParts {
+export enum PlanePartsEnum {
     HEAD = "head",
 
     WING1 = "wing1",
