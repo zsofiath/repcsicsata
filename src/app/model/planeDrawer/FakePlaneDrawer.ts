@@ -18,6 +18,7 @@ export default class FakePlaneDrawer implements IPlaneDrawer {
         let c = new PlanePart();
         c.x = planeCenter.x;
         c.y = planeCenter.y;
+        c.direction = DirectionEnum.LEFT;
         return [c];
     }
     drawWings(planeCenter: Coordinate): PlanePart[] {

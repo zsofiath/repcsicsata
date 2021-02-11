@@ -178,11 +178,13 @@ describe('GameboardComponent', () => {
       let c1 = new BoardCell();
       c1.state = BoardCellStateEnum.FREE;
       c1.x = 0;
-      c1.y = i;      
+      c1.y = i;
+      c1.planePart = new PlanePart();      
       let c2 = new BoardCell();
       c2.state = BoardCellStateEnum.FREE;
       c2.x = 1;
-      c2.y = i;  
+      c2.y = i;
+      c2.planePart = new PlanePart();      
       cells.push([
         c1,
         c2,
@@ -200,6 +202,7 @@ describe('GameboardComponent', () => {
     component.drawPlaneOnCells(plane, coordinate);
 
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
+    expect(cells[0][0].planePart.direction).toEqual(DirectionEnum.LEFT);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.FREE);
@@ -302,17 +305,19 @@ describe('GameboardComponent', () => {
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
   });
 
-  it('it should show error when plane is drawen on an already placed plane', () => {
+  it('it should show error when plane is drow on an already placed plane', () => {
     let cells = [];
     for (let i = 0; i < 2; i++) {
       let c1 = new BoardCell();
       c1.state = BoardCellStateEnum.FREE;
       c1.x = 0;
-      c1.y = i;      
+      c1.y = i;
+      c1.planePart = new PlanePart();      
       let c2 = new BoardCell();
       c2.state = BoardCellStateEnum.FREE;
       c2.x = 1;
       c2.y = i;  
+      c2.planePart = new PlanePart();      
       cells.push([
         c1,
         c2,
@@ -332,13 +337,14 @@ describe('GameboardComponent', () => {
     component.placePlane();
 
     let fakeDrawer2 = new FakePlaneDrawer();
-    spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0, direction: null, part:null},{x:1, y:0, direction: null, part:null}]);
+    spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0, direction: DirectionEnum.LEFT, part:null},{x:1, y:0, direction: null, part:null}]);
     let plane2 = new FakePlane();
     plane2.drawer = fakeDrawer2;
     plane2.numberOfWholePlane = 2;
 
     component.drawPlaneOnCells(plane2, {x:0, y:0});
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.ERROR);
+    expect(cells[0][0].planePart.direction).toEqual(DirectionEnum.LEFT);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
     expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
