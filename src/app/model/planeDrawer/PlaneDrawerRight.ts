@@ -18,6 +18,7 @@ export default class PlaneDrawerRight implements IPlaneDrawer {
         let c = new PlanePart();
         c.x = planeCenter.x+1;
         c.y = planeCenter.y;
+        c.direction = this.key;
         return planeCenter.x < this.boardSideSize-1 ? [c] : [];
     }
     drawWings(planeCenter: Coordinate): PlanePart[] {
@@ -27,15 +28,17 @@ export default class PlaneDrawerRight implements IPlaneDrawer {
             let c = new PlanePart();
             c.x = planeCenter.x;
             c.y = planeCenter.y+i-2;
+            c.direction = this.key;
             if(c.y >= 0 && c.y < this.boardSideSize) wings.push(c);
         }
         return wings;
     }
     drawBody(planeCenter: Coordinate): PlanePart[] {
-        let b = new PlanePart();
-        b.x = planeCenter.x-1;
-        b.y = planeCenter.y;
-        return b.x >= 0 ?[b] : [];
+        let c = new PlanePart();
+        c.x = planeCenter.x-1;
+        c.y = planeCenter.y;
+        c.direction = this.key;
+        return c.x >= 0 ?[c] : [];
     }
     drawTail(planeCenter: Coordinate): PlanePart[] {
         let tail = [];
@@ -45,6 +48,7 @@ export default class PlaneDrawerRight implements IPlaneDrawer {
                 let c = new PlanePart();
                 c.x = planeCenter.x-2;
                 c.y = planeCenter.y+i-1;
+                c.direction = this.key;
                 if(c.y >= 0 && c.y < this.boardSideSize) tail.push(c)  
             }
         }

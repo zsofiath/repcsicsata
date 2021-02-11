@@ -18,6 +18,7 @@ export default class PlaneDrawerDown implements IPlaneDrawer {
         let c = new PlanePart();
         c.x = planeCenter.x;
         c.y = planeCenter.y+1;
+        c.direction = this.key;
         return c.y < this.boardSideSize ? [c] : [];
     }
 
@@ -28,6 +29,7 @@ export default class PlaneDrawerDown implements IPlaneDrawer {
             let c = new PlanePart();
             c.x = planeCenter.x+i-2;
             c.y = planeCenter.y;
+            c.direction = this.key;
             if(c.x >= 0 && c.x < this.boardSideSize) wings.push(c);
         }
         return wings;
@@ -37,6 +39,7 @@ export default class PlaneDrawerDown implements IPlaneDrawer {
         let c = new PlanePart();
         c.x = planeCenter.x;
         c.y = planeCenter.y-1;
+        c.direction = this.key;
         return c.y >= 0 ? [c] : [];
     }
 
@@ -48,6 +51,7 @@ export default class PlaneDrawerDown implements IPlaneDrawer {
                 let c = new PlanePart();
                 c.x = planeCenter.x+i-1;
                 c.y = planeCenter.y-2;
+                c.direction = this.key;
                 if(c.x >= 0 && c.x < this.boardSideSize) tail.push(c)  
             }
         }

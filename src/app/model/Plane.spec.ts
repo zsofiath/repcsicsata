@@ -24,6 +24,66 @@ function coordinatesToArray(coordinates){
 }
 
 describe('Plane', () => {
+    describe('plane parts', () => {
+        it('should return parts that knows their direction - up', () => {
+            let centerPosition = new Coordinate();
+            centerPosition.x = 2;
+            centerPosition.y = 1;
+    
+            let drawer = new Plane(new PlaneDrawerUp(), centerPosition);
+             
+            let planeCoordinates = drawer.getCoordinates();
+            
+            planeCoordinates.forEach(element => {
+                expect(element.direction).toEqual(DirectionEnum.UP);
+            });
+        });
+
+        it('should return parts that knows their direction - down', () => {
+            let centerPosition = new Coordinate();
+            centerPosition.x = 2;
+            centerPosition.y = 3;
+    
+            let drawer = new Plane(new PlaneDrawerDown(), centerPosition);
+             
+            let planeCoordinates = drawer.getCoordinates();
+            
+            planeCoordinates.forEach(element => {
+                expect(element.direction).toEqual(DirectionEnum.DOWN);
+            });
+        });
+
+        it('should return parts that knows their direction - left', () => {
+            let centerPosition = new Coordinate();
+            centerPosition.x = 2;
+            centerPosition.y = 3;
+    
+            let drawer = new Plane(new PlaneDrawerLeft(), centerPosition);
+             
+            let planeCoordinates = drawer.getCoordinates();
+            
+            planeCoordinates.forEach(element => {
+                expect(element.direction).toEqual(DirectionEnum.LEFT);
+            });
+        });
+
+        it('should return parts that knows their direction - right', () => {
+            let centerPosition = new Coordinate();
+            centerPosition.x = 2;
+            centerPosition.y = 3;
+    
+            let drawer = new Plane(new PlaneDrawerRight(), centerPosition);
+             
+            let planeCoordinates = drawer.getCoordinates();
+            
+            planeCoordinates.forEach(element => {
+                expect(element.direction).toEqual(DirectionEnum.RIGHT);
+            });
+        });
+    })
+    
+    
+
     describe('facing top', () => {
         it('should return its coordinates', () => {
         
