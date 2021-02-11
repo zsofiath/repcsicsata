@@ -1,4 +1,5 @@
 import { DirectionEnum } from "../constants/DirectionEnum";
+import OutOfBoardError from "../exceptions/OutOfBoardError";
 import Coordinate from "./Coordinate";
 import Plane from "./Plane";
 import PlaneDrawerDown from "./planeDrawer/PlaneDrawerDown";
@@ -44,7 +45,7 @@ describe('Plane', () => {
             ]));
         });
 
-        it('should return its coordinates, out of board left', () => {
+        it('should throw error when not the whole plane is drawed, floating out at left', () => {
         
             let centerPosition = new Coordinate();
             centerPosition.x = 0;
@@ -52,15 +53,19 @@ describe('Plane', () => {
         
             let drawer = new Plane(new PlaneDrawerUp(), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-        
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                ['x',' ',' ',' ',' '],
-                ['x','x','x',' ',' '],
-                ['x',' ',' ',' ',' '],
-                ['x','x',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    ['x',' ',' ',' ',' '],
+                    ['x','x','x',' ',' '],
+                    ['x',' ',' ',' ',' '],
+                    ['x','x',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                ]));
+            }       
         });
         
         
@@ -72,15 +77,19 @@ describe('Plane', () => {
         
             let drawer = new Plane(new PlaneDrawerUp(5), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-        
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                ['x','x','x',' ',' '],
-                ['x',' ',' ',' ',' '],
-                ['x','x',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    ['x','x','x',' ',' '],
+                    ['x',' ',' ',' ',' '],
+                    ['x','x',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                ]));
+            } 
         });
         
         it('should return its coordinates, out of board top and left', () => {
@@ -91,15 +100,19 @@ describe('Plane', () => {
         
             let drawer = new Plane(new PlaneDrawerUp(5), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-        
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                ['x','x','x','x',' '],
-                [' ','x',' ',' ',' '],
-                ['x','x','x',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    ['x','x','x','x',' '],
+                    [' ','x',' ',' ',' '],
+                    ['x','x','x',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                ]));
+            }
         });
         
         it('should return its coordinates, out of board bottom and right', () => {
@@ -110,15 +123,19 @@ describe('Plane', () => {
         
             let drawer = new Plane(new PlaneDrawerUp(5), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-        
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ','x'],
-                [' ',' ','x','x','x'],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ','x'],
+                    [' ',' ','x','x','x'],
+                ]));
+            }
         });
     });
 
@@ -150,15 +167,19 @@ describe('Plane', () => {
     
             let drawer = new Plane(new PlaneDrawerDown(), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-    
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                ['x','x','x',' ',' '],
-                ['x',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    ['x','x','x',' ',' '],
+                    ['x',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                ]));
+            }
         });
     
         it('should return its coordinates, direction:down overflows rightbottom', () => {
@@ -169,15 +190,19 @@ describe('Plane', () => {
     
             let drawer = new Plane(new PlaneDrawerDown(5), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-    
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ','x','x'],
-                [' ',' ',' ',' ','x'],
-                [' ',' ','x','x','x'],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ','x','x'],
+                    [' ',' ',' ',' ','x'],
+                    [' ',' ','x','x','x'],
+                ]));
+            }
         });
     });
 
@@ -209,15 +234,19 @@ describe('Plane', () => {
     
             let drawer = new Plane(new PlaneDrawerRight(5), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-    
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                ['x','x',' ',' ',' '],
-                ['x',' ',' ',' ',' '],
-                ['x',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    ['x','x',' ',' ',' '],
+                    ['x',' ',' ',' ',' '],
+                    ['x',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                ]));
+            }
         });
     
         it('should return its coordinates, direction:right left top corner 1:1', () => {
@@ -228,15 +257,19 @@ describe('Plane', () => {
     
             let drawer = new Plane(new PlaneDrawerRight(5), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-    
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                [' ','x',' ',' ',' '],
-                ['x','x','x',' ',' '],
-                [' ','x',' ',' ',' '],
-                [' ','x',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    [' ','x',' ',' ',' '],
+                    ['x','x','x',' ',' '],
+                    [' ','x',' ',' ',' '],
+                    [' ','x',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                ]));
+            }
         });
     
         it('should return its coordinates, direction:right right bottom corner', () => {
@@ -247,15 +280,19 @@ describe('Plane', () => {
     
             let drawer = new Plane(new PlaneDrawerRight(5), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-            
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ','x'],
-                [' ',' ','x',' ','x'],
-                [' ',' ','x','x','x'],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ','x'],
+                    [' ',' ','x',' ','x'],
+                    [' ',' ','x','x','x'],
+                ]));
+            }
         });
     });
 
@@ -287,15 +324,19 @@ describe('Plane', () => {
     
             let drawer = new Plane(new PlaneDrawerLeft(5), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-    
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                ['x','x','x',' ',' '],
-                ['x',' ','x',' ',' '],
-                ['x',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    ['x','x','x',' ',' '],
+                    ['x',' ','x',' ',' '],
+                    ['x',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                ]));
+            }
         });
 
         it('should return its coordinates, right bottom corner', () => {
@@ -306,15 +347,19 @@ describe('Plane', () => {
     
             let drawer = new Plane(new PlaneDrawerLeft(5), centerPosition);
              
-            let planeCoordinates = drawer.getCoordinates();
-    
-            expect(coordinatesToArray(planeCoordinates)).toEqual(JSON.stringify([
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ',' '],
-                [' ',' ',' ',' ','x'],
-                [' ',' ',' ',' ','x'],
-                [' ',' ',' ','x','x'],
-            ]));
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ','x'],
+                    [' ',' ',' ',' ','x'],
+                    [' ',' ',' ','x','x'],
+                ]));
+            }
         });
     });
 });

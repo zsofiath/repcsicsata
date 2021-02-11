@@ -31,7 +31,7 @@ describe('ClearPlanesComponent', () => {
     expect(fixture.debugElement.queryAll(By.css('.clear-all')).length).toBe(1);
   });
 
-  fit('should delete planes, but not changing reference', fakeAsync(() => {
+  it('should delete planes, but not changing reference', fakeAsync(() => {
     let arr = [new Plane(null, null), new Plane(null, null), new Plane(null, null)];
     component.planes = arr;
     component.cells = [[]];

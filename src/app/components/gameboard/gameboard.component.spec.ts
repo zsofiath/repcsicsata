@@ -16,6 +16,25 @@ import { PlaneRotationButtonsComponent } from '../plane-rotation-buttons/plane-r
 
 import { GameboardComponent } from './gameboard.component';
 
+class FakePlane extends Plane {
+  
+  constructor() {
+    super(new FakePlaneDrawer(), {x:0, y:0});
+    this.numberOfWholePlane = 1;   
+  }
+
+  deepCopy(){
+    let position = new Coordinate();
+    position.x = this.position.x;
+    position.y = this.position.y;
+    let newobj = new FakePlane();
+    newobj.position = position;
+    newobj.drawer = this.drawer;
+
+    return newobj;
+}
+}
+
 describe('GameboardComponent', () => {
   let component: GameboardComponent;
   let fixture: ComponentFixture<GameboardComponent>;
@@ -77,7 +96,9 @@ describe('GameboardComponent', () => {
 
     let fakeDrawer = new FakePlaneDrawer();
     spyOn(fakeDrawer, 'drawHead').and.returnValue([{x:0, y:0},{x:0, y:1}]);
-    component.currentPlane = new Plane(fakeDrawer, {x:0, y:0});
+    component.currentPlane = new FakePlane();
+    component.currentPlane.drawer = fakeDrawer;
+    component.currentPlane.numberOfWholePlane = 2;
     component.placePlane();
 
     expect(component.planes[0].position.x).toEqual(0);
@@ -89,7 +110,7 @@ describe('GameboardComponent', () => {
  
 
   it('should not place plane on the top op an other plane', () => {
-    component.currentPlane = new Plane(new FakePlaneDrawer, {x:3, y:2});
+    component.currentPlane = new FakePlane();
     component.currentPlane.position = {x:3, y:2};
     component.placePlane();
     
@@ -100,7 +121,8 @@ describe('GameboardComponent', () => {
   });
 
   it('should place 2 planes', () => {
-    component.currentPlane = new Plane(new FakePlaneDrawer(), {x:3, y:2});
+    component.currentPlane = new FakePlane();
+    component.currentPlane.position = {x:3, y:2};
     component.placePlane();
     component.currentPlane.position = {x:3, y:5};
     component.placePlane();
@@ -111,7 +133,7 @@ describe('GameboardComponent', () => {
   });
 
   it('should place only 4 planes', () => {
-    component.currentPlane = new Plane(new FakePlaneDrawer, {x:3, y:2});
+    component.currentPlane = new FakePlane();
 
     component.currentPlane.position =  {x:3, y:1};
     component.placePlane();
@@ -167,11 +189,7 @@ describe('GameboardComponent', () => {
     coordinate.x = 0;
     coordinate.y = 0;
 
-
-    let factory = new PlaneDrawerFactory(null);
-    let spy = spyOn(factory, 'get').and.returnValue(new FakePlaneDrawer());
-
-    let plane = new Plane(factory.get(), coordinate);
+    let plane = new FakePlane();
 
     component.drawPlaneOnCells(plane, coordinate);
 
@@ -204,11 +222,7 @@ describe('GameboardComponent', () => {
     coordinate.x = 0;
     coordinate.y = 0;
 
-
-    let factory = new PlaneDrawerFactory(null);
-    let spy = spyOn(factory, 'get').and.returnValue(new FakePlaneDrawer());
-
-    let plane = new Plane(factory.get(), coordinate);
+    let plane = new FakePlane();
 
     component.drawPlaneOnCells(plane, coordinate);
 
@@ -247,11 +261,7 @@ describe('GameboardComponent', () => {
     coordinate.x = 0;
     coordinate.y = 0;
 
-
-    let factory = new PlaneDrawerFactory(null);
-    let spy = spyOn(factory, 'get').and.returnValue(new FakePlaneDrawer());
-
-    let plane = new Plane(factory.get(), coordinate);
+    let plane = new FakePlane();
 
     component.drawPlaneOnCells(plane, coordinate);
 
@@ -259,15 +269,6 @@ describe('GameboardComponent', () => {
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
     expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
-  });
-
-
-  it('should rotate the plane', () => {
-    component.currentPlane = new Plane(new PlaneDrawerUp(5), {x:1, y:1});
-
-    component.rotatePlane(DirectionEnum.UP);
-
-    expect(component.currentPlane.drawer instanceof PlaneDrawerUp).toBeTruthy();
   });
 
   it('it should not ovewrite the reserved cell when hover happens', () => {
@@ -289,10 +290,7 @@ describe('GameboardComponent', () => {
     
     component.cells = cells;
 
-    let factory = new PlaneDrawerFactory(null);
-    let spy = spyOn(factory, 'get').and.returnValue(new FakePlaneDrawer());
-
-    let plane = new Plane(factory.get(), {x:0, y:0});
+    let plane = new FakePlane();
 
     component.drawPlaneOnCells(plane, {x:1, y:0});
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
@@ -319,7 +317,9 @@ describe('GameboardComponent', () => {
 
     let fakeDrawer1 = new FakePlaneDrawer();
     spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0},{x:1, y:1}]);
-    let plane = new Plane(fakeDrawer1, {x:1, y:0});
+    let plane = new FakePlane();
+    plane.drawer = fakeDrawer1;
+    plane.numberOfWholePlane = 2;
     component.currentPlane = plane;
     component.drawPlaneOnCells(plane, {x:1, y:0});
     
@@ -327,7 +327,9 @@ describe('GameboardComponent', () => {
 
     let fakeDrawer2 = new FakePlaneDrawer();
     spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0},{x:1, y:0}]);
-    let plane2 = new Plane(fakeDrawer2, {x:0, y:0});
+    let plane2 = new FakePlane();
+    plane2.drawer = fakeDrawer2;
+    plane2.numberOfWholePlane = 2;
 
     component.drawPlaneOnCells(plane2, {x:0, y:0});
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.ERROR);
@@ -357,7 +359,8 @@ describe('GameboardComponent', () => {
 
     let fakeDrawer1 = new FakePlaneDrawer();
     spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0},{x:1, y:1}]);
-    let plane = new Plane(fakeDrawer1, {x:1, y:0});
+    let plane = new FakePlane();
+    plane.drawer = fakeDrawer1;
     component.currentPlane = plane;
     component.drawPlaneOnCells(plane, {x:1, y:0});
     
@@ -365,11 +368,13 @@ describe('GameboardComponent', () => {
 
     let fakeDrawer2 = new FakePlaneDrawer();
     spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0},{x:1, y:0}]);
-    let plane2 = new Plane(fakeDrawer2, {x:0, y:0});
+    let plane2 = new FakePlane();
+    plane2.drawer = fakeDrawer2;
 
     let fakeDrawer3 = new FakePlaneDrawer();
     spyOn(fakeDrawer3, 'drawHead').and.returnValue([{x:0, y:1},{x:1, y:1}]);
-    let plane3 = new Plane(fakeDrawer3, {x:0, y:0});
+    let plane3 = new FakePlane();
+    plane3.drawer = fakeDrawer3;
 
     component.drawPlaneOnCells(plane2, {x:0, y:0});
     component.drawPlaneOnCells(plane3, {x:0, y:1});

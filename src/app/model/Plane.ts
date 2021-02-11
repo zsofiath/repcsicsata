@@ -1,3 +1,4 @@
+import OutOfBoardError from "../exceptions/OutOfBoardError";
 import Coordinate from "./Coordinate";
 import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 import PlaneDrawerFactory from "./planeDrawer/PlaneDrawerFactory";
@@ -5,6 +6,8 @@ import PlaneDrawerFactory from "./planeDrawer/PlaneDrawerFactory";
 export default class Plane {
     private _drawer: IPlaneDrawer;
     private _position: Coordinate;
+
+    numberOfWholePlane = 10;
 
     constructor(drawer: IPlaneDrawer, position: Coordinate) {
         this._drawer = drawer;
@@ -34,6 +37,8 @@ export default class Plane {
         planeCoordinates.push(...this.drawer.drawWings(this.position));
         planeCoordinates.push(...this.drawer.drawBody(this.position));
         planeCoordinates.push(...this.drawer.drawTail(this.position));
+
+        if(planeCoordinates.length < this.numberOfWholePlane) throw new OutOfBoardError(planeCoordinates);
 
         return planeCoordinates;
     }
