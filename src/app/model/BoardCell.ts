@@ -5,6 +5,8 @@ export default class BoardCell {
     x: number;
     y: number;
 
+    isError = false;
+
     constructor(x:number = null, y:number = null) {
         this.x = x;
         this.y = y;
@@ -12,13 +14,16 @@ export default class BoardCell {
 
     setHighlighted(){
        if(this.state != BoardCellStateEnum.RESERVED) this.state = BoardCellStateEnum.HIGHLIGHTED;
+       this.isError = false;
     }
 
     setFree(){
         if(this.state != BoardCellStateEnum.RESERVED) this.state = BoardCellStateEnum.FREE;
+        this.isError = false;
     }
 
     setErrored(){
         if(this.state != BoardCellStateEnum.RESERVED) this.state = BoardCellStateEnum.ERROR;
+        this.isError = true;
     }
 }

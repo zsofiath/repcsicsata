@@ -15,3 +15,7 @@
 .cell-error {
     background-color:red;
 }
+
+.cell-reserved.cell-error {
+    background-color:darkred;
+}

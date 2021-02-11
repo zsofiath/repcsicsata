@@ -15,6 +15,8 @@ export class GameboardCellComponent implements OnInit {
   @Output() hoverEvent = new EventEmitter<Coordinate>();
   @Output() clickEvent = new EventEmitter<Coordinate>();
 
+  errorAndReserved = false;
+
   constructor() { }
 
   ngOnInit() {
@@ -49,5 +51,4 @@ export class GameboardCellComponent implements OnInit {
     coordinate.y = this.properties.y;
     this.clickEvent.emit(coordinate);
   }
-
 }

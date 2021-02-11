@@ -21,6 +21,7 @@ describe('GameboardCellComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GameboardCellComponent);
     component = fixture.componentInstance;
+    component.properties = new BoardCell();
     el = fixture.debugElement;
     fixture.detectChanges();
 
@@ -31,7 +32,6 @@ describe('GameboardCellComponent', () => {
   });
 
   it('should set its class following the BoardCell\'s state - boardCell free --> .cell-free', () => {
-    component.properties = new BoardCell();
     component.properties.state = BoardCellStateEnum.FREE;
 
     fixture.detectChanges();
@@ -41,7 +41,7 @@ describe('GameboardCellComponent', () => {
   });
 
   it('should set its class following the BoardCell\'s state - boardCell highlighted --> .cell-highlighted', () => {
-    component.properties = new BoardCell();
+    
     component.properties.state = BoardCellStateEnum.HIGHLIGHTED;
 
     fixture.detectChanges();
@@ -51,7 +51,6 @@ describe('GameboardCellComponent', () => {
   });
 
   it('should set its class following the BoardCell\'s state - boardCell error --> .cell-error', () => {
-    component.properties = new BoardCell();
     component.properties.state = BoardCellStateEnum.ERROR;
 
     fixture.detectChanges();
@@ -60,8 +59,21 @@ describe('GameboardCellComponent', () => {
     expect(element[0].nativeElement.classList.contains('cell-error')).toBeTruthy();
   });
 
+  it('should set its class following the BoardCell\'s state - boardCell reserved and error --> .cell-reserve.cell-error', () => {
+    component.properties.state = BoardCellStateEnum.RESERVED;
+
+    fixture.detectChanges();
+
+    component.properties.setErrored();
+    fixture.detectChanges();
+
+    let element = el.queryAll(By.css(".cell"));
+
+    expect(element[0].nativeElement.classList.contains('cell-error')).toBeTruthy();
+    expect(element[0].nativeElement.classList.contains('cell-reserved')).toBeTruthy();
+  });
+
   it('should set its class following the BoardCell\'s state - boardCell reserved --> .cell-reserved', () => {
-    component.properties = new BoardCell();
     component.properties.state = BoardCellStateEnum.RESERVED;
 
     fixture.detectChanges();
