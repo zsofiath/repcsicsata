@@ -1,6 +1,7 @@
 import { DirectionEnum } from "src/app/constants/DirectionEnum";
 import BoardCell from "../BoardCell";
 import Coordinate from "../Coordinate";
+import PlanePart from "../PlanePart";
 import IPlaneDrawer from "./IPlaneDrawer";
 
 export default class PlaneDrawerRight implements IPlaneDrawer {
@@ -13,35 +14,35 @@ export default class PlaneDrawerRight implements IPlaneDrawer {
         this.boardSideSize = boardSideSize;
     }
 
-    drawHead(planeCenter: Coordinate): Coordinate[] {
-        let c = new Coordinate();
+    drawHead(planeCenter: Coordinate): PlanePart[] {
+        let c = new PlanePart();
         c.x = planeCenter.x+1;
         c.y = planeCenter.y;
         return planeCenter.x < this.boardSideSize-1 ? [c] : [];
     }
-    drawWings(planeCenter: Coordinate): Coordinate[] {
+    drawWings(planeCenter: Coordinate): PlanePart[] {
         let wings = [];
 
         for (let i = 0; i < 5; i++) {
-            let c = new Coordinate();
+            let c = new PlanePart();
             c.x = planeCenter.x;
             c.y = planeCenter.y+i-2;
             if(c.y >= 0 && c.y < this.boardSideSize) wings.push(c);
         }
         return wings;
     }
-    drawBody(planeCenter: Coordinate): Coordinate[] {
-        let b = new Coordinate();
+    drawBody(planeCenter: Coordinate): PlanePart[] {
+        let b = new PlanePart();
         b.x = planeCenter.x-1;
         b.y = planeCenter.y;
         return b.x >= 0 ?[b] : [];
     }
-    drawTail(planeCenter: Coordinate): Coordinate[] {
+    drawTail(planeCenter: Coordinate): PlanePart[] {
         let tail = [];
         
         if(planeCenter.x > 1) {
             for (let i = 0; i < 3; i++) {
-                let c = new Coordinate();
+                let c = new PlanePart();
                 c.x = planeCenter.x-2;
                 c.y = planeCenter.y+i-1;
                 if(c.y >= 0 && c.y < this.boardSideSize) tail.push(c)  

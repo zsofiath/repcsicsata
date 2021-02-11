@@ -97,7 +97,7 @@ describe('GameboardComponent', () => {
     component.cells = cells;
 
     let fakeDrawer = new FakePlaneDrawer();
-    spyOn(fakeDrawer, 'drawHead').and.returnValue([{x:0, y:0},{x:0, y:1}]);
+    spyOn(fakeDrawer, 'drawHead').and.returnValue([{x:0, y:0, direction: null, part:null},{x:0, y:1, direction: null, part:null}]);
     component.currentPlane = new FakePlane();
     component.currentPlane.drawer = fakeDrawer;
     component.currentPlane.numberOfWholePlane = 2;
@@ -318,7 +318,7 @@ describe('GameboardComponent', () => {
     component.cells = cells;
 
     let fakeDrawer1 = new FakePlaneDrawer();
-    spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0},{x:1, y:1}]);
+    spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0, direction: null, part:null},{x:1, y:1, direction: null, part:null}]);
     let plane = new FakePlane();
     plane.drawer = fakeDrawer1;
     plane.numberOfWholePlane = 2;
@@ -328,7 +328,7 @@ describe('GameboardComponent', () => {
     component.placePlane();
 
     let fakeDrawer2 = new FakePlaneDrawer();
-    spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0},{x:1, y:0}]);
+    spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0, direction: null, part:null},{x:1, y:0, direction: null, part:null}]);
     let plane2 = new FakePlane();
     plane2.drawer = fakeDrawer2;
     plane2.numberOfWholePlane = 2;
@@ -360,7 +360,7 @@ describe('GameboardComponent', () => {
     component.cells = cells;
 
     let fakeDrawer1 = new FakePlaneDrawer();
-    spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0},{x:1, y:1}]);
+    spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0, direction: null, part:null},{x:1, y:1, direction: null, part:null}]);
     let plane = new FakePlane();
     plane.drawer = fakeDrawer1;
     component.currentPlane = plane;
@@ -369,12 +369,12 @@ describe('GameboardComponent', () => {
     component.placePlane();
 
     let fakeDrawer2 = new FakePlaneDrawer();
-    spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0},{x:1, y:0}]);
+    spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0, direction: null, part:null},{x:1, y:0, direction: null, part:null}]);
     let plane2 = new FakePlane();
     plane2.drawer = fakeDrawer2;
 
     let fakeDrawer3 = new FakePlaneDrawer();
-    spyOn(fakeDrawer3, 'drawHead').and.returnValue([{x:0, y:1},{x:1, y:1}]);
+    spyOn(fakeDrawer3, 'drawHead').and.returnValue([{x:0, y:1, direction: null, part:null},{x:1, y:1, direction: null, part:null}]);
     let plane3 = new FakePlane();
     plane3.drawer = fakeDrawer3;
 

@@ -1,6 +1,7 @@
 import { DirectionEnum } from "src/app/constants/DirectionEnum";
 import BoardCell from "../BoardCell";
 import Coordinate from "../Coordinate";
+import PlanePart from "../PlanePart";
 import IPlaneDrawer from "./IPlaneDrawer";
 
 export default class FakePlaneDrawer implements IPlaneDrawer {
@@ -13,19 +14,19 @@ export default class FakePlaneDrawer implements IPlaneDrawer {
         this.boardSideSize = boardSideSize;
     }
 
-    drawHead(planeCenter: Coordinate): Coordinate[] {
-        let c = new Coordinate();
+    drawHead(planeCenter: Coordinate): PlanePart[] {
+        let c = new PlanePart();
         c.x = planeCenter.x;
         c.y = planeCenter.y;
         return [c];
     }
-    drawWings(planeCenter: Coordinate): Coordinate[] {
+    drawWings(planeCenter: Coordinate): PlanePart[] {
         return [];
     }
-    drawBody(planeCenter: Coordinate): Coordinate[] {
+    drawBody(planeCenter: Coordinate): PlanePart[] {
         return [];
     }
-    drawTail(planeCenter: Coordinate): Coordinate[] {
+    drawTail(planeCenter: Coordinate): PlanePart[] {
         return [];
     }
 

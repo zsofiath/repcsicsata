@@ -2,6 +2,7 @@ import OutOfBoardError from "../exceptions/OutOfBoardError";
 import Coordinate from "./Coordinate";
 import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 import PlaneDrawerFactory from "./planeDrawer/PlaneDrawerFactory";
+import PlanePart from "./PlanePart";
 
 export default class Plane {
     private _drawer: IPlaneDrawer;
@@ -30,7 +31,7 @@ export default class Plane {
         this._position = value;
     }
 
-    getCoordinates(): Coordinate[]{
+    getCoordinates(): PlanePart[]{
         const planeCoordinates = [];
 
         planeCoordinates.push(...this.drawer.drawHead(this.position));
