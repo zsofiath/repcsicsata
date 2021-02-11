@@ -2,8 +2,10 @@ import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { throwError } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
+import OutOfBoardError from 'src/app/exceptions/OutOfBoardError';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 import Plane from 'src/app/model/Plane';
@@ -382,5 +384,36 @@ describe('GameboardComponent', () => {
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
     expect(cells[1][0].state).toEqual(BoardCellStateEnum.ERROR);
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
+  });
+
+  it('should be an error if leaving board with any part of the plane', () => {
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    component.cells = cells;
+    let plane = new FakePlane();
+    spyOn(plane,'getCoordinates').and.callFake(() => {
+      throw new OutOfBoardError([{x:1, y:0}]);
+    });
+
+    component.drawPlaneOnCells(plane, {x:1, y:0});
+
+    expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[0][1].state).toEqual(BoardCellStateEnum.ERROR);
+    expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[1][1].state).toEqual(BoardCellStateEnum.FREE);
   });
 });

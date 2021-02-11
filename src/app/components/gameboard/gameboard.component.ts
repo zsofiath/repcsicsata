@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
+import OutOfBoardError from 'src/app/exceptions/OutOfBoardError';
 import GameBoard from 'src/app/model/Board';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
@@ -61,11 +62,21 @@ export class GameboardComponent implements OnInit {
   drawPlaneOnCells(plane: Plane, coord: Coordinate) {
     plane.position = coord;
     this.resetHighlightedCells();
-        
-    if(plane.isOverlappingOtherPlane(this.planes)) this.setErrorCells(plane);
-    else {
-      this.setHighlightedCells(plane);
+    
+    try {
+      if(plane.isOverlappingOtherPlane(this.planes)) this.setErrorCells(plane);
+      else {
+        this.setHighlightedCells(plane);
+      }
+    } catch (error) {
+      let err = error as OutOfBoardError;
+
+      err.coordinates.forEach(c => {            
+        this.cells[c.y][c.x].setErrored();
+      });
     }
+
+    
   }
 
   private setErrorCells(plane: Plane){
@@ -74,7 +85,7 @@ export class GameboardComponent implements OnInit {
     });
   }
 
-  private setHighlightedCells(plane: Plane){
+  private setHighlightedCells(plane: Plane){    
     plane.getCoordinates().forEach(c => {            
       this.cells[c.y][c.x].setHighlighted();
     });
