@@ -18,6 +18,7 @@ export default class PlaneDrawerUp implements IPlaneDrawer {
         c.x = planeCenter.x;
         c.y = planeCenter.y-1;
         c.direction = this.key;
+        c.part = PlanePartsEnum.HEAD;
         return c.y >= 0 ? [c] : [];
     }
 
@@ -29,6 +30,8 @@ export default class PlaneDrawerUp implements IPlaneDrawer {
             c.x = planeCenter.x+i-2;
             c.y = planeCenter.y;
             c.direction = this.key;
+            c.part = PlanePartsEnum['WING'+(i+1)];
+            
             if(c.x >= 0 && c.x < this.boardSideSize) wings.push(c);
         }
         return wings;
@@ -39,6 +42,7 @@ export default class PlaneDrawerUp implements IPlaneDrawer {
         c.x = planeCenter.x;
         c.y = planeCenter.y+1;
         c.direction = this.key;
+        c.part = PlanePartsEnum.BODY;
         return c.y < this.boardSideSize ? [c] : [];
     }
 
@@ -51,6 +55,7 @@ export default class PlaneDrawerUp implements IPlaneDrawer {
                 c.x = planeCenter.x+i-1;
                 c.y = planeCenter.y+2;
                 c.direction = this.key;
+                c.part = PlanePartsEnum['TAIL'+(i+1)];
                 if(c.x >= 0 && c.x < this.boardSideSize) tail.push(c);  
             }
         }

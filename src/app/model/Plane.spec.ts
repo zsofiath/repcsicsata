@@ -1,4 +1,5 @@
 import { DirectionEnum } from "../constants/DirectionEnum";
+import { PlanePartsEnum } from "../constants/PlanePartsEnum";
 import OutOfBoardError from "../exceptions/OutOfBoardError";
 import Coordinate from "./Coordinate";
 import Plane from "./Plane";
@@ -23,8 +24,73 @@ function coordinatesToArray(coordinates){
     return JSON.stringify(board);
 }
 
+function expectElementsAreKnowingTheirRole(planeCoordinates){
+    expect(planeCoordinates[0].part).toEqual(PlanePartsEnum.HEAD);
+
+    expect(planeCoordinates[1].part).toEqual(PlanePartsEnum.WING1);
+    expect(planeCoordinates[2].part).toEqual(PlanePartsEnum.WING2);
+    expect(planeCoordinates[3].part).toEqual(PlanePartsEnum.WING3);
+    expect(planeCoordinates[4].part).toEqual(PlanePartsEnum.WING4);
+    expect(planeCoordinates[5].part).toEqual(PlanePartsEnum.WING5);
+
+    expect(planeCoordinates[6].part).toEqual(PlanePartsEnum.BODY);
+
+    expect(planeCoordinates[7].part).toEqual(PlanePartsEnum.TAIL1);
+    expect(planeCoordinates[8].part).toEqual(PlanePartsEnum.TAIL2);
+    expect(planeCoordinates[9].part).toEqual(PlanePartsEnum.TAIL3);
+}
+
 describe('Plane', () => {
     describe('plane parts', () => {
+        it('should return parts that knows their role - up', () => {
+            let centerPosition = new Coordinate();
+            centerPosition.x = 2;
+            centerPosition.y = 1;
+    
+            let drawer = new Plane(new PlaneDrawerUp(), centerPosition);
+             
+            let planeCoordinates = drawer.getCoordinates();
+            expectElementsAreKnowingTheirRole(planeCoordinates)
+            
+        });
+
+        it('should return parts that knows their role - down', () => {
+            let centerPosition = new Coordinate();
+            centerPosition.x = 2;
+            centerPosition.y = 3;
+    
+            let drawer = new Plane(new PlaneDrawerDown(), centerPosition);
+             
+            let planeCoordinates = drawer.getCoordinates();
+            
+            expectElementsAreKnowingTheirRole(planeCoordinates);
+        });
+
+        it('should return parts that knows their role - right', () => {
+            let centerPosition = new Coordinate();
+            centerPosition.x = 2;
+            centerPosition.y = 3;
+    
+            let drawer = new Plane(new PlaneDrawerRight(), centerPosition);
+             
+            let planeCoordinates = drawer.getCoordinates();
+            
+            expectElementsAreKnowingTheirRole(planeCoordinates);
+        });
+
+        it('should return parts that knows their role - left', () => {
+            let centerPosition = new Coordinate();
+            centerPosition.x = 2;
+            centerPosition.y = 3;
+    
+            let drawer = new Plane(new PlaneDrawerLeft(), centerPosition);
+             
+            let planeCoordinates = drawer.getCoordinates();
+            
+            expectElementsAreKnowingTheirRole(planeCoordinates);
+        });
+        
+
         it('should return parts that knows their direction - up', () => {
             let centerPosition = new Coordinate();
             centerPosition.x = 2;
