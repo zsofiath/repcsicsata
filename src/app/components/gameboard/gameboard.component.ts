@@ -48,6 +48,7 @@ export class GameboardComponent implements OnInit {
     
     plane.getCoordinates().forEach(coord => {   
       this.cells[coord.y][coord.x].state = BoardCellStateEnum.RESERVED;
+      this.cells[coord.y][coord.x].planePart = coord;
     });  
   }
 

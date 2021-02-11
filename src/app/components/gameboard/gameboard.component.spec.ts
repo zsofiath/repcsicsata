@@ -12,6 +12,7 @@ import Plane from 'src/app/model/Plane';
 import FakePlaneDrawer from 'src/app/model/planeDrawer/FakePlaneDrawer';
 import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
 import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
+import PlanePart from 'src/app/model/PlanePart';
 import { ClearPlanesComponent } from '../clear-planes/clear-planes.component';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 import { PlaneRotationButtonsComponent } from '../plane-rotation-buttons/plane-rotation-buttons.component';
@@ -83,11 +84,13 @@ describe('GameboardComponent', () => {
       let c1 = new BoardCell();
       c1.state = BoardCellStateEnum.FREE;
       c1.x = 0;
-      c1.y = i;      
+      c1.y = i;
+      c1.planePart = new PlanePart();    
       let c2 = new BoardCell();
       c2.state = BoardCellStateEnum.FREE;
       c2.x = 1;
       c2.y = i;  
+      c2.planePart = new PlanePart();    
       cells.push([
         c1,
         c2,
@@ -97,7 +100,7 @@ describe('GameboardComponent', () => {
     component.cells = cells;
 
     let fakeDrawer = new FakePlaneDrawer();
-    spyOn(fakeDrawer, 'drawHead').and.returnValue([{x:0, y:0, direction: null, part:null},{x:0, y:1, direction: null, part:null}]);
+    spyOn(fakeDrawer, 'drawHead').and.returnValue([{x:0, y:0, direction: DirectionEnum.LEFT, part:null},{x:0, y:1, direction: null, part:null}]);
     component.currentPlane = new FakePlane();
     component.currentPlane.drawer = fakeDrawer;
     component.currentPlane.numberOfWholePlane = 2;
@@ -106,6 +109,7 @@ describe('GameboardComponent', () => {
     expect(component.planes[0].position.x).toEqual(0);
     expect(component.planes[0].position.y).toEqual(0);
     expect(component.cells[0][0].state).toBe(BoardCellStateEnum.RESERVED);
+    expect(component.cells[0][0].planePart.direction).toBe(DirectionEnum.LEFT);
     expect(component.cells[1][0].state).toBe(BoardCellStateEnum.RESERVED);
   });
 

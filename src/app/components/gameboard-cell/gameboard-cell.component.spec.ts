@@ -2,7 +2,9 @@ import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
+import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 import BoardCell from 'src/app/model/BoardCell';
+import PlanePart from 'src/app/model/PlanePart';
 
 import { GameboardCellComponent } from './gameboard-cell.component';
 
@@ -22,6 +24,7 @@ describe('GameboardCellComponent', () => {
     fixture = TestBed.createComponent(GameboardCellComponent);
     component = fixture.componentInstance;
     component.properties = new BoardCell();
+    component.properties.planePart = new PlanePart();
     el = fixture.debugElement;
     fixture.detectChanges();
 
@@ -80,6 +83,42 @@ describe('GameboardCellComponent', () => {
     let element = el.queryAll(By.css(".cell"));
 
     expect(element[0].nativeElement.classList.contains('cell-reserved')).toBeTruthy();
+  });
+
+  it('should set the direction class - up', () => {
+    component.properties.planePart.direction = DirectionEnum.UP;
+
+    fixture.detectChanges();
+    let element = el.queryAll(By.css(".cell"));
+
+    expect(element[0].nativeElement.classList.contains('up')).toBeTruthy();
+  });
+
+  it('should set the direction class - down', () => {
+    component.properties.planePart.direction = DirectionEnum.DOWN;
+
+    fixture.detectChanges();
+    let element = el.queryAll(By.css(".cell"));
+
+    expect(element[0].nativeElement.classList.contains('down')).toBeTruthy();
+  });
+
+  it('should set the direction class - left', () => {
+    component.properties.planePart.direction = DirectionEnum.LEFT;
+
+    fixture.detectChanges();
+    let element = el.queryAll(By.css(".cell"));
+
+    expect(element[0].nativeElement.classList.contains('left')).toBeTruthy();
+  });
+
+  it('should set the direction class - right', () => {
+    component.properties.planePart.direction = DirectionEnum.RIGHT;
+
+    fixture.detectChanges();
+    let element = el.queryAll(By.css(".cell"));
+
+    expect(element[0].nativeElement.classList.contains('right')).toBeTruthy();
   });
 
   it('should trigger an event on hover', fakeAsync(() => {

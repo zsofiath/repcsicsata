@@ -19,3 +19,36 @@
 .cell-reserved.cell-error {
     background-color:darkred;
 }
+
+.up {}
+.down { transform: rotate(180deg); }
+.right { transform: rotate(90deg); }
+.left { transform: rotate(-90deg); }
+
+.head {
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.body {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.wing-1, .tail-3 {
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.wing-2, .wing-4 {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.wing-5, .tail-3 {
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+}

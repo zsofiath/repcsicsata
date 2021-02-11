@@ -1,9 +1,11 @@
 import { BoardCellStateEnum } from "../constants/BoardCellStatesEnum";
+import PlanePart from "./PlanePart";
 
 export default class BoardCell {
     state: BoardCellStateEnum;
     x: number;
     y: number;
+    planePart: PlanePart;
 
     isError = false;
 

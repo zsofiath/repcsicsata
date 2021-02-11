@@ -1,6 +1,7 @@
 import { EventEmitter } from '@angular/core';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
+import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 
@@ -36,6 +37,26 @@ export class GameboardCellComponent implements OnInit {
 
   isCellReserved(): Boolean {
     return this.properties && this.properties.state == BoardCellStateEnum.RESERVED;
+  }
+
+  isUp(): Boolean {
+    if(!this.properties) return false;
+    return this.properties.planePart ? this.properties.planePart.direction == DirectionEnum.UP : false;
+  }
+
+  isDown(): Boolean {
+    if(!this.properties) return false;
+    return this.properties.planePart ? this.properties.planePart.direction == DirectionEnum.DOWN : false;
+  }
+
+  isLeft(): Boolean {
+    if(!this.properties) return false;
+    return this.properties.planePart ? this.properties.planePart.direction == DirectionEnum.LEFT : false;
+  }
+
+  isRight(): Boolean {
+    if(!this.properties) return false;
+    return this.properties.planePart ? this.properties.planePart.direction == DirectionEnum.RIGHT : false;
   }
 
   onHover(){
