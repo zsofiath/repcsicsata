@@ -27,6 +27,7 @@ export class ClearPlanesComponent implements OnInit {
     this.cells.forEach(row => {
       row.forEach(cell=>{
         cell.state = BoardCellStateEnum.FREE;
+        cell.planePart = null;
       })
     });
   }

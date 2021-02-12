@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Plane from 'src/app/model/Plane';
+import PlanePart from 'src/app/model/PlanePart';
 
 import { ClearPlanesComponent } from './clear-planes.component';
 
@@ -57,6 +58,20 @@ describe('ClearPlanesComponent', () => {
     flush();
     
     expect(component.cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
+  }));
+
+  it('should remove every planePart', fakeAsync(() => {
+    component.cells = [[new BoardCell(0,0)]];
+    component.cells[0][0].planePart = new PlanePart();
+    component.planes = [];
+
+    let el = fixture.debugElement.queryAll(By.css('.clear-all'))[0];
+
+    el.triggerEventHandler('click', null);
+
+    flush();
+    
+    expect(component.cells[0][0].planePart).toBeFalsy();
   }));
 
 });
