@@ -396,6 +396,63 @@ describe('GameboardComponent', () => {
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
   });
 
+  it('should not change direction of a reserved element', () => {
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    component.cells = cells;
+
+    let fakeDrawer1 = new FakePlaneDrawer();
+    spyOn(fakeDrawer1, 'drawHead').and.returnValue([
+      {x:1, y:0, direction: DirectionEnum.DOWN, part:null},
+      {x:1, y:1, direction: DirectionEnum.DOWN, part:null}
+    ]);
+    let plane = new FakePlane();
+    plane.drawer = fakeDrawer1;
+    component.currentPlane = plane;
+    component.drawPlaneOnCells(plane, {x:1, y:0});
+    
+    component.placePlane();
+
+    let fakeDrawer2 = new FakePlaneDrawer();
+    spyOn(fakeDrawer2, 'drawHead').and.returnValue([
+      {x:0, y:0, direction: DirectionEnum.LEFT, part:null},
+      {x:1, y:0, direction: DirectionEnum.LEFT, part:null}
+    ]);
+    let plane2 = new FakePlane();
+    plane2.drawer = fakeDrawer2;
+
+    let fakeDrawer3 = new FakePlaneDrawer();
+    spyOn(fakeDrawer3, 'drawHead').and.returnValue([
+      {x:0, y:1, direction: DirectionEnum.LEFT, part:null},
+      {x:1, y:1, direction: DirectionEnum.LEFT, part:null}
+    ]);
+    let plane3 = new FakePlane();
+    plane3.drawer = fakeDrawer3;
+
+    component.drawPlaneOnCells(plane2, {x:0, y:0});
+    component.drawPlaneOnCells(plane3, {x:0, y:1});
+    expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
+    expect(cells[0][1].planePart.direction).toEqual(DirectionEnum.DOWN);
+    expect(cells[1][0].state).toEqual(BoardCellStateEnum.ERROR);
+    expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
+    expect(cells[1][1].planePart.direction).toEqual(DirectionEnum.DOWN);
+  });
+
   it('should be an error if leaving board with any part of the plane', () => {
     let cells = [];
     for (let i = 0; i < 2; i++) {

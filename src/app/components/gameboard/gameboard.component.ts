@@ -83,7 +83,7 @@ export class GameboardComponent implements OnInit {
   private setErrorCells(plane: Plane){
     plane.getCoordinates().forEach(c => {            
       this.cells[c.y][c.x].setErrored();
-      this.cells[c.y][c.x].planePart = c;
+      if(this.cells[c.y][c.x].state != BoardCellStateEnum.RESERVED) this.cells[c.y][c.x].planePart = c;
     });
   }
 
