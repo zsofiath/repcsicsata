@@ -98,6 +98,7 @@ export class GameboardComponent implements OnInit {
     this.cells.forEach(row => {
       row.forEach(cell => {
         cell.setFree();
+        if(cell.state != BoardCellStateEnum.RESERVED) cell.planePart = null;
       });
     });
   }

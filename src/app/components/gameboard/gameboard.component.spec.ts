@@ -242,6 +242,7 @@ describe('GameboardComponent', () => {
     component.drawPlaneOnCells(plane, coordinate2);
 
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
+    expect(cells[0][0].planePart).toBeFalsy();
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
     expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.FREE);

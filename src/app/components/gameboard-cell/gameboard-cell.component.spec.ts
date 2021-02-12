@@ -3,6 +3,7 @@ import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/cor
 import { By } from '@angular/platform-browser';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
+import { PlanePartsEnum } from 'src/app/constants/PlanePartsEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import PlanePart from 'src/app/model/PlanePart';
 
@@ -119,6 +120,44 @@ describe('GameboardCellComponent', () => {
     let element = el.queryAll(By.css(".cell"));
 
     expect(element[0].nativeElement.classList.contains('right')).toBeTruthy();
+  });
+
+  it('should set the part class - head', () => {
+    component.properties.planePart.part = PlanePartsEnum.HEAD;
+
+    fixture.detectChanges();
+    let element = el.queryAll(By.css(".cell"));
+
+    expect(element[0].nativeElement.classList.contains('head')).toBeTruthy();
+  });
+
+  it('should set the part class - body', () => {
+    component.properties.planePart.part = PlanePartsEnum.BODY;
+
+    fixture.detectChanges();
+    let element = el.queryAll(By.css(".cell"));
+
+    expect(element[0].nativeElement.classList.contains('body')).toBeTruthy();
+  });
+
+  it('should set the part class - wings', () => {
+    for (let i = 1; i < 6; i++) {
+      component.properties.planePart.part = PlanePartsEnum['WING'+i];
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".cell"));
+
+      expect(element[0].nativeElement.classList.contains('wing'+i)).toBeTruthy();
+    }
+  });
+
+  it('should set the part class - tails', () => {
+    for (let i = 1; i < 4; i++) {
+      component.properties.planePart.part = PlanePartsEnum['TAIL'+i];
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".cell"));
+
+      expect(element[0].nativeElement.classList.contains('tail'+i)).toBeTruthy();
+    }
   });
 
   it('should trigger an event on hover', fakeAsync(() => {

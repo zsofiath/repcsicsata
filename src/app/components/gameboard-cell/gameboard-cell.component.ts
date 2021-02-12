@@ -2,6 +2,7 @@ import { EventEmitter } from '@angular/core';
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
+import { PlanePartsEnum } from 'src/app/constants/PlanePartsEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 
@@ -57,6 +58,26 @@ export class GameboardCellComponent implements OnInit {
   isRight(): Boolean {
     if(!this.properties) return false;
     return this.properties.planePart ? this.properties.planePart.direction == DirectionEnum.RIGHT : false;
+  }
+
+  isHead(): Boolean {
+    if(!this.properties) return false;
+    return this.properties.planePart ? this.properties.planePart.part == PlanePartsEnum.HEAD : false;
+  }
+
+  isBody(): Boolean {
+    if(!this.properties) return false;
+    return this.properties.planePart ? this.properties.planePart.part == PlanePartsEnum.BODY : false;
+  }
+
+  isWing(i): Boolean {
+    if(!this.properties) return false;
+    return this.properties.planePart ? this.properties.planePart.part == PlanePartsEnum['WING'+i] : false;
+  }
+
+  isTail(i): Boolean {
+    if(!this.properties) return false;
+    return this.properties.planePart ? this.properties.planePart.part == PlanePartsEnum['TAIL'+i] : false;
   }
 
   onHover(){
