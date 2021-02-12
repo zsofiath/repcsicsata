@@ -20,35 +20,54 @@
     background-color:darkred;
 }
 
-.up {}
-.down { transform: rotate(180deg); }
-.right { transform: rotate(90deg); }
-.left { transform: rotate(-90deg); }
-
 .head {
-    border-top: 1px solid black;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
 }
 
 .body {
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
 }
 
-.wing-1, .tail-3 {
-    border-top: 1px solid black;
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
+.wing-1, .tail-1 {
+    border-top: 2px solid black;
+    border-left: 2px solid black;
+    border-bottom: 2px solid black;
 }
 
 .wing-2, .wing-4 {
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
 }
 
 .wing-5, .tail-3 {
-    border-top: 1px solid black;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
+    border-top: 2px solid black;
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+.tail-2 {
+    border-bottom: 2px solid black;
+}
+
+.up {}
+
+.down {
+    transform: rotate(180deg);
+}
+.right {
+    transform: rotate(90deg);
+}
+.left {
+    transform: rotate(-90deg);
+}
+
+.down.wing-5, .down.tail-3, .down.wing-1, .down.tail-1 {
+    transform: rotate(0deg);
+}
+
+.left.wing-5, .left.tail-3, .left.wing-1, .left.tail-1 {
+    transform: rotate(90deg);
 }

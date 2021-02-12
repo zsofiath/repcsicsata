@@ -146,7 +146,7 @@ describe('GameboardCellComponent', () => {
       fixture.detectChanges();
       let element = el.queryAll(By.css(".cell"));
 
-      expect(element[0].nativeElement.classList.contains('wing'+i)).toBeTruthy();
+      expect(element[0].nativeElement.classList.contains('wing-'+i)).toBeTruthy();
     }
   });
 
@@ -156,7 +156,7 @@ describe('GameboardCellComponent', () => {
       fixture.detectChanges();
       let element = el.queryAll(By.css(".cell"));
 
-      expect(element[0].nativeElement.classList.contains('tail'+i)).toBeTruthy();
+      expect(element[0].nativeElement.classList.contains('tail-'+i)).toBeTruthy();
     }
   });
 
