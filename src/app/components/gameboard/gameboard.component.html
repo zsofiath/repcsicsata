@@ -1,5 +1,5 @@
 <app-plane-rotation-buttons (clickEvent)="rotation($event)"></app-plane-rotation-buttons>
-<table id="gameboard">
+<table id="gameboard" cellpadding="0"cellspacing="0">
     <tr *ngFor="let rows of cells">
         <td *ngFor="let column of rows">
             <app-gameboard-cell [properties]="column" (clickEvent)="placePlane()" (hoverEvent)="onHover($event)"></app-gameboard-cell>

@@ -1,19 +1,19 @@
 .cell {
     width: 30px;
     height: 30px;
-    border: 1px solid #ccc;
 }
 
 .cell-highlighted {
-    background-color: aquamarine;
+    opacity: .4;
 }
 
 .cell-reserved {
-    background-color:gray;
 }
 
 .cell-error {
     background-color:red;
+    background-blend-mode: color-burn;
+    opacity: .4;
 }
 
 .cell-reserved.cell-error {
@@ -21,35 +21,63 @@
 }
 
 .head {
-    border-top: 2px solid black;
-    border-left: 2px solid black;
-    border-right: 2px solid black;
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  -60px 0;
+    background-size: 150px;
 }
 
 .body {
-    border-left: 2px solid black;
-    border-right: 2px solid black;
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  -60px -60px;
+    background-size: 150px;
 }
 
-.wing-1, .tail-1 {
-    border-top: 2px solid black;
-    border-left: 2px solid black;
-    border-bottom: 2px solid black;
+.wing-1 {
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  0 -30px;
+    background-size: 150px;
 }
 
-.wing-2, .wing-4 {
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
+.wing-2 {
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  -30px -30px;
+    background-size: 150px;
 }
 
-.wing-5, .tail-3 {
-    border-top: 2px solid black;
-    border-right: 2px solid black;
-    border-bottom: 2px solid black;
+.wing-3 {
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  -60px -30px;
+    background-size: 150px;
+}
+
+.wing-4 {
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  -90px -30px;
+    background-size: 150px;
+}
+
+.wing-5 {
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  -120px -30px;
+    background-size: 150px;
+}
+
+.tail-1 {
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  -30px -90px;
+    background-size: 150px;
 }
 
 .tail-2 {
-    border-bottom: 2px solid black;
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  -60px -90px;
+    background-size: 150px;
+}
+
+.tail-3 {
+    background-image: url('/assets/unnamed.jpg');
+    background-position:  -90px -90px;
+    background-size: 150px;
 }
 
 .up {}
@@ -66,8 +94,9 @@
 
 .down.wing-5, .down.tail-3, .down.wing-1, .down.tail-1 {
     transform: rotate(0deg);
+    transform: scaleY(-1);
 }
 
 .left.wing-5, .left.tail-3, .left.wing-1, .left.tail-1 {
-    transform: rotate(90deg);
+    transform: scaleY(-1) rotate(-90deg);
 }
