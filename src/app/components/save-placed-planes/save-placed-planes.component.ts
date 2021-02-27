@@ -22,9 +22,7 @@ export class SavePlacedPlanesComponent implements OnInit {
     this.loading = true;
   }
 
-  getUnplacedPlanesNumber() : number {
-    console.log(this.planes.length);
-    
+  getUnplacedPlanesNumber() : number {    
     return 4-this.planes.length;
   }
 
