@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import Plane from 'src/app/model/Plane';
 
 @Component({
   selector: 'app-save-placed-planes',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./save-placed-planes.component.css']
 })
 export class SavePlacedPlanesComponent implements OnInit {
+  @Input() planes: Plane[];
 
   constructor() { }
 

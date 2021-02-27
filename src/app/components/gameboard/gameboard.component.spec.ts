@@ -2,6 +2,7 @@ import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { by, element } from 'protractor';
 import { throwError } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
@@ -172,6 +173,15 @@ describe('GameboardComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
 
     expect(compiled.querySelector('app-save-placed-planes')).not.toBeNull();
+  });
+
+  it('should pass the placed planes to the SavePlacedPlanes - nem tudom hogy teszteljem', () => {
+
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+
+    const element = compiled.querySelector('app-save-placed-planes');
+    
   });
 
   it('should use rotation button component', fakeAsync(() => {
