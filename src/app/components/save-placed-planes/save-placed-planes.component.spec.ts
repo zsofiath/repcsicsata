@@ -75,4 +75,35 @@ describe('SavePlacedPlanesComponent', () => {
     expect(compiled.querySelector('button').disabled).toBeFalsy();
 
   });
+
+  it('should fire request method', () => {
+    
+    spyOn(component.preparationService, 'sendPlanes');
+    spyOn(component, 'getUnplacedPlanesNumber').and.returnValue(0);
+
+    fixture.detectChanges();
+
+    const readyButton = fixture.debugElement.queryAll(By.css('.ready'))[0];
+
+    readyButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(component.sendPlanes).toHaveBeenCalled();
+
+  });
+
+  it('should set button disabled', () => {
+    spyOn(component, 'getUnplacedPlanesNumber').and.returnValue(0);
+
+    fixture.detectChanges();
+
+    const readyButton = fixture.debugElement.queryAll(By.css('.ready'))[0];
+    const compiled = fixture.debugElement.nativeElement;
+
+    readyButton.triggerEventHandler('click', null);
+    fixture.detectChanges();
+
+    expect(component.loading).toBeTruthy();
+    expect(compiled.querySelector('button').disabled).toBeTruthy();
+  });
 });

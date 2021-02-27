@@ -1,2 +1,6 @@
-<button *ngIf="unplacedPlanesNumber > 0" disabled>{{unplacedPlanesNumber}} more to place</button>
-<button *ngIf="unplacedPlanesNumber == 0" class="ready">Go</button>
+<button *ngIf="getUnplacedPlanesNumber() > 0" disabled>{{getUnplacedPlanesNumber()}} more to place</button>
+<button
+*ngIf="getUnplacedPlanesNumber() == 0"
+class="ready"
+(click)="sendPlanes()"
+[disabled]="loading">Go</button>

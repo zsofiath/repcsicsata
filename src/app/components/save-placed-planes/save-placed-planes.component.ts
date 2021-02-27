@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import Plane from 'src/app/model/Plane';
+import { PreparationService } from 'src/app/services/preparation.service';
 
 @Component({
   selector: 'app-save-placed-planes',
@@ -8,17 +9,23 @@ import Plane from 'src/app/model/Plane';
 })
 export class SavePlacedPlanesComponent implements OnInit {
   @Input() planes: Plane[];
+
+  loading = false;
   
-  public get unplacedPlanesNumber() : number {
+  
+  constructor(public preparationService: PreparationService) { }
+
+  ngOnInit() {
+  }
+
+  sendPlanes(){
+    this.loading = true;
+  }
+
+  getUnplacedPlanesNumber() : number {
     console.log(this.planes.length);
     
     return 4-this.planes.length;
-  }
-  
-
-  constructor() { }
-
-  ngOnInit() {
   }
 
 }
