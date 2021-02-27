@@ -6,6 +6,7 @@ import { GameboardComponent } from './components/gameboard/gameboard.component';
 import { GameboardCellComponent } from './components/gameboard-cell/gameboard-cell.component';
 import { PlaneRotationButtonsComponent } from './components/plane-rotation-buttons/plane-rotation-buttons.component';
 import { ClearPlanesComponent } from './components/clear-planes/clear-planes.component';
+import { SavePlacedPlanesComponent } from './components/save-placed-planes/save-placed-planes.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { ClearPlanesComponent } from './components/clear-planes/clear-planes.com
     GameboardComponent,
     GameboardCellComponent,
     PlaneRotationButtonsComponent,
-    ClearPlanesComponent
+    ClearPlanesComponent,
+    SavePlacedPlanesComponent
   ],
   imports: [
     BrowserModule

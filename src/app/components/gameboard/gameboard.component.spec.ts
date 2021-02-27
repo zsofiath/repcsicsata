@@ -16,6 +16,7 @@ import PlanePart from 'src/app/model/PlanePart';
 import { ClearPlanesComponent } from '../clear-planes/clear-planes.component';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 import { PlaneRotationButtonsComponent } from '../plane-rotation-buttons/plane-rotation-buttons.component';
+import { SavePlacedPlanesComponent } from '../save-placed-planes/save-placed-planes.component';
 
 import { GameboardComponent } from './gameboard.component';
 
@@ -45,7 +46,13 @@ describe('GameboardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameboardComponent, GameboardCellComponent, PlaneRotationButtonsComponent, ClearPlanesComponent]
+      declarations: [
+        GameboardComponent,
+        GameboardCellComponent,
+        PlaneRotationButtonsComponent,
+        ClearPlanesComponent,
+        SavePlacedPlanesComponent
+      ]
     })
     .compileComponents().then(()=>{
       fixture = TestBed.createComponent(GameboardComponent);
@@ -159,6 +166,13 @@ describe('GameboardComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('app-gameboard-cell')).not.toBe(null);
   }));
+
+  it('should use SavePlacedPlanes button', () => {
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+
+    expect(compiled.querySelector('app-save-placed-planes')).not.toBeNull();
+  });
 
   it('should use rotation button component', fakeAsync(() => {
     fixture.detectChanges();
