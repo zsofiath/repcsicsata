@@ -1,1 +1,2 @@
-<p>save-placed-planes works!</p>
+<button *ngIf="unplacedPlanesNumber > 0" disabled>{{unplacedPlanesNumber}} more to place</button>
+<button *ngIf="unplacedPlanesNumber == 0" class="ready">Go</button>

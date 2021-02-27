@@ -8,6 +8,13 @@ import Plane from 'src/app/model/Plane';
 })
 export class SavePlacedPlanesComponent implements OnInit {
   @Input() planes: Plane[];
+  
+  public get unplacedPlanesNumber() : number {
+    console.log(this.planes.length);
+    
+    return 4-this.planes.length;
+  }
+  
 
   constructor() { }
 
