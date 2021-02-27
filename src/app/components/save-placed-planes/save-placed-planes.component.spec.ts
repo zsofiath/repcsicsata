@@ -88,7 +88,7 @@ describe('SavePlacedPlanesComponent', () => {
     readyButton.triggerEventHandler('click', null);
     fixture.detectChanges();
 
-    expect(component.sendPlanes).toHaveBeenCalled();
+    expect(component.preparationService.sendPlanes).toHaveBeenCalled();
 
   });
 
