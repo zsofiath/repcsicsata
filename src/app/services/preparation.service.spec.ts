@@ -1,12 +1,48 @@
-import { TestBed } from '@angular/core/testing';
+import { flush, TestBed } from '@angular/core/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 
 import { PreparationService } from './preparation.service';
+import { HttpClientModule } from '@angular/common/http';
+import Plane from '../model/Plane';
+
+class FakePlane extends Plane{
+  constructor() {
+    super(null, null);
+    
+  }
+}
 
 describe('PreparationService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+
+ let service: PreparationService, httpTestingController: HttpTestingController;
+
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+    ],
+    });
+
+    service = TestBed.get(PreparationService);
+    httpTestingController = TestBed.get(HttpTestingController);
+
+  });
 
   it('should be created', () => {
-    const service: PreparationService = TestBed.get(PreparationService);
     expect(service).toBeTruthy();
+  });
+
+  it('should send the prepared planes', () => {
+    service.sendPlanes([new FakePlane(), new FakePlane()]).subscribe(res =>{
+      expect(res).toBeTruthy();
+    });
+
+    const req = httpTestingController.expectOne('/api/place-planes');
+
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body.planes.length).toEqual(2);
+
+    req.flush(10);
   });
 });

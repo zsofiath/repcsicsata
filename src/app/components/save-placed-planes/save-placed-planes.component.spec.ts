@@ -1,5 +1,7 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
 import Plane from 'src/app/model/Plane';
 
 import { SavePlacedPlanesComponent } from './save-placed-planes.component';
@@ -10,7 +12,8 @@ describe('SavePlacedPlanesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SavePlacedPlanesComponent ]
+      declarations: [ SavePlacedPlanesComponent ],
+      imports: [HttpClientTestingModule]
     })
     .compileComponents();
   }));
@@ -77,8 +80,13 @@ describe('SavePlacedPlanesComponent', () => {
   });
 
   it('should fire request method', () => {
+
+    let ovserverSubscribed = false;
     
-    spyOn(component.preparationService, 'sendPlanes');
+    spyOn(component.preparationService, 'sendPlanes').and.returnValue(new Observable(observer=> {
+      ovserverSubscribed = true;
+    }));
+
     spyOn(component, 'getUnplacedPlanesNumber').and.returnValue(0);
 
     fixture.detectChanges();
@@ -88,6 +96,7 @@ describe('SavePlacedPlanesComponent', () => {
     readyButton.triggerEventHandler('click', null);
     fixture.detectChanges();
 
+    expect(ovserverSubscribed).toBeTruthy();
     expect(component.preparationService.sendPlanes).toHaveBeenCalled();
 
   });

@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
@@ -14,6 +16,7 @@ import FakePlaneDrawer from 'src/app/model/planeDrawer/FakePlaneDrawer';
 import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
 import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 import PlanePart from 'src/app/model/PlanePart';
+import { PreparationService } from 'src/app/services/preparation.service';
 import { ClearPlanesComponent } from '../clear-planes/clear-planes.component';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 import { PlaneRotationButtonsComponent } from '../plane-rotation-buttons/plane-rotation-buttons.component';
@@ -53,7 +56,9 @@ describe('GameboardComponent', () => {
         PlaneRotationButtonsComponent,
         ClearPlanesComponent,
         SavePlacedPlanesComponent
-      ]
+      ],
+      imports: [HttpClientTestingModule]
+
     })
     .compileComponents().then(()=>{
       fixture = TestBed.createComponent(GameboardComponent);

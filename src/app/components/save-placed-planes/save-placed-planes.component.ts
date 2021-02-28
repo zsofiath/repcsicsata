@@ -20,7 +20,11 @@ export class SavePlacedPlanesComponent implements OnInit {
 
   sendPlanes(){
     this.loading = true;
-    this.preparationService.sendPlanes();
+    this.preparationService.sendPlanes(this.planes).subscribe(
+      ()=>{
+        
+      }
+    );
   }
 
   getUnplacedPlanesNumber() : number {    
