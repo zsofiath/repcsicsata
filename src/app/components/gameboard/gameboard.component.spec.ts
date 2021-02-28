@@ -17,10 +17,10 @@ import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
 import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 import PlanePart from 'src/app/model/PlanePart';
 import { PreparationService } from 'src/app/services/preparation.service';
-import { ClearPlanesComponent } from '../clear-planes/clear-planes.component';
+import { ClearPlanesComponent } from '../preparation/clear-planes/clear-planes.component';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
-import { PlaneRotationButtonsComponent } from '../plane-rotation-buttons/plane-rotation-buttons.component';
-import { SavePlacedPlanesComponent } from '../save-placed-planes/save-placed-planes.component';
+import { PlaneRotationButtonsComponent } from '../preparation/plane-rotation-buttons/plane-rotation-buttons.component';
+import { SavePlacedPlanesComponent } from '../preparation/save-placed-planes/save-placed-planes.component';
 
 import { GameboardComponent } from './gameboard.component';
 
