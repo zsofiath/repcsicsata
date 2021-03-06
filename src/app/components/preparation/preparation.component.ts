@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import Plane from 'src/app/model/Plane';
 
 @Component({
   selector: 'app-preparation',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreparationComponent implements OnInit {
 
-  constructor() { }
+  planes: Plane[];
+
+  constructor() {
+    this.planes = [];
+   }
 
   ngOnInit() {
   }

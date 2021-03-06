@@ -42,4 +42,13 @@ describe('PreparationComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('app-gameboard')).not.toBe(null);
   }));
+
+  it('should use SavePlacedPlanes button', () => {
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+
+    expect(compiled.querySelector('app-save-placed-planes')).not.toBeNull();
+  });
+
+  
 });

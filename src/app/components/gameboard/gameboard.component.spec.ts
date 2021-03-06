@@ -23,25 +23,7 @@ import { PlaneRotationButtonsComponent } from '../preparation/plane-rotation-but
 import { SavePlacedPlanesComponent } from '../preparation/save-placed-planes/save-placed-planes.component';
 
 import { GameboardComponent } from './gameboard.component';
-
-class FakePlane extends Plane {
-  
-  constructor() {
-    super(new FakePlaneDrawer(), {x:0, y:0});
-    this.numberOfWholePlane = 1;   
-  }
-
-  deepCopy(){
-    let position = new Coordinate();
-    position.x = this.position.x;
-    position.y = this.position.y;
-    let newobj = new FakePlane();
-    newobj.position = position;
-    newobj.drawer = this.drawer;
-
-    return newobj;
-}
-}
+import FakePlane from 'src/testMocks/MockPlane';
 
 describe('GameboardComponent', () => {
   let component: GameboardComponent;
@@ -63,15 +45,10 @@ describe('GameboardComponent', () => {
     .compileComponents().then(()=>{
       fixture = TestBed.createComponent(GameboardComponent);
       component = fixture.componentInstance;
+      component.planes = [];
       el = fixture.debugElement;
     });
   }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(GameboardComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
 
   it('should create', () => {
     expect(component).toBeTruthy();
@@ -151,34 +128,11 @@ describe('GameboardComponent', () => {
     expect(component.cells[5][3].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
-  it('should place only 4 planes', () => {
-    component.currentPlane = new FakePlane();
-
-    component.currentPlane.position =  {x:3, y:1};
-    component.placePlane();
-    component.currentPlane.position =  {x:3, y:5};
-    component.placePlane();
-    component.currentPlane.position =  {x:5, y:4};
-    component.placePlane();
-    component.currentPlane.position =  {x:8, y:7};
-    component.placePlane();
-    
-    
-    expect(component.allPlanePlaced).toBeTruthy();
-  });
-
   it('should use board cell', fakeAsync(() => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('app-gameboard-cell')).not.toBe(null);
   }));
-
-  it('should use SavePlacedPlanes button', () => {
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-
-    expect(compiled.querySelector('app-save-placed-planes')).not.toBeNull();
-  });
 
   it('should pass the placed planes to the SavePlacedPlanes - nem tudom hogy teszteljem', () => {
 
@@ -501,6 +455,7 @@ describe('GameboardComponent', () => {
     }
     
     component.cells = cells;
+
     let plane = new FakePlane();
     spyOn(plane,'getCoordinates').and.callFake(() => {
       throw new OutOfBoardError([{x:1, y:0}]);

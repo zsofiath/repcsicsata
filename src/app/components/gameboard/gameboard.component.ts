@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 import OutOfBoardError from 'src/app/exceptions/OutOfBoardError';
@@ -19,13 +19,13 @@ const MAX_PLANES_NUM = 4;
 })
 export class GameboardComponent implements OnInit {
 
-  planes: Plane[];
+  @Input() planes: Plane[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
   currentPlane: Plane;
 
   constructor() {
-    this.planes = [];
+    
     this.currentPlane = new Plane(new PlaneDrawerUp(), {x:3, y:2});
     let board = new GameBoard();
     this.cells = board.get();
