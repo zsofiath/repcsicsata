@@ -1,11 +1,12 @@
 import { BoardCellStateEnum } from "../constants/BoardCellStatesEnum";
+import IGameBoardElementPart from "./IGameBoardElementPart";
 import PlanePart from "./PlanePart";
 
 export default class BoardCell {
     state: BoardCellStateEnum;
     x: number;
     y: number;
-    planePart: PlanePart;
+    planePart: IGameBoardElementPart;
 
     isError = false;
 

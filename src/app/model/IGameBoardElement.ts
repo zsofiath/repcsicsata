@@ -1,3 +1,4 @@
+import IGameBoardElementPart from "./IGameBoardElementPart";
 import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 import PlanePart from "./PlanePart";
 
@@ -6,6 +7,6 @@ export default interface IGameBoardElement {
     drawer: IPlaneDrawer;
     numberOfWholePlane;
     isOverlappingOtherPlane(planes: IGameBoardElement[]): IGameBoardElement;
-    getCoordinates(): PlanePart[];
+    getCoordinates(): IGameBoardElementPart[];
     deepCopy()
 }
