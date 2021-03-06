@@ -22,11 +22,10 @@ export class GameboardComponent implements OnInit {
   @Input() planes: Plane[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
-  currentPlane: Plane;
+  @Input() currentPlane: Plane;
 
   constructor() {
     
-    this.currentPlane = new Plane(new PlaneDrawerUp(), {x:3, y:2});
     let board = new GameBoard();
     this.cells = board.get();
   } 
@@ -50,10 +49,6 @@ export class GameboardComponent implements OnInit {
       this.cells[coord.y][coord.x].state = BoardCellStateEnum.RESERVED;
       this.cells[coord.y][coord.x].planePart = coord;
     });  
-  }
-
-  rotation(direction: DirectionEnum){
-    this.rotatePlane(direction);
   }
 
   onHover(coord: Coordinate){
@@ -103,9 +98,6 @@ export class GameboardComponent implements OnInit {
     });
   }
 
-  rotatePlane(direction: DirectionEnum){
-    let factory = new PlaneDrawerFactory(direction);
-    this.currentPlane = new Plane(factory.get(), {x:1, y:1});
-  }
+
 
 }

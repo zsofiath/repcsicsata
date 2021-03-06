@@ -143,12 +143,6 @@ describe('GameboardComponent', () => {
     
   });
 
-  it('should use rotation button component', fakeAsync(() => {
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('app-plane-rotation-buttons')).not.toBe(null);
-  }));
-
   it('should use clear planes component', fakeAsync(() => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;

@@ -50,5 +50,11 @@ describe('PreparationComponent', () => {
     expect(compiled.querySelector('app-save-placed-planes')).not.toBeNull();
   });
 
+  it('should use rotation button component', fakeAsync(() => {
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-plane-rotation-buttons')).not.toBe(null);
+  }));
+
   
 });

@@ -1,3 +1,5 @@
-<app-gameboard [planes]="planes"></app-gameboard>
+<app-plane-rotation-buttons (clickEvent)="rotation($event)"></app-plane-rotation-buttons>
+
+<app-gameboard [planes]="planes"  [currentPlane]="currentPlane"></app-gameboard>
 
 <app-save-placed-planes [planes]="planes"></app-save-placed-planes>
