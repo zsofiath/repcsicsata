@@ -1,13 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
-import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 import OutOfBoardError from 'src/app/exceptions/OutOfBoardError';
 import GameBoard from 'src/app/model/Board';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
+import IGameBoardElement from 'src/app/model/IGameBoardElement';
 import Plane from 'src/app/model/Plane';
-import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
-import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 
 const MAX_PLANES_NUM = 4;
 
@@ -19,10 +17,10 @@ const MAX_PLANES_NUM = 4;
 })
 export class GameboardComponent implements OnInit {
 
-  @Input() planes: Plane[];
+  @Input() planes: IGameBoardElement[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
-  @Input() currentPlane: Plane;
+  @Input() currentPlane: IGameBoardElement;
 
   constructor() {
     
@@ -55,7 +53,7 @@ export class GameboardComponent implements OnInit {
     this.drawPlaneOnCells(this.currentPlane, coord);
   }
 
-  drawPlaneOnCells(plane: Plane, coord: Coordinate) {
+  drawPlaneOnCells(plane: IGameBoardElement, coord: Coordinate) {
     plane.position = coord;
     this.resetHighlightedCells();
     
@@ -75,14 +73,14 @@ export class GameboardComponent implements OnInit {
     
   }
 
-  private setErrorCells(plane: Plane){
+  private setErrorCells(plane: IGameBoardElement){
     plane.getCoordinates().forEach(c => {            
       this.cells[c.y][c.x].setErrored();
       if(this.cells[c.y][c.x].state != BoardCellStateEnum.RESERVED) this.cells[c.y][c.x].planePart = c;
     });
   }
 
-  private setHighlightedCells(plane: Plane){    
+  private setHighlightedCells(plane: IGameBoardElement){    
     plane.getCoordinates().forEach(c => {            
       this.cells[c.y][c.x].setHighlighted();
       this.cells[c.y][c.x].planePart = c;

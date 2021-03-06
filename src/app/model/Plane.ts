@@ -1,10 +1,11 @@
 import OutOfBoardError from "../exceptions/OutOfBoardError";
 import Coordinate from "./Coordinate";
+import IGameBoardElement from "./IGameBoardElement";
 import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 import PlaneDrawerFactory from "./planeDrawer/PlaneDrawerFactory";
 import PlanePart from "./PlanePart";
 
-export default class Plane {
+export default class Plane implements IGameBoardElement {
     private _drawer: IPlaneDrawer;
     private _position: Coordinate;
 
@@ -52,7 +53,7 @@ export default class Plane {
         return new Plane(this.drawer, position);
     }
 
-    isOverlappingOtherPlane(planes: Plane[]): Plane{
+    isOverlappingOtherPlane(planes: IGameBoardElement[]): IGameBoardElement{
         let i=0;
         while(i < planes.length && this.isNotOverlappingIthPlane(planes[i])){      
           i++;
@@ -61,10 +62,10 @@ export default class Plane {
         return i < planes.length ? planes[i] : null;
       }
     
-      private isNotOverlappingIthPlane(otherPlane: Plane){
+      private isNotOverlappingIthPlane(otherPlane: IGameBoardElement){
           
         let current = this.getCoordinates();
-        let other = otherPlane.getCoordinates();
+        let other = (otherPlane as Plane).getCoordinates();
 
         
 
