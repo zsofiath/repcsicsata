@@ -8,6 +8,7 @@ import { PlaneRotationButtonsComponent } from './components/preparation/plane-ro
 import { ClearPlanesComponent } from './components/preparation/clear-planes/clear-planes.component';
 import { SavePlacedPlanesComponent } from './components/preparation/save-placed-planes/save-placed-planes.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { PreparationComponent } from './components/preparation/preparation.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     GameboardCellComponent,
     PlaneRotationButtonsComponent,
     ClearPlanesComponent,
-    SavePlacedPlanesComponent
+    SavePlacedPlanesComponent,
+    PreparationComponent
   ],
   imports: [
     BrowserModule,
