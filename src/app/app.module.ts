@@ -9,6 +9,7 @@ import { ClearPlanesComponent } from './components/preparation/clear-planes/clea
 import { SavePlacedPlanesComponent } from './components/preparation/save-placed-planes/save-placed-planes.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { PreparationComponent } from './components/preparation/preparation.component';
+import { BattleComponent } from './components/battle/battle.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { PreparationComponent } from './components/preparation/preparation.compo
     PlaneRotationButtonsComponent,
     ClearPlanesComponent,
     SavePlacedPlanesComponent,
-    PreparationComponent
+    PreparationComponent,
+    BattleComponent
   ],
   imports: [
     BrowserModule,
