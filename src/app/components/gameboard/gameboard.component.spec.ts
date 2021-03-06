@@ -45,7 +45,7 @@ describe('GameboardComponent', () => {
     .compileComponents().then(()=>{
       fixture = TestBed.createComponent(GameboardComponent);
       component = fixture.componentInstance;
-      component.planes = [];
+      component.elements = [];
       el = fixture.debugElement;
     });
   }));
@@ -91,13 +91,13 @@ describe('GameboardComponent', () => {
 
     let fakeDrawer = new FakePlaneDrawer();
     spyOn(fakeDrawer, 'drawHead').and.returnValue([{x:0, y:0, direction: DirectionEnum.LEFT, part:null},{x:0, y:1, direction: null, part:null}]);
-    component.currentPlane = new FakePlane();
-    component.currentPlane.drawer = fakeDrawer;
-    component.currentPlane.numberOfWholePlane = 2;
+    component.activeElement = new FakePlane();
+    component.activeElement.drawer = fakeDrawer;
+    component.activeElement.numberOfWholePlane = 2;
     component.placePlane();
 
-    expect(component.planes[0].position.x).toEqual(0);
-    expect(component.planes[0].position.y).toEqual(0);
+    expect(component.elements[0].position.x).toEqual(0);
+    expect(component.elements[0].position.y).toEqual(0);
     expect(component.cells[0][0].state).toBe(BoardCellStateEnum.RESERVED);
     expect(component.cells[0][0].planePart.direction).toBe(DirectionEnum.LEFT);
     expect(component.cells[1][0].state).toBe(BoardCellStateEnum.RESERVED);
@@ -106,8 +106,8 @@ describe('GameboardComponent', () => {
  
 
   it('should not place plane on the top op an other plane', () => {
-    component.currentPlane = new FakePlane();
-    component.currentPlane.position = {x:3, y:2};
+    component.activeElement = new FakePlane();
+    component.activeElement.position = {x:3, y:2};
     component.placePlane();
     
     
@@ -117,14 +117,14 @@ describe('GameboardComponent', () => {
   });
 
   it('should place 2 planes', () => {
-    component.currentPlane = new FakePlane();
-    component.currentPlane.position = {x:3, y:2};
+    component.activeElement = new FakePlane();
+    component.activeElement.position = {x:3, y:2};
     component.placePlane();
-    component.currentPlane.position = {x:3, y:5};
+    component.activeElement.position = {x:3, y:5};
     component.placePlane();
     
-    expect(component.planes[1].position.x).toEqual(3);
-    expect(component.planes[1].position.y).toEqual(5);
+    expect(component.elements[1].position.x).toEqual(3);
+    expect(component.elements[1].position.y).toEqual(5);
     expect(component.cells[5][3].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
@@ -309,7 +309,7 @@ describe('GameboardComponent', () => {
     let plane = new FakePlane();
     plane.drawer = fakeDrawer1;
     plane.numberOfWholePlane = 2;
-    component.currentPlane = plane;
+    component.activeElement = plane;
     component.drawPlaneOnCells(plane, {x:1, y:0});
     
     component.placePlane();
@@ -351,7 +351,7 @@ describe('GameboardComponent', () => {
     spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0, direction: null, part:null},{x:1, y:1, direction: null, part:null}]);
     let plane = new FakePlane();
     plane.drawer = fakeDrawer1;
-    component.currentPlane = plane;
+    component.activeElement = plane;
     component.drawPlaneOnCells(plane, {x:1, y:0});
     
     component.placePlane();
@@ -400,7 +400,7 @@ describe('GameboardComponent', () => {
     ]);
     let plane = new FakePlane();
     plane.drawer = fakeDrawer1;
-    component.currentPlane = plane;
+    component.activeElement = plane;
     component.drawPlaneOnCells(plane, {x:1, y:0});
     
     component.placePlane();

@@ -17,10 +17,10 @@ const MAX_PLANES_NUM = 4;
 })
 export class GameboardComponent implements OnInit {
 
-  @Input() planes: IGameBoardElement[];
+  @Input() elements: IGameBoardElement[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
-  @Input() currentPlane: IGameBoardElement;
+  @Input() activeElement: IGameBoardElement;
 
   constructor() {
     
@@ -32,16 +32,16 @@ export class GameboardComponent implements OnInit {
   }
 
   placePlane(){
-    if(this.currentPlane.isOverlappingOtherPlane(this.planes)) throw new Error('Bad position');
+    if(this.activeElement.isOverlappingOtherPlane(this.elements)) throw new Error('Bad position');
     
-    let plane = this.currentPlane.deepCopy();
+    let plane = this.activeElement.deepCopy();
     this.putPlaneToRowAndSetCells(plane);
 
-    if(this.planes.length == 4) this.allPlanePlaced = true;  
+    if(this.elements.length == 4) this.allPlanePlaced = true;  
   }
 
   private putPlaneToRowAndSetCells(plane: Plane){
-    this.planes.push(plane);
+    this.elements.push(plane);
     
     plane.getCoordinates().forEach(coord => {   
       this.cells[coord.y][coord.x].state = BoardCellStateEnum.RESERVED;
@@ -50,7 +50,7 @@ export class GameboardComponent implements OnInit {
   }
 
   onHover(coord: Coordinate){
-    this.drawPlaneOnCells(this.currentPlane, coord);
+    this.drawPlaneOnCells(this.activeElement, coord);
   }
 
   drawPlaneOnCells(plane: IGameBoardElement, coord: Coordinate) {
@@ -58,7 +58,7 @@ export class GameboardComponent implements OnInit {
     this.resetHighlightedCells();
     
     try {
-      if(plane.isOverlappingOtherPlane(this.planes)) this.setErrorCells(plane);
+      if(plane.isOverlappingOtherPlane(this.elements)) this.setErrorCells(plane);
       else {
         this.setHighlightedCells(plane);
       }
@@ -69,8 +69,6 @@ export class GameboardComponent implements OnInit {
         this.cells[c.y][c.x].setErrored();
       });
     }
-
-    
   }
 
   private setErrorCells(plane: IGameBoardElement){
