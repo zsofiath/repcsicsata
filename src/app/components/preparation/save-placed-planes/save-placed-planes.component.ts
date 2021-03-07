@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import Plane from 'src/app/model/Plane';
 import { PreparationService } from 'src/app/services/preparation.service';
 
@@ -8,7 +9,8 @@ import { PreparationService } from 'src/app/services/preparation.service';
   styleUrls: ['./save-placed-planes.component.css']
 })
 export class SavePlacedPlanesComponent implements OnInit {
-  @Input() planes: Plane[];
+  @Input() $planes: BehaviorSubject<Plane[]>;
+  planes: Plane[];
 
   loading = false;
   
@@ -16,6 +18,10 @@ export class SavePlacedPlanesComponent implements OnInit {
   constructor(public preparationService: PreparationService) { }
 
   ngOnInit() {
+
+    this.$planes.subscribe(
+      planes => {this.planes = planes}
+    );
   }
 
   sendPlanes(){

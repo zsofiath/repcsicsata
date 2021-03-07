@@ -1,6 +1,6 @@
 <app-plane-rotation-buttons (clickEvent)="rotation($event)"></app-plane-rotation-buttons>
 
-<app-gameboard [elements]="planes"  [activeElement]="currentPlane"></app-gameboard>
+<app-gameboard [$elements]="$planes"  [activeElement]="currentPlane"></app-gameboard>
 
-<app-clear-planes [planes]="planes"></app-clear-planes>
-<app-save-placed-planes [planes]="planes"></app-save-placed-planes>
+<app-clear-planes [$planes]="$planes"></app-clear-planes>
+<app-save-placed-planes [$planes]="$planes"></app-save-placed-planes>

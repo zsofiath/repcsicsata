@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 import Plane from 'src/app/model/Plane';
 import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
@@ -11,12 +12,12 @@ import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 })
 export class PreparationComponent implements OnInit {
 
-  planes: Plane[];
+  $planes: BehaviorSubject<Plane[]>;
   currentPlane: Plane;
 
 
   constructor() {
-    this.planes = [];
+    this.$planes = new BehaviorSubject([]);
     this.currentPlane = new Plane(new PlaneDrawerUp(), {x:3, y:2});
    }
 

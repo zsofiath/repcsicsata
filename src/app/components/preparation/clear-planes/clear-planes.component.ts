@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Plane from 'src/app/model/Plane';
@@ -10,26 +11,14 @@ import Plane from 'src/app/model/Plane';
 })
 export class ClearPlanesComponent implements OnInit {
 
-  @Input() planes: Plane[];
-  @Input() cells: BoardCell[][];
+  @Input() $planes: BehaviorSubject<Plane[]>;
   constructor() { }
 
   ngOnInit() {
   }
 
   clearPlanes(){
-    
-    let numberOfPlanes = this.planes.length;
-    for (let i = 0; i < numberOfPlanes; i++) {
-      this.planes.pop(); 
-    }
-
-    this.cells.forEach(row => {
-      row.forEach(cell=>{
-        cell.state = BoardCellStateEnum.FREE;
-        cell.planePart = null;
-      })
-    });
+    this.$planes.next([]);
   }
 
 }

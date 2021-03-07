@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import OutOfBoardError from 'src/app/exceptions/OutOfBoardError';
 import GameBoard from 'src/app/model/Board';
@@ -17,7 +18,8 @@ const MAX_PLANES_NUM = 4;
 })
 export class GameboardComponent implements OnInit {
 
-  @Input() elements: IGameBoardElement[];
+  @Input() $elements: BehaviorSubject<IGameBoardElement[]>;
+  elements: IGameBoardElement[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
   @Input() activeElement: IGameBoardElement;
@@ -29,6 +31,21 @@ export class GameboardComponent implements OnInit {
   } 
 
   ngOnInit() {
+    this.$elements.subscribe(e => {     
+      this.elements = e;
+      if(e.length == 0) {
+        this.resetCells();
+      }
+    })
+  }
+
+  private resetCells() {
+    this.cells.forEach(row => {
+      row.forEach(cell => { 
+        cell.state = BoardCellStateEnum.FREE;
+        cell.planePart = null;
+       });
+    });
   }
 
   placePlane(){

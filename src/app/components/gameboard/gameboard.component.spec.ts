@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { by, element } from 'protractor';
-import { throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { DirectionEnum } from 'src/app/constants/DirectionEnum';
 import OutOfBoardError from 'src/app/exceptions/OutOfBoardError';
@@ -46,6 +46,7 @@ describe('GameboardComponent', () => {
       fixture = TestBed.createComponent(GameboardComponent);
       component = fixture.componentInstance;
       component.elements = [];
+      component.$elements = new BehaviorSubject([]);
       el = fixture.debugElement;
     });
   }));
@@ -67,6 +68,15 @@ describe('GameboardComponent', () => {
     expect(component.cells.length).toBe(10);
     expect(component.cells[0].length).toBe(10);
   });
+
+  it('should update planes when $elements change', fakeAsync(() => {
+    component.$elements.next([new Plane(null, null)]);
+    fixture.detectChanges();
+
+    flush();
+
+    expect(component.elements.length).toEqual(1);
+  }));
 
   it('should place plane', () => {
     let cells = [];
@@ -252,7 +262,7 @@ describe('GameboardComponent', () => {
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
   });
 
-  it('it should not ovewrite the reserved cell when hover happens', () => {
+  it('it should not overwrite the reserved cell when hover happens', () => {
     let cells = [];
     for (let i = 0; i < 2; i++) {
       let c1 = new BoardCell();
@@ -456,4 +466,39 @@ describe('GameboardComponent', () => {
     expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.FREE);
   });
+
+  it('should reset cells, when plane array turns empty', fakeAsync(() => {
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.RESERVED;
+      c1.x = 0;
+      c1.y = i;
+      c1.planePart = new PlanePart();      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    component.cells = cells;
+    component.$elements = new BehaviorSubject([new Plane(null, null)]);
+
+    component.$elements.next([]);
+    
+    fixture.detectChanges();
+    flush();
+
+    component.cells.forEach(c=> {
+      expect(c[0].state).toEqual(BoardCellStateEnum.FREE);
+      expect(c[0].planePart).toBeFalsy();
+      expect(c[1].state).toEqual(BoardCellStateEnum.FREE);
+      expect(c[1].planePart).toBeFalsy();
+    })
+
+  }));
 });

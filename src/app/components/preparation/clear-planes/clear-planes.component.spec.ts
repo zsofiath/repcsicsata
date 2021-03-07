@@ -1,5 +1,6 @@
 import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Plane from 'src/app/model/Plane';
@@ -32,46 +33,23 @@ describe('ClearPlanesComponent', () => {
     expect(fixture.debugElement.queryAll(By.css('.clear-all')).length).toBe(1);
   });
 
-  it('should delete planes, but not changing reference', fakeAsync(() => {
-    let arr = [new Plane(null, null), new Plane(null, null), new Plane(null, null)];
-    component.planes = arr;
-    component.cells = [[]];
+
+  it('should delete all planes', fakeAsync(() => {
+    component.$planes = new BehaviorSubject([new Plane(null, null)]);
 
     let el = fixture.debugElement.queryAll(By.css('.clear-all'))[0];
 
     el.triggerEventHandler('click', null);
 
-    flush();
-
-    expect(arr.length).toEqual(0);
-    expect(Object.is(arr, component.planes)).toBeTruthy();
-  }));
-
-  it('should set all cells free', fakeAsync(() => {
-    component.cells = [[new BoardCell(0,0)]];
-    component.planes = [];
-
-    let el = fixture.debugElement.queryAll(By.css('.clear-all'))[0];
-
-    el.triggerEventHandler('click', null);
+    component.$planes.subscribe(
+      planes => {
+        expect(planes).toEqual([]);
+      }
+    );
 
     flush();
     
-    expect(component.cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
-  }));
 
-  it('should remove every planePart', fakeAsync(() => {
-    component.cells = [[new BoardCell(0,0)]];
-    component.cells[0][0].planePart = new PlanePart();
-    component.planes = [];
-
-    let el = fixture.debugElement.queryAll(By.css('.clear-all'))[0];
-
-    el.triggerEventHandler('click', null);
-
-    flush();
-    
-    expect(component.cells[0][0].planePart).toBeFalsy();
   }));
 
 });
