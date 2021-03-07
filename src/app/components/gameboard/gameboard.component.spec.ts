@@ -143,12 +143,6 @@ describe('GameboardComponent', () => {
     
   });
 
-  it('should use clear planes component', fakeAsync(() => {
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('app-clear-planes')).not.toBe(null);
-  }));
-
   it('should show plane by cells on hover', () => {
     let cells = [];
     for (let i = 0; i < 2; i++) {

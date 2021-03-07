@@ -43,6 +43,12 @@ describe('PreparationComponent', () => {
     expect(compiled.querySelector('app-gameboard')).not.toBe(null);
   }));
 
+  it('should use clearAll button', fakeAsync(() => {
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-clear-planes')).not.toBe(null);
+  }));
+
   it('should use SavePlacedPlanes button', () => {
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
