@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
+import { GameboardComponent } from '../gameboard/gameboard.component';
 
 import { BattleComponent } from './battle.component';
 
@@ -8,7 +10,7 @@ describe('BattleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BattleComponent ]
+      declarations: [ BattleComponent,  GameboardComponent, GameboardCellComponent]
     })
     .compileComponents();
   }));
@@ -23,7 +25,12 @@ describe('BattleComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // should use table
+  it('should use gameboard', () => {
+    fixture.detectChanges();
+    const compiled = fixture.debugElement.nativeElement;
+    expect(compiled.querySelector('app-gameboard')).not.toBeNull();
+  });
+
   // should show hit plane parts
   // should show dead planes
   // should show missed shots
