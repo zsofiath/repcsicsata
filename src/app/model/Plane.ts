@@ -3,7 +3,6 @@ import Coordinate from "./Coordinate";
 import ElementState from "./helper/ElementState";
 import IGameBoardElement from "./IGameBoardElement";
 import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
-import PlaneDrawerFactory from "./planeDrawer/PlaneDrawerFactory";
 import PlanePart from "./PlanePart";
 
 export default class Plane implements IGameBoardElement {

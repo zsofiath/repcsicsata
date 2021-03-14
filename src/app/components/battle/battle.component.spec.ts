@@ -1,4 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
+import { PlanePartsEnum } from 'src/app/constants/PlanePartsEnum';
+import BoardCell from 'src/app/model/BoardCell';
+import Coordinate from 'src/app/model/Coordinate';
+import FakePlaneDrawer from 'src/app/model/planeDrawer/FakePlaneDrawer';
+import FakePlane from 'src/testMocks/MockPlane';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 import { GameboardComponent } from '../gameboard/gameboard.component';
 
@@ -35,6 +41,37 @@ describe('BattleComponent', () => {
   it('should draw only one cell when moving the tartgetcross', () => {
     expect(component.targetCross.getCoordinates().length).toBe(1);
   });
+
+  it('should change board on hover', () => {
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    let plane = new FakePlane();
+    let fakeDrawer1 = new FakePlaneDrawer();
+    plane.drawer = fakeDrawer1;
+    let coordinate = new Coordinate()
+    coordinate.x=1;
+    coordinate.y=1;
+
+    component.onCellHover(plane, cells, coordinate)
+
+    expect(cells[1][1].planePart.part).toEqual(PlanePartsEnum.TARGET_CROSS);
+    expect(cells[1][1].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
+  });
+
 
   // should show hit plane parts
   // should show dead planes

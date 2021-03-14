@@ -501,4 +501,38 @@ describe('GameboardComponent', () => {
     })
 
   }));
+
+  it('should run hover method on hover', () => {
+
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    component.cells = cells;
+    let plane = new FakePlane();
+    let fakeDrawer1 = new FakePlaneDrawer();
+    plane.drawer = fakeDrawer1;
+    component.activeElement = plane;
+    let test = false;
+
+   component.onCellHover = (activeElement, cells, coordinate) => {
+    test = true;
+  };
+
+    component.onHover({x:1, y:1});
+
+    expect(test).toBeTruthy();
+  });
 });

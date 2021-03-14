@@ -19,6 +19,7 @@ const MAX_PLANES_NUM = 4;
 export class GameboardComponent implements OnInit {
 
   @Input() $elements: BehaviorSubject<IGameBoardElement[]>;
+  @Input() onCellHover: (activeElement: IGameBoardElement, cells: BoardCell[][], coordinate: Coordinate) => void
   elements: IGameBoardElement[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
@@ -67,7 +68,8 @@ export class GameboardComponent implements OnInit {
   }
 
   onHover(coord: Coordinate){
-    this.drawPlaneOnCells(this.activeElement, coord);
+    if(this.onCellHover) this.onCellHover(this.activeElement, this.cells, coord);
+    else this.drawPlaneOnCells(this.activeElement, coord);
   }
 
   drawPlaneOnCells(plane: IGameBoardElement, coord: Coordinate) {
