@@ -22,4 +22,15 @@ describe('BattleComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // should use table
+  // should show hit plane parts
+  // should show dead planes
+  // should show missed shots
+  // should show one cell on hover
+  // should show not found planes number
+  // should show damaged planes number
+  // should show dead planes number
+  // should show confirmation window before commiting a shoot
+  // show victory when all planes are shot
 });
