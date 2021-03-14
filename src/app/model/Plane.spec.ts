@@ -5,6 +5,7 @@ import Coordinate from "./Coordinate";
 import Plane from "./Plane";
 import PlaneDrawerDown from "./planeDrawer/PlaneDrawerDown";
 import PlaneDrawerLeft from "./planeDrawer/PlaneDrawerLeft";
+import PlaneDrawerPart from "./planeDrawer/PlaneDrawerPart";
 import PlaneDrawerRight from "./planeDrawer/PlaneDrawerRight";
 import PlaneDrawerUp from "./planeDrawer/PlaneDrawerUp";
 
@@ -484,6 +485,29 @@ describe('Plane', () => {
                     [' ',' ',' ',' ','x'],
                     [' ',' ',' ',' ','x'],
                     [' ',' ',' ','x','x'],
+                ]));
+            }
+        });
+
+        it('should return only a part', () => {
+        
+            let centerPosition = new Coordinate();
+            centerPosition.x = 4;
+            centerPosition.y = 4;
+    
+            let drawer = new Plane(new PlaneDrawerPart(5), centerPosition);
+             
+            try {
+                let planeCoordinates = drawer.getCoordinates();
+                fail('Not throwing error.');
+            } catch (error) {
+                expect(error instanceof OutOfBoardError).toBeTruthy();
+                expect(coordinatesToArray(error.coordinates)).toEqual(JSON.stringify([
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ',' '],
+                    [' ',' ',' ',' ','x'],
                 ]));
             }
         });
