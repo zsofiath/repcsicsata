@@ -104,7 +104,7 @@ describe('GameboardComponent', () => {
     component.activeElement = new FakePlane();
     component.activeElement.drawer = fakeDrawer;
     component.activeElement.numberOfWholePlane = 2;
-    component.placePlane();
+    component.onClick();
 
     expect(component.elements[0].position.x).toEqual(0);
     expect(component.elements[0].position.y).toEqual(0);
@@ -118,20 +118,20 @@ describe('GameboardComponent', () => {
   it('should not place plane on the top op an other plane', () => {
     component.activeElement = new FakePlane();
     component.activeElement.position = {x:3, y:2};
-    component.placePlane();
+    component.onClick();
     
     
     expect(function(){
-      component.placePlane();
+      component.onClick();
     }).toThrow(new Error('Bad position'));
   });
 
   it('should place 2 planes', () => {
     component.activeElement = new FakePlane();
     component.activeElement.position = {x:3, y:2};
-    component.placePlane();
+    component.onClick();
     component.activeElement.position = {x:3, y:5};
-    component.placePlane();
+    component.onClick();
     
     expect(component.elements[1].position.x).toEqual(3);
     expect(component.elements[1].position.y).toEqual(5);
@@ -316,7 +316,7 @@ describe('GameboardComponent', () => {
     component.activeElement = plane;
     component.drawPlaneOnCells(plane, {x:1, y:0});
     
-    component.placePlane();
+    component.onClick();
 
     let fakeDrawer2 = new FakePlaneDrawer();
     spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0, direction: DirectionEnum.LEFT, part:null},{x:1, y:0, direction: null, part:null}]);
@@ -358,7 +358,7 @@ describe('GameboardComponent', () => {
     component.activeElement = plane;
     component.drawPlaneOnCells(plane, {x:1, y:0});
     
-    component.placePlane();
+    component.onClick();
 
     let fakeDrawer2 = new FakePlaneDrawer();
     spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0, direction: null, part:null},{x:1, y:0, direction: null, part:null}]);
@@ -407,7 +407,7 @@ describe('GameboardComponent', () => {
     component.activeElement = plane;
     component.drawPlaneOnCells(plane, {x:1, y:0});
     
-    component.placePlane();
+    component.onClick();
 
     let fakeDrawer2 = new FakePlaneDrawer();
     spyOn(fakeDrawer2, 'drawHead').and.returnValue([
@@ -532,6 +532,40 @@ describe('GameboardComponent', () => {
   };
 
     component.onHover({x:1, y:1});
+
+    expect(test).toBeTruthy();
+  });
+
+  it('should run click method on click', () => {
+
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    component.cells = cells;
+    let plane = new FakePlane();
+    let fakeDrawer1 = new FakePlaneDrawer();
+    plane.drawer = fakeDrawer1;
+    component.activeElement = plane;
+    let test = false;
+
+   component.onCellClick = (activeElement, cells) => {
+    test = true;
+  };
+
+    component.onClick();
 
     expect(test).toBeTruthy();
   });

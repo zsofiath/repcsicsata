@@ -20,6 +20,7 @@ export class GameboardComponent implements OnInit {
 
   @Input() $elements: BehaviorSubject<IGameBoardElement[]>;
   @Input() onCellHover: (activeElement: IGameBoardElement, cells: BoardCell[][], coordinate: Coordinate) => void
+  @Input() onCellClick: (activeElement: IGameBoardElement, cells: BoardCell[][]) => void
   elements: IGameBoardElement[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
@@ -49,13 +50,18 @@ export class GameboardComponent implements OnInit {
     });
   }
 
-  placePlane(){
-    if(this.activeElement.isOverlappingOtherPlane(this.elements)) throw new Error('Bad position');
+  onClick(){
+    if(this.onCellClick) {
+      this.onCellClick(this.activeElement, this.cells);
+    }
+    else {
+      if(this.activeElement.isOverlappingOtherPlane(this.elements)) throw new Error('Bad position');
     
-    let plane = this.activeElement.deepCopy();
-    this.putPlaneToRowAndSetCells(plane);
-
-    if(this.elements.length == 4) this.allPlanePlaced = true;  
+      let plane = this.activeElement.deepCopy();
+      this.putPlaneToRowAndSetCells(plane);
+  
+      if(this.elements.length == 4) this.allPlanePlaced = true;  
+    }
   }
 
   private putPlaneToRowAndSetCells(plane: Plane){
