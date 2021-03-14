@@ -31,11 +31,19 @@ export class BattleComponent implements OnInit {
 
   onCellHover(activeElement: IGameBoardElement, cells: BoardCell[][], coordinate: Coordinate) {
     // cellák null-ra állítása
-    
+    this.resetHighlightedCells(cells);
 
     cells[coordinate.y][coordinate.x].state = BoardCellStateEnum.HIGHLIGHTED;
     cells[coordinate.y][coordinate.x].planePart = new PlanePart();
     cells[coordinate.y][coordinate.x].planePart.part = PlanePartsEnum.TARGET_CROSS;
   }
 
+  private resetHighlightedCells(cells: BoardCell[][]){
+    cells.forEach(row => {
+      row.forEach(cell => {
+        cell.setFree();
+        if(cell.state != BoardCellStateEnum.RESERVED) cell.planePart = null;
+      });
+    });
+  }
 }
