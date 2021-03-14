@@ -31,10 +31,14 @@ describe('BattleComponent', () => {
     expect(compiled.querySelector('app-gameboard')).not.toBeNull();
   });
 
+  // should show one cell on hover
+  it('should draw only one cell when moving the tartgetcross', () => {
+    expect(component.targetCross.getCoordinates().length).toBe(1);
+  });
+
   // should show hit plane parts
   // should show dead planes
   // should show missed shots
-  // should show one cell on hover
   // should show not found planes number
   // should show damaged planes number
   // should show dead planes number

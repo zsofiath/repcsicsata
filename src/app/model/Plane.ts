@@ -1,5 +1,6 @@
 import OutOfBoardError from "../exceptions/OutOfBoardError";
 import Coordinate from "./Coordinate";
+import ElementState from "./helper/ElementState";
 import IGameBoardElement from "./IGameBoardElement";
 import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 import PlaneDrawerFactory from "./planeDrawer/PlaneDrawerFactory";
@@ -54,34 +55,13 @@ export default class Plane implements IGameBoardElement {
     }
 
     isOverlappingOtherPlane(planes: IGameBoardElement[]): IGameBoardElement{
+        let state = new ElementState(this);
         let i=0;
-        while(i < planes.length && this.isNotOverlappingIthPlane(planes[i])){      
+        while(i < planes.length && state.isNotOverlappingElement(planes[i])){      
           i++;
         }
     
         return i < planes.length ? planes[i] : null;
-      }
-    
-      private isNotOverlappingIthPlane(otherPlane: IGameBoardElement){
-          
-        let current = this.getCoordinates();
-        let other = (otherPlane as Plane).getCoordinates();
-
-        
-
-        let i = 0;
-        let found = false;
-        while(i < current.length && !found){
-            let j = 0;
-            while(j < other.length && !(current[i].x == other[j].x && current[i].y == other[j].y)){
-                j++;
-            }
-            if(j < other.length) found = true;
-            i++;
-        }
-
-        
-        return !found;
       }
 
 }
