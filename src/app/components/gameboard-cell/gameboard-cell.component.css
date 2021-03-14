@@ -1,6 +1,7 @@
 .cell {
     width: 30px;
     height: 30px;
+    border: 1px solid #ccc;
 }
 
 .cell-highlighted {
@@ -18,6 +19,10 @@
 
 .cell-reserved.cell-error {
     background-color:darkred;
+}
+
+.target-cross {
+    background-color: red;
 }
 
 .head {

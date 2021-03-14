@@ -160,6 +160,14 @@ describe('GameboardCellComponent', () => {
     }
   });
 
+  it('should set the part class - targetcross', () => {
+      component.properties.planePart.part = PlanePartsEnum.TARGET_CROSS;
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".cell"));
+
+      expect(element[0].nativeElement.classList.contains('target-cross')).toBeTruthy();
+  });
+
   it('should trigger an event on hover', fakeAsync(() => {
     component.properties = new BoardCell();
     component.properties.x=1;
