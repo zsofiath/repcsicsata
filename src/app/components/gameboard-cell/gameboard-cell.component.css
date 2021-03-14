@@ -25,6 +25,10 @@
     background-color: red;
 }
 
+.hit {
+    background-color: red;
+}
+
 .head {
     background-image: url('/assets/unnamed.jpg');
     background-position:  -60px 0;

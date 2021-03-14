@@ -13,6 +13,7 @@ export enum PlanePartsEnum {
     TAIL2 = "tail2",
     TAIL3 = "tail3",
 
-    TARGET_CROSS ='targetcross'
+    TARGET_CROSS ='targetcross',
+    HIT = 'hit'
 
 }

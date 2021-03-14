@@ -85,6 +85,11 @@ export class GameboardCellComponent implements OnInit {
     return this.properties.planePart ? this.properties.planePart.part == PlanePartsEnum.TARGET_CROSS : false;
   }
 
+  isHit(){
+    if(!this.properties) return false;
+    return this.properties.planePart ? this.properties.planePart.part == PlanePartsEnum.HIT : false;
+  }
+
   onHover(){
     let coordinate = new Coordinate();
     coordinate.x = this.properties.x;
