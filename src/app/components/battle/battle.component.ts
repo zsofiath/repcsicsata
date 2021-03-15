@@ -29,8 +29,7 @@ export class BattleComponent implements OnInit {
   ngOnInit() {
   }
 
-  onCellHover(activeElement: IGameBoardElement, cells: BoardCell[][], coordinate: Coordinate) {
-    // cellák null-ra állítása
+  onCellHover({activeElement, cells, coordinate}) {
     this.resetHighlightedCells(cells);
 
     cells[coordinate.y][coordinate.x].state = BoardCellStateEnum.HIGHLIGHTED;
@@ -38,7 +37,7 @@ export class BattleComponent implements OnInit {
     cells[coordinate.y][coordinate.x].planePart.part = PlanePartsEnum.TARGET_CROSS;
   }
 
-  private resetHighlightedCells(cells: BoardCell[][]){
+  private resetHighlightedCells(cells: BoardCell[][]) {
     cells.forEach(row => {
       row.forEach(cell => {
         cell.setFree();

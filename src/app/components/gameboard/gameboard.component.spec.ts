@@ -502,7 +502,7 @@ describe('GameboardComponent', () => {
 
   }));
 
-  it('should run hover method on hover', () => {
+  it('should run hover method on hover', fakeAsync(() => {
 
     let cells = [];
     for (let i = 0; i < 2; i++) {
@@ -525,18 +525,20 @@ describe('GameboardComponent', () => {
     let fakeDrawer1 = new FakePlaneDrawer();
     plane.drawer = fakeDrawer1;
     component.activeElement = plane;
-    let test = false;
 
-   component.onCellHover = (activeElement, cells, coordinate) => {
-    test = true;
-  };
+    component.onCellHover.subscribe((param)=>{
+      expect(param.activeElement).toEqual(plane);
+      expect(param.cells.length).toBe(2);
+      expect(param.cells[0].length).toBe(2);
+      expect(param.coordinate).toEqual({x:1, y: 1});
+    })
 
-    component.onHover({x:1, y:1});
+    component.onHover({x:1, y: 1});
 
-    expect(test).toBeTruthy();
-  });
+    flush();
+  }));
 
-  it('should run click method on click', () => {
+  it('should run click method on click', () => fakeAsync(() => {
 
     let cells = [];
     for (let i = 0; i < 2; i++) {
@@ -559,14 +561,16 @@ describe('GameboardComponent', () => {
     let fakeDrawer1 = new FakePlaneDrawer();
     plane.drawer = fakeDrawer1;
     component.activeElement = plane;
-    let test = false;
 
-   component.onCellClick = (activeElement, cells) => {
-    test = true;
-  };
+    component.onCellClick.subscribe((activeElement, cells)=>{
+      expect(activeElement).toEqual(plane);
+      expect(cells.length).toBe(2);
+      expect(cells[0].length).toBe(2);
+    })
 
     component.onClick();
 
-    expect(test).toBeTruthy();
-  });
+    flush();
+  })
+    );
 });

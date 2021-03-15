@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import OutOfBoardError from 'src/app/exceptions/OutOfBoardError';
@@ -19,8 +19,8 @@ const MAX_PLANES_NUM = 4;
 export class GameboardComponent implements OnInit {
 
   @Input() $elements: BehaviorSubject<IGameBoardElement[]>;
-  @Input() onCellHover: (activeElement: IGameBoardElement, cells: BoardCell[][], coordinate: Coordinate) => void
-  @Input() onCellClick: (activeElement: IGameBoardElement, cells: BoardCell[][]) => void
+  @Output() onCellHover = new EventEmitter(); //(activeElement: IGameBoardElement, cells: BoardCell[][], coordinate: Coordinate) => void
+  @Output() onCellClick = new EventEmitter(); //(activeElement: IGameBoardElement, cells: BoardCell[][]) => void
   elements: IGameBoardElement[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
@@ -51,17 +51,10 @@ export class GameboardComponent implements OnInit {
   }
 
   onClick(){
-    if(this.onCellClick) {
-      this.onCellClick(this.activeElement, this.cells);
-    }
-    else {
-      if(this.activeElement.isOverlappingOtherPlane(this.elements)) throw new Error('Bad position');
-    
-      let plane = this.activeElement.deepCopy();
-      this.putPlaneToRowAndSetCells(plane);
-  
-      if(this.elements.length == 4) this.allPlanePlaced = true;  
-    }
+    this.onCellClick.emit({activeElement: this.activeElement, cells: this.cells});
+    if(this.activeElement.isOverlappingOtherPlane(this.elements)) throw new Error('Bad position');
+    let plane = this.activeElement.deepCopy();
+    this.putPlaneToRowAndSetCells(plane);
   }
 
   private putPlaneToRowAndSetCells(plane: Plane){
@@ -74,8 +67,8 @@ export class GameboardComponent implements OnInit {
   }
 
   onHover(coord: Coordinate){
-    if(this.onCellHover) this.onCellHover(this.activeElement, this.cells, coord);
-    else this.drawPlaneOnCells(this.activeElement, coord);
+    this.onCellHover.emit({activeElement: this.activeElement, cells: this.cells, coordinate: coord});
+    this.drawPlaneOnCells(this.activeElement, coord);
   }
 
   drawPlaneOnCells(plane: IGameBoardElement, coord: Coordinate) {

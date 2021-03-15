@@ -67,7 +67,7 @@ describe('BattleComponent', () => {
     coordinate.x=1;
     coordinate.y=1;
 
-    component.onCellHover(plane, cells, coordinate)
+    component.onCellHover({activeElement: plane, cells: cells, coordinate: coordinate})
 
     expect(cells[1][1].planePart.part).toEqual(PlanePartsEnum.TARGET_CROSS);
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
@@ -99,7 +99,7 @@ describe('BattleComponent', () => {
     coordinate.x=1;
     coordinate.y=1;
 
-    component.onCellHover(plane, cells, coordinate)
+    component.onCellHover({activeElement: plane, cells: cells, coordinate: coordinate})
 
     expect(cells[0][1].planePart).toBeNull();
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
