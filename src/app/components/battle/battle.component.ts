@@ -32,14 +32,28 @@ export class BattleComponent implements OnInit {
 
   onCellHover({activeElement, cells, coordinate}) {
     this.resetHighlightedCells(cells);
+    this.setCellHighlighted(cells, coordinate);
+  }
 
+  onCellClick(activeElement: IGameBoardElement, cells: BoardCell[][]) {
+    let coordintae = activeElement.position;
+    this.openConfirmationWindow(cells, coordintae);
+  }
+
+  private setCellHighlighted(cells: any, coordinate: any) {
     cells[coordinate.y][coordinate.x].state = BoardCellStateEnum.HIGHLIGHTED;
     cells[coordinate.y][coordinate.x].planePart = new PlanePart();
     cells[coordinate.y][coordinate.x].planePart.part = PlanePartsEnum.TARGET_CROSS;
   }
 
-  onCellClick(activeElement: IGameBoardElement, cells: BoardCell[][]) {
-    this.confirmationWindowVisible = true;
+  private openConfirmationWindow(cells: BoardCell[][], coordintae: any) {
+    if (this.isReserved(cells, coordintae)) {
+      this.confirmationWindowVisible = true;
+    }
+  }
+
+  private isReserved(cells: BoardCell[][], coordintae: any) {
+    return cells[coordintae.y][coordintae.x].state != BoardCellStateEnum.RESERVED;
   }
 
   private resetHighlightedCells(cells: BoardCell[][]){

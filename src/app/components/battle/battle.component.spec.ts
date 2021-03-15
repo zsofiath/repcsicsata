@@ -89,6 +89,19 @@ describe('BattleComponent', () => {
     expect(component.confirmationWindowVisible).toBeTruthy();
   });
 
+  it('should not open confirmation window when clicking a not empty field', () => {
+    let cell = new BoardCell();
+    cell.state = BoardCellStateEnum.RESERVED;
+    cell.planePart = new PlanePart();
+    cell.planePart.part = PlanePartsEnum.HIT;
+    let cells = [[cell]];
+    let plane = new FakePlane();
+    let fakeDrawer1 = new FakePlaneDrawer();
+    component.onCellClick(plane, cells);
+
+    expect(component.confirmationWindowVisible).toBeFalsy();
+  });
+
   it('should pop up confirmation', () => {
     component.confirmationWindowVisible = true;
     fixture.detectChanges();
@@ -124,6 +137,5 @@ describe('BattleComponent', () => {
   // should show not found planes number
   // should show damaged planes number
   // should show dead planes number
-  // should show confirmation window before commiting a shoot
   // show victory when all planes are shot
 });
