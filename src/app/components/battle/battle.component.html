@@ -1,4 +1,11 @@
 <app-gameboard 
 [$elements]="hitPlanes" 
 [activeElement]="targetCross" 
-(onCellHover)="onCellHover($event)"></app-gameboard>
+(onCellHover)="onCellHover($event)"
+(onCellClick)="onCellClick($event)"
+></app-gameboard>
+
+<div *ngIf="confirmationWindowVisible" class="confirmation">
+    <button class="confirm-button">confirm_shooting</button>
+    <button class="confirm-cancel-button">confirm_cancel</button>
+</div>

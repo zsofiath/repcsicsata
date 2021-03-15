@@ -1,10 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { BehaviorSubject } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { PlanePartsEnum } from 'src/app/constants/PlanePartsEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
+import Plane from 'src/app/model/Plane';
 import FakePlaneDrawer from 'src/app/model/planeDrawer/FakePlaneDrawer';
+import PlaneDrawerLeft from 'src/app/model/planeDrawer/PlaneDrawerLeft';
+import PlaneDrawerPart from 'src/app/model/planeDrawer/PlaneDrawerPart';
+import TargetCrossDrawer from 'src/app/model/planeDrawer/TargetCrossDrawer';
 import PlanePart from 'src/app/model/PlanePart';
+import TargetCross from 'src/app/model/TargetCross';
 import FakePlane from 'src/testMocks/MockPlane';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 import { GameboardComponent } from '../gameboard/gameboard.component';
@@ -73,38 +80,41 @@ describe('BattleComponent', () => {
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
   });
 
-  it('should change board on hover', () => {
-    let cells = [];
-    for (let i = 0; i < 2; i++) {
-      let c1 = new BoardCell();
-      c1.planePart = new PlanePart();
-      c1.planePart.part = PlanePartsEnum.TARGET_CROSS;
-      c1.state = BoardCellStateEnum.HIGHLIGHTED;
-      c1.x = 0;
-      c1.y = i;      
-      let c2 = new BoardCell();
-      c2.state = BoardCellStateEnum.FREE;
-      c2.x = 1;
-      c2.y = i;  
-      cells.push([
-        c1,
-        c2,
-      ]);
-    }
-    
+  it('should open confirmation window when clicking empty field', () => {
+    let cells = [[new BoardCell()]];
     let plane = new FakePlane();
     let fakeDrawer1 = new FakePlaneDrawer();
-    plane.drawer = fakeDrawer1;
-    let coordinate = new Coordinate()
-    coordinate.x=1;
-    coordinate.y=1;
+    component.onCellClick(plane, cells);
 
-    component.onCellHover({activeElement: plane, cells: cells, coordinate: coordinate})
+    expect(component.confirmationWindowVisible).toBeTruthy();
+  });
 
-    expect(cells[0][1].planePart).toBeNull();
-    expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
-    expect(cells[0][1].planePart).toBeNull();
-    expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
+  it('should pop up confirmation', () => {
+    component.confirmationWindowVisible = true;
+    fixture.detectChanges();
+
+    const compiled = fixture.debugElement.nativeElement;
+    let el = fixture.debugElement;
+    let element = el.queryAll(By.css(".confirmation"));
+    expect(element[0]).toBeTruthy();
+    expect(element.length).toBe(1);
+
+    const confirmButton = element[0].queryAll(By.css('.confirm-button'));
+    const cancelButton = element[0].queryAll(By.css('.confirm-cancel-button'));
+    expect(confirmButton.length).toBe(1);
+    expect(confirmButton[0].nativeElement.innerText).toBe('confirm_shooting');
+    expect(cancelButton.length).toBe(1);
+    expect(cancelButton[0].nativeElement.innerText).toBe('confirm_cancel');
+  });
+
+  it('should hide confirmation', () => {
+    component.confirmationWindowVisible = false;
+    fixture.detectChanges();
+
+    const compiled = fixture.debugElement.nativeElement;
+    let el = fixture.debugElement;
+    let element = el.queryAll(By.css(".confirmation"));
+    expect(element.length).toBe(0);
   });
 
 

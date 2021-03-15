@@ -17,6 +17,7 @@ import TargetCross from 'src/app/model/TargetCross';
 export class BattleComponent implements OnInit {
   hitPlanes: BehaviorSubject<IGameBoardElement[]>;
   targetCross: IGameBoardElement;
+  confirmationWindowVisible = false;
   constructor() { 
     this.hitPlanes = new BehaviorSubject([]);
     let drawer = new TargetCrossDrawer();
@@ -37,7 +38,11 @@ export class BattleComponent implements OnInit {
     cells[coordinate.y][coordinate.x].planePart.part = PlanePartsEnum.TARGET_CROSS;
   }
 
-  private resetHighlightedCells(cells: BoardCell[][]) {
+  onCellClick(activeElement: IGameBoardElement, cells: BoardCell[][]) {
+    this.confirmationWindowVisible = true;
+  }
+
+  private resetHighlightedCells(cells: BoardCell[][]){
     cells.forEach(row => {
       row.forEach(cell => {
         cell.setFree();
