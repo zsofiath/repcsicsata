@@ -2,7 +2,6 @@ import Coordinate from "./Coordinate";
 import ElementState from "./helper/ElementState";
 import IGameBoardElement from "./IGameBoardElement";
 import IGameBoardElementPart from "./IGameBoardElementPart";
-import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 import TargetCrossDrawer from "./planeDrawer/TargetCrossDrawer";
 
 export default class TargetCross implements IGameBoardElement {
@@ -28,11 +27,7 @@ export default class TargetCross implements IGameBoardElement {
     }
 
     deepCopy() {
-        let position = new Coordinate();
-        position.x = this.position.x;
-        position.y = this.position.y;
-    
-        return new TargetCross(this.drawer, position);
+        throw new Error("Method not implemented.");
     }
 
     isOverlappingOtherPlane(planes: IGameBoardElement[]): IGameBoardElement{

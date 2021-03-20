@@ -52,23 +52,12 @@ export class GameboardComponent implements OnInit {
 
   onClick(){
     this.checkIfOverlapping();    
-    this.onCellClick.emit(this.cells);
-    let plane = this.activeElement.deepCopy();
-    this.putPlaneToRowAndSetCells(plane);
+    this.onCellClick.emit();
   }
 
-  private checkIfOverlapping() {
+  private checkIfOverlapping() { 
     if (this.activeElement.isOverlappingOtherPlane(this.elements))
       throw new Error('Bad position');
-  }
-
-  private putPlaneToRowAndSetCells(plane: Plane){
-    this.elements.push(plane);
-    
-    plane.getCoordinates().forEach(coord => {   
-      this.cells[coord.y][coord.x].state = BoardCellStateEnum.RESERVED;
-      this.cells[coord.y][coord.x].planePart = coord;
-    });  
   }
 
   onHover(coord: Coordinate){

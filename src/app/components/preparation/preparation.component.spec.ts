@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import FakePlane from 'src/testMocks/MockPlane';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 import { GameboardComponent } from '../gameboard/gameboard.component';
 import { ClearPlanesComponent } from './clear-planes/clear-planes.component';
@@ -62,5 +63,18 @@ describe('PreparationComponent', () => {
     expect(compiled.querySelector('app-plane-rotation-buttons')).not.toBe(null);
   }));
 
+  it('should place plane', fakeAsync(() => {
+    component.currentPlane = new FakePlane();
+    component.currentPlane.position = {x:0, y: 0};
+    component.onCellClick();
+
+    component.$planes.subscribe(planes => {
+      expect(planes.length).toEqual(1);
+      expect(planes[0].position.x).toEqual(0);
+      expect(planes[0].position.y).toEqual(0);
+    })
+
+    flush();
+  }));
   
 });

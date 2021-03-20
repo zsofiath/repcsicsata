@@ -13,10 +13,7 @@ import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 import Plane from 'src/app/model/Plane';
 import FakePlaneDrawer from 'src/app/model/planeDrawer/FakePlaneDrawer';
-import PlaneDrawerFactory from 'src/app/model/planeDrawer/PlaneDrawerFactory';
-import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 import PlanePart from 'src/app/model/PlanePart';
-import { PreparationService } from 'src/app/services/preparation.service';
 import { ClearPlanesComponent } from '../preparation/clear-planes/clear-planes.component';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 import { PlaneRotationButtonsComponent } from '../preparation/plane-rotation-buttons/plane-rotation-buttons.component';
@@ -78,64 +75,17 @@ describe('GameboardComponent', () => {
     expect(component.elements.length).toEqual(1);
   }));
 
-  it('should place plane', () => {
-    let cells = [];
-    for (let i = 0; i < 2; i++) {
-      let c1 = new BoardCell();
-      c1.state = BoardCellStateEnum.FREE;
-      c1.x = 0;
-      c1.y = i;
-      c1.planePart = new PlanePart();    
-      let c2 = new BoardCell();
-      c2.state = BoardCellStateEnum.FREE;
-      c2.x = 1;
-      c2.y = i;  
-      c2.planePart = new PlanePart();    
-      cells.push([
-        c1,
-        c2,
-      ]);
-    }
-
-    component.cells = cells;
-
-    let fakeDrawer = new FakePlaneDrawer();
-    spyOn(fakeDrawer, 'drawHead').and.returnValue([{x:0, y:0, direction: DirectionEnum.LEFT, part:null},{x:0, y:1, direction: null, part:null}]);
-    component.activeElement = new FakePlane();
-    component.activeElement.drawer = fakeDrawer;
-    component.activeElement.numberOfWholePlane = 2;
-    component.onClick();
-
-    expect(component.elements[0].position.x).toEqual(0);
-    expect(component.elements[0].position.y).toEqual(0);
-    expect(component.cells[0][0].state).toBe(BoardCellStateEnum.RESERVED);
-    expect(component.cells[0][0].planePart.direction).toBe(DirectionEnum.LEFT);
-    expect(component.cells[1][0].state).toBe(BoardCellStateEnum.RESERVED);
-  });
-
- 
-
   it('should not place plane on the top op an other plane', () => {
     component.activeElement = new FakePlane();
-    component.activeElement.position = {x:3, y:2};
-    component.onClick();
-    
+    component.activeElement.position = {x:0, y:0};
+
+    let placedPlane = new FakePlane();
+    placedPlane.position = {x:0, y:0};
+    component.elements = [placedPlane]
     
     expect(function(){
       component.onClick();
     }).toThrow(new Error('Bad position'));
-  });
-
-  it('should place 2 planes', () => {
-    component.activeElement = new FakePlane();
-    component.activeElement.position = {x:3, y:2};
-    component.onClick();
-    component.activeElement.position = {x:3, y:5};
-    component.onClick();
-    
-    expect(component.elements[1].position.x).toEqual(3);
-    expect(component.elements[1].position.y).toEqual(5);
-    expect(component.cells[5][3].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
   it('should use board cell', fakeAsync(() => {
@@ -296,7 +246,7 @@ describe('GameboardComponent', () => {
     let cells = [];
     for (let i = 0; i < 2; i++) {
       let c1 = new BoardCell();
-      c1.state = BoardCellStateEnum.FREE;
+      c1.state = BoardCellStateEnum.RESERVED;
       c1.x = 0;
       c1.y = i;
       c1.planePart = new PlanePart();      
@@ -305,144 +255,29 @@ describe('GameboardComponent', () => {
       c2.x = 1;
       c2.y = i;  
       c2.planePart = new PlanePart();      
-      cells.push([
-        c1,
-        c2,
-      ]);
+      cells.push([c1, c2]);
     }
-    
+
     component.cells = cells;
+    component.activeElement = new FakePlane();
+    let placedPlane = new FakePlane();
+    placedPlane.position = {x: 0, y: 0};
+    component.elements = [placedPlane];
 
-    let fakeDrawer1 = new FakePlaneDrawer();
-    spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0, direction: null, part:null},{x:1, y:1, direction: null, part:null}]);
-    let plane = new FakePlane();
-    plane.drawer = fakeDrawer1;
-    plane.numberOfWholePlane = 2;
-    component.activeElement = plane;
-    component.drawPlaneOnCells({x:1, y:0});
-    
-    component.onClick();
+    let p1 = new PlanePart();
+    p1.x = 0;
+    p1.y = 0;
+    let p2 = new PlanePart();
+    p2.x = 1;
+    p2.y = 0;
+    spyOn(component.activeElement, 'getCoordinates').and.returnValue([p1, p2])
+    component.drawPlaneOnCells({x: 0, y: 0});
 
-    let fakeDrawer2 = new FakePlaneDrawer();
-    spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0, direction: DirectionEnum.LEFT, part:null},{x:1, y:0, direction: null, part:null}]);
-    let plane2 = new FakePlane();
-    plane2.drawer = fakeDrawer2;
-    plane2.numberOfWholePlane = 2;
+    expect(cells[0][0].state).toEqual(BoardCellStateEnum.RESERVED);
+    expect(cells[0][1].state).toEqual(BoardCellStateEnum.ERROR);
+    expect(cells[1][0].state).toEqual(BoardCellStateEnum.RESERVED);
+    expect(cells[1][1].state).toEqual(BoardCellStateEnum.FREE);
 
-    component.activeElement = plane2;
-    component.drawPlaneOnCells({x:0, y:0});
-    expect(cells[0][0].state).toEqual(BoardCellStateEnum.ERROR);
-    expect(cells[0][0].planePart.direction).toEqual(DirectionEnum.LEFT);
-    expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
-    expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
-    expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
-  });
-
-  it('it should show error (keeping shape) when plane is drawen on an already placed plane', () => {
-    let cells = [];
-    for (let i = 0; i < 2; i++) {
-      let c1 = new BoardCell();
-      c1.state = BoardCellStateEnum.FREE;
-      c1.x = 0;
-      c1.y = i;      
-      let c2 = new BoardCell();
-      c2.state = BoardCellStateEnum.FREE;
-      c2.x = 1;
-      c2.y = i;  
-      cells.push([
-        c1,
-        c2,
-      ]);
-    }
-    
-    component.cells = cells;
-
-    let fakeDrawer1 = new FakePlaneDrawer();
-    spyOn(fakeDrawer1, 'drawHead').and.returnValue([{x:1, y:0, direction: null, part:null},{x:1, y:1, direction: null, part:null}]);
-    let plane = new FakePlane();
-    plane.drawer = fakeDrawer1;
-    component.activeElement = plane;
-    component.drawPlaneOnCells({x:1, y:0});
-    
-    component.onClick();
-
-    let fakeDrawer2 = new FakePlaneDrawer();
-    spyOn(fakeDrawer2, 'drawHead').and.returnValue([{x:0, y:0, direction: null, part:null},{x:1, y:0, direction: null, part:null}]);
-    let plane2 = new FakePlane();
-    plane2.drawer = fakeDrawer2;
-
-    let fakeDrawer3 = new FakePlaneDrawer();
-    spyOn(fakeDrawer3, 'drawHead').and.returnValue([{x:0, y:1, direction: null, part:null},{x:1, y:1, direction: null, part:null}]);
-    let plane3 = new FakePlane();
-    plane3.drawer = fakeDrawer3;
-
-    component.activeElement = plane2;
-    component.drawPlaneOnCells({x:0, y:0});
-    component.activeElement = plane3;
-    component.drawPlaneOnCells({x:0, y:1});
-    expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
-    expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
-    expect(cells[1][0].state).toEqual(BoardCellStateEnum.ERROR);
-    expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
-  });
-
-  it('should not change direction of a reserved element', () => {
-    let cells = [];
-    for (let i = 0; i < 2; i++) {
-      let c1 = new BoardCell();
-      c1.state = BoardCellStateEnum.FREE;
-      c1.x = 0;
-      c1.y = i;      
-      let c2 = new BoardCell();
-      c2.state = BoardCellStateEnum.FREE;
-      c2.x = 1;
-      c2.y = i;  
-      cells.push([
-        c1,
-        c2,
-      ]);
-    }
-    
-    component.cells = cells;
-
-    let fakeDrawer1 = new FakePlaneDrawer();
-    spyOn(fakeDrawer1, 'drawHead').and.returnValue([
-      {x:1, y:0, direction: DirectionEnum.DOWN, part:null},
-      {x:1, y:1, direction: DirectionEnum.DOWN, part:null}
-    ]);
-    let plane = new FakePlane();
-    plane.drawer = fakeDrawer1;
-    component.activeElement = plane;
-    component.drawPlaneOnCells({x:1, y:0});
-    
-    component.onClick();
-
-    let fakeDrawer2 = new FakePlaneDrawer();
-    spyOn(fakeDrawer2, 'drawHead').and.returnValue([
-      {x:0, y:0, direction: DirectionEnum.LEFT, part:null},
-      {x:1, y:0, direction: DirectionEnum.LEFT, part:null}
-    ]);
-    let plane2 = new FakePlane();
-    plane2.drawer = fakeDrawer2;
-
-    let fakeDrawer3 = new FakePlaneDrawer();
-    spyOn(fakeDrawer3, 'drawHead').and.returnValue([
-      {x:0, y:1, direction: DirectionEnum.LEFT, part:null},
-      {x:1, y:1, direction: DirectionEnum.LEFT, part:null}
-    ]);
-    let plane3 = new FakePlane();
-    plane3.drawer = fakeDrawer3;
-
-    component.activeElement = plane2;
-    component.drawPlaneOnCells({x:0, y:0});
-    component.activeElement = plane3;
-    component.drawPlaneOnCells({x:0, y:1});
-    expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
-    expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
-    expect(cells[0][1].planePart.direction).toEqual(DirectionEnum.DOWN);
-    expect(cells[1][0].state).toEqual(BoardCellStateEnum.ERROR);
-    expect(cells[1][1].state).toEqual(BoardCellStateEnum.RESERVED);
-    expect(cells[1][1].planePart.direction).toEqual(DirectionEnum.DOWN);
   });
 
   it('should be an error if leaving board with any part of the plane', () => {
@@ -573,15 +408,10 @@ describe('GameboardComponent', () => {
     plane.drawer = fakeDrawer1;
     component.activeElement = plane;
 
-    component.onCellClick.subscribe((cells)=>{
-      expect(cells instanceof Array).toBeTruthy();
-      expect(cells[0] instanceof Array).toBeTruthy();
-      expect(cells[0][0] instanceof BoardCell).toBeTruthy();
-      expect(cells.length).toBe(2);
-      expect(cells[0].length).toBe(2);
-    })
+    spyOn(component.onCellClick, 'emit');
 
     component.onClick();
+    expect(component.onCellClick.emit).toHaveBeenCalled();
 
     flush();
   }));

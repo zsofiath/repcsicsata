@@ -53,7 +53,7 @@ export default class Plane implements IGameBoardElement {
         return new Plane(this.drawer, position);
     }
 
-    isOverlappingOtherPlane(planes: IGameBoardElement[]): IGameBoardElement{
+    isOverlappingOtherPlane(planes: IGameBoardElement[]): IGameBoardElement{      
         let state = new ElementState(this);
         let i=0;
         while(i < planes.length && state.isNotOverlappingElement(planes[i])){      

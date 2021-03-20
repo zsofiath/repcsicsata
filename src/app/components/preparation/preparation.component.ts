@@ -13,11 +13,13 @@ import PlaneDrawerUp from 'src/app/model/planeDrawer/PlaneDrawerUp';
 export class PreparationComponent implements OnInit {
 
   $planes: BehaviorSubject<Plane[]>;
+  planes: Plane[];
   currentPlane: Plane;
 
 
   constructor() {
     this.$planes = new BehaviorSubject([]);
+    this.planes = [];
     this.currentPlane = new Plane(new PlaneDrawerUp(), {x:3, y:2});
    }
 
@@ -31,6 +33,20 @@ export class PreparationComponent implements OnInit {
   rotatePlane(direction: DirectionEnum){
     let factory = new PlaneDrawerFactory(direction);
     this.currentPlane = new Plane(factory.get(), {x:1, y:1});
+  }
+
+  onCellHover($event) {
+    
+  }
+
+  onCellClick() {
+    let plane = this.currentPlane.deepCopy();
+    this.putPlaneToRowAndSetCells(plane);
+  }
+
+  private putPlaneToRowAndSetCells(plane: Plane) {
+    this.planes.push(plane);
+    this.$planes.next(this.planes);
   }
 
 }
