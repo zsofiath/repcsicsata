@@ -19,8 +19,8 @@ const MAX_PLANES_NUM = 4;
 export class GameboardComponent implements OnInit {
 
   @Input() $elements: BehaviorSubject<IGameBoardElement[]>;
-  @Output() onCellHover = new EventEmitter(); //(activeElement: IGameBoardElement, cells: BoardCell[][], coordinate: Coordinate) => void
-  @Output() onCellClick = new EventEmitter(); //(activeElement: IGameBoardElement, cells: BoardCell[][]) => void
+  @Output() onCellHover = new EventEmitter();
+  @Output() onCellClick = new EventEmitter();
   elements: IGameBoardElement[];
   cells: BoardCell[][];
   allPlanePlaced: Boolean;
@@ -51,10 +51,15 @@ export class GameboardComponent implements OnInit {
   }
 
   onClick(){
-    this.onCellClick.emit({activeElement: this.activeElement, cells: this.cells});
-    if(this.activeElement.isOverlappingOtherPlane(this.elements)) throw new Error('Bad position');
+    this.checkIfOverlapping();    
+    this.onCellClick.emit(this.cells);
     let plane = this.activeElement.deepCopy();
     this.putPlaneToRowAndSetCells(plane);
+  }
+
+  private checkIfOverlapping() {
+    if (this.activeElement.isOverlappingOtherPlane(this.elements))
+      throw new Error('Bad position');
   }
 
   private putPlaneToRowAndSetCells(plane: Plane){
@@ -68,17 +73,17 @@ export class GameboardComponent implements OnInit {
 
   onHover(coord: Coordinate){
     this.onCellHover.emit({activeElement: this.activeElement, cells: this.cells, coordinate: coord});
-    this.drawPlaneOnCells(this.activeElement, coord);
+    this.drawPlaneOnCells(coord);
   }
 
-  drawPlaneOnCells(plane: IGameBoardElement, coord: Coordinate) {
-    plane.position = coord;
+  drawPlaneOnCells(coord: Coordinate) {
+    this.activeElement.position = coord;    
     this.resetHighlightedCells();
     
     try {
-      if(plane.isOverlappingOtherPlane(this.elements)) this.setErrorCells(plane);
+      if(this.activeElement.isOverlappingOtherPlane(this.elements)) this.setErrorCells(this.activeElement);
       else {
-        this.setHighlightedCells(plane);
+        this.setHighlightedCells(this.activeElement);
       }
     } catch (error) {
       let err = error as OutOfBoardError;

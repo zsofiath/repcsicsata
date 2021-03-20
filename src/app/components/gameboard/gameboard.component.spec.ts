@@ -180,7 +180,8 @@ describe('GameboardComponent', () => {
 
     let plane = new FakePlane();
 
-    component.drawPlaneOnCells(plane, coordinate);
+    component.activeElement = plane;
+    component.drawPlaneOnCells(coordinate);
 
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
     expect(cells[0][0].planePart.direction).toEqual(DirectionEnum.LEFT);
@@ -214,13 +215,15 @@ describe('GameboardComponent', () => {
 
     let plane = new FakePlane();
 
-    component.drawPlaneOnCells(plane, coordinate);
+    component.activeElement = plane;
+    component.drawPlaneOnCells(coordinate);
 
     let coordinate2 = new Coordinate();
     coordinate2.x = 1;
     coordinate2.y = 0; 
 
-    component.drawPlaneOnCells(plane, coordinate2);
+    component.activeElement = plane;
+    component.drawPlaneOnCells(coordinate2);
 
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[0][0].planePart).toBeFalsy();
@@ -254,7 +257,8 @@ describe('GameboardComponent', () => {
 
     let plane = new FakePlane();
 
-    component.drawPlaneOnCells(plane, coordinate);
+    component.activeElement = plane;
+    component.drawPlaneOnCells(coordinate);
 
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
@@ -283,7 +287,8 @@ describe('GameboardComponent', () => {
 
     let plane = new FakePlane();
 
-    component.drawPlaneOnCells(plane, {x:1, y:0});
+    component.activeElement = plane;
+    component.drawPlaneOnCells({x:1, y:0});
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
   });
 
@@ -314,7 +319,7 @@ describe('GameboardComponent', () => {
     plane.drawer = fakeDrawer1;
     plane.numberOfWholePlane = 2;
     component.activeElement = plane;
-    component.drawPlaneOnCells(plane, {x:1, y:0});
+    component.drawPlaneOnCells({x:1, y:0});
     
     component.onClick();
 
@@ -324,7 +329,8 @@ describe('GameboardComponent', () => {
     plane2.drawer = fakeDrawer2;
     plane2.numberOfWholePlane = 2;
 
-    component.drawPlaneOnCells(plane2, {x:0, y:0});
+    component.activeElement = plane2;
+    component.drawPlaneOnCells({x:0, y:0});
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.ERROR);
     expect(cells[0][0].planePart.direction).toEqual(DirectionEnum.LEFT);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
@@ -356,7 +362,7 @@ describe('GameboardComponent', () => {
     let plane = new FakePlane();
     plane.drawer = fakeDrawer1;
     component.activeElement = plane;
-    component.drawPlaneOnCells(plane, {x:1, y:0});
+    component.drawPlaneOnCells({x:1, y:0});
     
     component.onClick();
 
@@ -370,8 +376,10 @@ describe('GameboardComponent', () => {
     let plane3 = new FakePlane();
     plane3.drawer = fakeDrawer3;
 
-    component.drawPlaneOnCells(plane2, {x:0, y:0});
-    component.drawPlaneOnCells(plane3, {x:0, y:1});
+    component.activeElement = plane2;
+    component.drawPlaneOnCells({x:0, y:0});
+    component.activeElement = plane3;
+    component.drawPlaneOnCells({x:0, y:1});
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
     expect(cells[1][0].state).toEqual(BoardCellStateEnum.ERROR);
@@ -405,7 +413,7 @@ describe('GameboardComponent', () => {
     let plane = new FakePlane();
     plane.drawer = fakeDrawer1;
     component.activeElement = plane;
-    component.drawPlaneOnCells(plane, {x:1, y:0});
+    component.drawPlaneOnCells({x:1, y:0});
     
     component.onClick();
 
@@ -425,8 +433,10 @@ describe('GameboardComponent', () => {
     let plane3 = new FakePlane();
     plane3.drawer = fakeDrawer3;
 
-    component.drawPlaneOnCells(plane2, {x:0, y:0});
-    component.drawPlaneOnCells(plane3, {x:0, y:1});
+    component.activeElement = plane2;
+    component.drawPlaneOnCells({x:0, y:0});
+    component.activeElement = plane3;
+    component.drawPlaneOnCells({x:0, y:1});
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
     expect(cells[0][1].planePart.direction).toEqual(DirectionEnum.DOWN);
@@ -459,7 +469,8 @@ describe('GameboardComponent', () => {
       throw new OutOfBoardError([{x:1, y:0}]);
     });
 
-    component.drawPlaneOnCells(plane, {x:1, y:0});
+    component.activeElement = plane;
+    component.drawPlaneOnCells({x:1, y:0});
 
     expect(cells[0][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.ERROR);
@@ -538,7 +549,7 @@ describe('GameboardComponent', () => {
     flush();
   }));
 
-  it('should run click method on click', () => fakeAsync(() => {
+  it('should run click method on click', fakeAsync(() => {
 
     let cells = [];
     for (let i = 0; i < 2; i++) {
@@ -562,8 +573,10 @@ describe('GameboardComponent', () => {
     plane.drawer = fakeDrawer1;
     component.activeElement = plane;
 
-    component.onCellClick.subscribe((activeElement, cells)=>{
-      expect(activeElement).toEqual(plane);
+    component.onCellClick.subscribe((cells)=>{
+      expect(cells instanceof Array).toBeTruthy();
+      expect(cells[0] instanceof Array).toBeTruthy();
+      expect(cells[0][0] instanceof BoardCell).toBeTruthy();
       expect(cells.length).toBe(2);
       expect(cells[0].length).toBe(2);
     })
@@ -571,6 +584,5 @@ describe('GameboardComponent', () => {
     component.onClick();
 
     flush();
-  })
-    );
+  }));
 });
