@@ -35,9 +35,8 @@ export class BattleComponent implements OnInit {
     this.setCellHighlighted(cells, coordinate);
   }
 
-  onCellClick(activeElement: IGameBoardElement, cells: BoardCell[][]) {
-    let coordintae = activeElement.position;
-    this.openConfirmationWindow(cells, coordintae);
+  onCellClick(cells: BoardCell[][]) {
+    this.openConfirmationWindow(cells, this.targetCross.position);
   }
 
   private setCellHighlighted(cells: any, coordinate: any) {

@@ -83,8 +83,8 @@ describe('BattleComponent', () => {
   it('should open confirmation window when clicking empty field', () => {
     let cells = [[new BoardCell()]];
     let plane = new FakePlane();
-    let fakeDrawer1 = new FakePlaneDrawer();
-    component.onCellClick(plane, cells);
+    component.targetCross = plane;
+    component.onCellClick(cells);
 
     expect(component.confirmationWindowVisible).toBeTruthy();
   });
@@ -97,7 +97,8 @@ describe('BattleComponent', () => {
     let cells = [[cell]];
     let plane = new FakePlane();
     let fakeDrawer1 = new FakePlaneDrawer();
-    component.onCellClick(plane, cells);
+    component.targetCross = plane;
+    component.onCellClick(cells);
 
     expect(component.confirmationWindowVisible).toBeFalsy();
   });
