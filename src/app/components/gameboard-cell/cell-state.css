@@ -1,0 +1,21 @@
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    position: relative;
+}
+.cell-free {
+    background: radial-gradient(transparent, transparent);
+}
+.cell-highlighted {
+    background: radial-gradient(transparent, yellow);
+}
+.cell-error {
+    background: radial-gradient(transparent, red);
+}
+.cell-reserved {
+    background: radial-gradient(transparent, gray);
+}
+.cell-reserved.cell-error {
+    background: radial-gradient(transparent, darkred);
+}

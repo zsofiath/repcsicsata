@@ -35,146 +35,156 @@ describe('GameboardCellComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set its class following the BoardCell\'s state - boardCell free --> .cell-free', () => {
-    component.properties.state = BoardCellStateEnum.FREE;
+  describe('cell state', () => {
+    it('boardCell free --> .cell-free', () => {
+      component.properties.state = BoardCellStateEnum.FREE;
+  
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".cell-state"));
+  
+      expect(element[0].nativeElement.classList.contains('cell-free')).toBeTruthy();
+    });
 
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('cell-free')).toBeTruthy();
-  });
-
-  it('should set its class following the BoardCell\'s state - boardCell highlighted --> .cell-highlighted', () => {
+    it('boardCell highlighted --> .cell-highlighted', () => {
     
-    component.properties.state = BoardCellStateEnum.HIGHLIGHTED;
-
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('cell-highlighted')).toBeTruthy();
-  });
-
-  it('should set its class following the BoardCell\'s state - boardCell error --> .cell-error', () => {
-    component.properties.state = BoardCellStateEnum.ERROR;
-
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('cell-error')).toBeTruthy();
-  });
-
-  it('should set its class following the BoardCell\'s state - boardCell reserved and error --> .cell-reserve.cell-error', () => {
-    component.properties.state = BoardCellStateEnum.RESERVED;
-
-    fixture.detectChanges();
-
-    component.properties.setErrored();
-    fixture.detectChanges();
-
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('cell-error')).toBeTruthy();
-    expect(element[0].nativeElement.classList.contains('cell-reserved')).toBeTruthy();
-  });
-
-  it('should set its class following the BoardCell\'s state - boardCell reserved --> .cell-reserved', () => {
-    component.properties.state = BoardCellStateEnum.RESERVED;
-
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('cell-reserved')).toBeTruthy();
-  });
-
-  it('should set the direction class - up', () => {
-    component.properties.planePart.direction = DirectionEnum.UP;
-
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('up')).toBeTruthy();
-  });
-
-  it('should set the direction class - down', () => {
-    component.properties.planePart.direction = DirectionEnum.DOWN;
-
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('down')).toBeTruthy();
-  });
-
-  it('should set the direction class - left', () => {
-    component.properties.planePart.direction = DirectionEnum.LEFT;
-
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('left')).toBeTruthy();
-  });
-
-  it('should set the direction class - right', () => {
-    component.properties.planePart.direction = DirectionEnum.RIGHT;
-
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('right')).toBeTruthy();
-  });
-
-  it('should set the part class - head', () => {
-    component.properties.planePart.part = PlanePartsEnum.HEAD;
-
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('head')).toBeTruthy();
-  });
-
-  it('should set the part class - body', () => {
-    component.properties.planePart.part = PlanePartsEnum.BODY;
-
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
-
-    expect(element[0].nativeElement.classList.contains('body')).toBeTruthy();
-  });
-
-  it('should set the part class - wings', () => {
-    for (let i = 1; i < 6; i++) {
-      component.properties.planePart.part = PlanePartsEnum['WING'+i];
+      component.properties.state = BoardCellStateEnum.HIGHLIGHTED;
+  
       fixture.detectChanges();
-      let element = el.queryAll(By.css(".cell"));
+      let element = el.queryAll(By.css(".cell-state"));
+  
+      expect(element[0].nativeElement.classList.contains('cell-highlighted')).toBeTruthy();
+    });
 
-      expect(element[0].nativeElement.classList.contains('wing-'+i)).toBeTruthy();
-    }
-  });
-
-  it('should set the part class - tails', () => {
-    for (let i = 1; i < 4; i++) {
-      component.properties.planePart.part = PlanePartsEnum['TAIL'+i];
+    it('boardCell error --> .cell-error', () => {
+      component.properties.state = BoardCellStateEnum.ERROR;
+  
       fixture.detectChanges();
-      let element = el.queryAll(By.css(".cell"));
+      let element = el.queryAll(By.css(".cell-state"));
+  
+      expect(element[0].nativeElement.classList.contains('cell-error')).toBeTruthy();
+    });
 
-      expect(element[0].nativeElement.classList.contains('tail-'+i)).toBeTruthy();
-    }
-  });
-
-  it('should set the part class - targetcross', () => {
-      component.properties.planePart.part = PlanePartsEnum.TARGET_CROSS;
+    it('boardCell reserved and error --> .cell-reserve.cell-error', () => {
+      component.properties.state = BoardCellStateEnum.RESERVED;
+  
       fixture.detectChanges();
-      let element = el.queryAll(By.css(".cell"));
+  
+      component.properties.setErrored();
+      fixture.detectChanges();
+  
+      let element = el.queryAll(By.css(".cell-state"));
+  
+      expect(element[0].nativeElement.classList.contains('cell-error')).toBeTruthy();
+      expect(element[0].nativeElement.classList.contains('cell-reserved')).toBeTruthy();
+    });
 
-      expect(element[0].nativeElement.classList.contains('target-cross')).toBeTruthy();
+    it('boardCell reserved and error --> .cell-reserve', () => {
+      component.properties.state = BoardCellStateEnum.RESERVED;
+  
+      fixture.detectChanges();
+  
+      let element = el.queryAll(By.css(".cell-state"));
+  
+      expect(element[0].nativeElement.classList.contains('cell-reserved')).toBeTruthy();
+    });
   });
 
-  it('should set the part class - hit plane part', () => {
-    component.properties.planePart.part = PlanePartsEnum.HIT;
-    fixture.detectChanges();
-    let element = el.queryAll(By.css(".cell"));
+  describe('directions', () => {
+    it('up', () => {
+      component.properties.planePart.direction = DirectionEnum.UP;
+  
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".direction"));
+  
+      expect(element[0].nativeElement.classList.contains('up')).toBeTruthy();
+    });
+  
+    it('down', () => {
+      component.properties.planePart.direction = DirectionEnum.DOWN;
+  
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".direction"));
+  
+      expect(element[0].nativeElement.classList.contains('down')).toBeTruthy();
+    });
+  
+    it('left', () => {
+      component.properties.planePart.direction = DirectionEnum.LEFT;
+  
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".direction"));
+  
+      expect(element[0].nativeElement.classList.contains('left')).toBeTruthy();
+    });
+  
+    it('right', () => {
+      component.properties.planePart.direction = DirectionEnum.RIGHT;
+  
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".direction"));
+  
+      expect(element[0].nativeElement.classList.contains('right')).toBeTruthy();
+    });
+  });
+  
+  describe('should set the part class', () => {
+    it('head', () => {
+      component.properties.planePart.part = PlanePartsEnum.HEAD;
+  
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".element"));
+  
+      expect(element[0].nativeElement.classList.contains('head')).toBeTruthy();
+    });
+  
+    it('body', () => {
+      component.properties.planePart.part = PlanePartsEnum.BODY;
+  
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".element"));
+  
+      expect(element[0].nativeElement.classList.contains('body')).toBeTruthy();
+    });
+  
+    it('wings', () => {
+      for (let i = 1; i < 6; i++) {
+        component.properties.planePart.part = PlanePartsEnum['WING'+i];
+        fixture.detectChanges();
+        let element = el.queryAll(By.css(".element"));
+  
+        expect(element[0].nativeElement.classList.contains('wing-'+i)).toBeTruthy();
+      }
+    });
+  
+    it('tails', () => {
+      for (let i = 1; i < 4; i++) {
+        component.properties.planePart.part = PlanePartsEnum['TAIL'+i];
+        fixture.detectChanges();
+        let element = el.queryAll(By.css(".element"));
+  
+        expect(element[0].nativeElement.classList.contains('tail-'+i)).toBeTruthy();
+      }
+    });
+  
+    it('targetcross', () => {
+        component.properties.planePart.part = PlanePartsEnum.TARGET_CROSS;
+        fixture.detectChanges();
+        let element = el.queryAll(By.css(".element"));
+  
+        expect(element[0].nativeElement.classList.contains('target-cross')).toBeTruthy();
+    });
+  
+    it('hit plane part', () => {
+      component.properties.planePart.part = PlanePartsEnum.HIT;
+      fixture.detectChanges();
+      let element = el.queryAll(By.css(".element"));
+  
+      expect(element[0].nativeElement.classList.contains('hit')).toBeTruthy();
+    });
+  })
+  
 
-    expect(element[0].nativeElement.classList.contains('hit')).toBeTruthy();
-});
+  
 
   it('should trigger an event on hover', fakeAsync(() => {
     component.properties = new BoardCell();

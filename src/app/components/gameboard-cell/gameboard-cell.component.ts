@@ -9,7 +9,9 @@ import Coordinate from 'src/app/model/Coordinate';
 @Component({
   selector: 'app-gameboard-cell',
   templateUrl: './gameboard-cell.component.html',
-  styleUrls: ['./gameboard-cell.component.css']
+  styleUrls: [
+    './gameboard-cell.component.css',
+    './cell-state.css']
 })
 export class GameboardCellComponent implements OnInit {
 

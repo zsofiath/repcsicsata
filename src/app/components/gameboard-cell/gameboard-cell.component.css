@@ -1,24 +1,11 @@
-.cell {
-    width: 30px;
-    height: 30px;
-    border: 1px solid #ccc;
-}
 
-.cell-highlighted {
-    opacity: .4;
-}
 
-.cell-reserved {
-}
-
-.cell-error {
-    background-color:red;
-    background-blend-mode: color-burn;
-    opacity: .4;
-}
-
-.cell-reserved.cell-error {
-    background-color:darkred;
+.direction, .element, .cell-state {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
 }
 
 .target-cross {

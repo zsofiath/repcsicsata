@@ -2,25 +2,40 @@
 (mouseover)="onHover()"
 (click)="onClick()"
 [ngClass]="{
-    'cell': true,
-    'cell-free': isCellFree(),
-    'cell-highlighted': isCellHighlighted(),
-    'cell-error': isCellError() || properties.isError,
-    'cell-reserved': isCellReserved(),
-    'up': isUp(),
-    'down': isDown(),
-    'left': isLeft(),
-    'right': isRight(),
-    'head': isHead(),
-    'wing-1': isWing(1),
-    'wing-2': isWing(2),
-    'wing-3': isWing(3),
-    'wing-4': isWing(4),
-    'wing-5': isWing(5),
-    'body': isBody(),
-    'tail-2': isTail(2),
-    'tail-1': isTail(1),
-    'tail-3': isTail(3),
-    'target-cross': isTargetCross(),
-    'hit': isHit()
-}"></div>
+    'cell': true
+}">
+    <div
+    [ngClass]="{
+        'direction': true,
+        'up': isUp(),
+        'down': isDown(),
+        'left': isLeft(),
+        'right': isRight()
+    }">
+        <div [ngClass]="{
+            'element': true,
+            'head': isHead(),
+            'wing-1': isWing(1),
+            'wing-2': isWing(2),
+            'wing-3': isWing(3),
+            'wing-4': isWing(4),
+            'wing-5': isWing(5),
+            'body': isBody(),
+            'tail-2': isTail(2),
+            'tail-1': isTail(1),
+            'tail-3': isTail(3),
+            'target-cross': isTargetCross(),
+            'hit': isHit()
+        }">
+            <div [ngClass]="{
+                'cell-state':true,
+                'cell-free': isCellFree(),
+                'cell-highlighted': isCellHighlighted(),
+                'cell-error': isCellError() || properties.isError,
+                'cell-reserved': isCellReserved()
+            }">
+
+            </div>
+        </div>
+    </div>
+</div>
