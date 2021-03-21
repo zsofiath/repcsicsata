@@ -8,6 +8,7 @@ import IGameBoardElement from 'src/app/model/IGameBoardElement';
 import TargetCrossDrawer from 'src/app/model/planeDrawer/TargetCrossDrawer';
 import PlanePart from 'src/app/model/PlanePart';
 import TargetCross from 'src/app/model/TargetCross';
+import { BattleService } from 'src/app/services/battle.service';
 
 @Component({
   selector: 'app-battle',
@@ -18,7 +19,7 @@ export class BattleComponent implements OnInit {
   hitPlanes: BehaviorSubject<IGameBoardElement[]>;
   targetCross: IGameBoardElement;
   confirmationWindowVisible = false;
-  constructor() { 
+  constructor(public battleService: BattleService) { 
     this.hitPlanes = new BehaviorSubject([]);
     let drawer = new TargetCrossDrawer();
     let startPosition = new Coordinate();
@@ -37,6 +38,10 @@ export class BattleComponent implements OnInit {
 
   onCellClick() {
     this.openConfirmationWindow(this.targetCross.position);
+  }
+
+  confirmShoot(){
+    this.battleService.sendShooting(this.targetCross.position);
   }
 
   private setCellHighlighted(cells: any, coordinate: any) {

@@ -1,3 +1,4 @@
+import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
@@ -21,6 +22,7 @@ import { BattleComponent } from './battle.component';
 describe('BattleComponent', () => {
   let component: BattleComponent;
   let fixture: ComponentFixture<BattleComponent>;
+  let el: DebugElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,6 +34,7 @@ describe('BattleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BattleComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
     fixture.detectChanges();
   });
 
@@ -114,4 +117,21 @@ describe('BattleComponent', () => {
     let element = el.queryAll(By.css(".confirmation"));
     expect(element.length).toBe(0);
   });
+
+  it('should send shot to service', () => {
+    component.confirmationWindowVisible = true;
+    component.targetCross = new FakePlane();
+    component.targetCross.position.x = 1;
+    component.targetCross.position.y = 2;
+    fixture.detectChanges();
+
+    spyOn(component.battleService, 'sendShooting');
+
+    let element = el.queryAll(By.css(".confirm-button"));
+    element[0].triggerEventHandler('click', null);
+
+    expect(component.battleService.sendShooting).toHaveBeenCalledWith({x:1, y:2});
+  });
+
+  
 });

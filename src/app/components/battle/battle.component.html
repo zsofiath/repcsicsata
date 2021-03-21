@@ -6,6 +6,6 @@
 ></app-gameboard>
 
 <div *ngIf="confirmationWindowVisible" class="confirmation">
-    <button class="confirm-button">confirm_shooting</button>
+    <button class="confirm-button" (click)="confirmShoot()">confirm_shooting</button>
     <button class="confirm-cancel-button">confirm_cancel</button>
 </div>
