@@ -1,18 +1,11 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { BehaviorSubject } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { PlanePartsEnum } from 'src/app/constants/PlanePartsEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
-import Plane from 'src/app/model/Plane';
 import FakePlaneDrawer from 'src/app/model/planeDrawer/FakePlaneDrawer';
-import PlaneDrawerLeft from 'src/app/model/planeDrawer/PlaneDrawerLeft';
-import PlaneDrawerPart from 'src/app/model/planeDrawer/PlaneDrawerPart';
-import TargetCrossDrawer from 'src/app/model/planeDrawer/TargetCrossDrawer';
-import PlanePart from 'src/app/model/PlanePart';
-import TargetCross from 'src/app/model/TargetCross';
 import FakePlane from 'src/testMocks/MockPlane';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 import { GameboardComponent } from '../gameboard/gameboard.component';
@@ -133,5 +126,14 @@ describe('BattleComponent', () => {
     expect(component.battleService.sendShooting).toHaveBeenCalledWith({x:1, y:2});
   });
 
+  it('should close confirm window on cancel', () => {
+    component.confirmationWindowVisible = true;
+    fixture.detectChanges();
+
+    let element = el.queryAll(By.css(".confirm-cancel-button"));
+    element[0].triggerEventHandler('click', null);
+
+    expect(component.confirmationWindowVisible).toBeFalsy();
+  });
   
 });

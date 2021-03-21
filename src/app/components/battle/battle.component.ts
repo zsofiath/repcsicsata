@@ -44,6 +44,10 @@ export class BattleComponent implements OnInit {
     this.battleService.sendShooting(this.targetCross.position);
   }
 
+  cancekShoot(){
+    this.confirmationWindowVisible = false;
+  }
+
   private setCellHighlighted(cells: any, coordinate: any) {
     cells[coordinate.y][coordinate.x].state = BoardCellStateEnum.HIGHLIGHTED;
     cells[coordinate.y][coordinate.x].planePart = new PlanePart();
