@@ -66,14 +66,12 @@ describe('GameboardComponent', () => {
     expect(component.cells[0].length).toBe(10);
   });
 
-  it('should update planes when $elements change', fakeAsync(() => {
-    component.$elements.next([new Plane(null, null)]);
+  it('should update planes when $elements change',() => {
+    component.$elements.next([new FakePlane()]);
     fixture.detectChanges();
 
-    flush();
-
     expect(component.elements.length).toEqual(1);
-  }));
+  });
 
   it('should not place plane on the top op an other plane', () => {
     component.activeElement = new FakePlane();
@@ -180,6 +178,34 @@ describe('GameboardComponent', () => {
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
     expect(cells[1][0].state).toEqual(BoardCellStateEnum.FREE);
     expect(cells[1][1].state).toEqual(BoardCellStateEnum.FREE);
+  });
+
+  it('should reserve a cell', () => {
+    let plane = new FakePlane();
+    plane.position = {x:0, y:0};
+
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;
+      c1.planePart = new PlanePart();      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      c2.planePart = new PlanePart();      
+      cells.push([c1, c2]);
+    }
+    
+
+    component.cells = cells;
+    component.$elements.next([plane]);
+
+    fixture.detectChanges();
+
+    expect(cells[0][0].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
   it('should show only current plane position by cells on hover, and show reserved cells', () => {

@@ -3,6 +3,7 @@ import IGameBoardElementPart from "./IGameBoardElementPart";
 import PlanePart from "./PlanePart";
 
 export default class BoardCell {
+    
     state: BoardCellStateEnum;
     x: number;
     y: number;
@@ -15,18 +16,23 @@ export default class BoardCell {
         this.y = y;
     }
 
-    setHighlighted(){
+    setHighlighted() {
        if(this.state != BoardCellStateEnum.RESERVED) this.state = BoardCellStateEnum.HIGHLIGHTED;
        this.isError = false;
     }
 
-    setFree(){
+    setFree() {
         if(this.state != BoardCellStateEnum.RESERVED) this.state = BoardCellStateEnum.FREE;
         this.isError = false;
     }
 
-    setErrored(){
+    setErrored() {
         if(this.state != BoardCellStateEnum.RESERVED) this.state = BoardCellStateEnum.ERROR;
         this.isError = true;
     }
+
+    setReserved() {
+        this.state = BoardCellStateEnum.RESERVED;
+        this.isError = false;
+      }
 }

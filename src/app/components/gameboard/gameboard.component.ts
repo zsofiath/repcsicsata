@@ -38,7 +38,22 @@ export class GameboardComponent implements OnInit {
       if(e.length == 0) {
         this.resetCells();
       }
+      else {
+        this.drawElements();
+      }
     })
+  }
+
+  private drawElements() {
+    this.elements.forEach(element => {
+      this.setPartsReserved(element);
+    });
+  }
+
+  private setPartsReserved(element: IGameBoardElement) {
+    element.getCoordinates().forEach(elementPart => {
+      this.cells[elementPart.y][elementPart.x].setReserved();
+    });
   }
 
   private resetCells() {
