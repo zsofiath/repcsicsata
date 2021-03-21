@@ -76,5 +76,14 @@ describe('PreparationComponent', () => {
 
     flush();
   }));
+
+  it('should clear planes driven by planes$', () => {
+    component.planes = [new FakePlane()];
+    component.$planes.next([]);
+
+    fixture.detectChanges();
+
+    expect(component.planes.length).toEqual(0);
+  });
   
 });

@@ -24,6 +24,7 @@ export class PreparationComponent implements OnInit {
    }
 
   ngOnInit() {
+    this.$planes.subscribe(planes => {this.planes = planes;});
   }
 
   rotation(direction: DirectionEnum){
