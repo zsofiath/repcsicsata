@@ -45,7 +45,6 @@ describe('BattleComponent', () => {
     expect(compiled.querySelector('app-gameboard')).not.toBeNull();
   });
 
-  // should show one cell on hover
   it('should draw only one cell when moving the tartgetcross', () => {
     expect(component.targetCross.getCoordinates().length).toBe(1);
   });
@@ -81,26 +80,11 @@ describe('BattleComponent', () => {
   });
 
   it('should open confirmation window when clicking empty field', () => {
-    let cells = [[new BoardCell()]];
     let plane = new FakePlane();
     component.targetCross = plane;
-    component.onCellClick(cells);
+    component.onCellClick();
 
     expect(component.confirmationWindowVisible).toBeTruthy();
-  });
-
-  it('should not open confirmation window when clicking a not empty field', () => {
-    let cell = new BoardCell();
-    cell.state = BoardCellStateEnum.RESERVED;
-    cell.planePart = new PlanePart();
-    cell.planePart.part = PlanePartsEnum.HIT;
-    let cells = [[cell]];
-    let plane = new FakePlane();
-    let fakeDrawer1 = new FakePlaneDrawer();
-    component.targetCross = plane;
-    component.onCellClick(cells);
-
-    expect(component.confirmationWindowVisible).toBeFalsy();
   });
 
   it('should pop up confirmation', () => {
@@ -130,13 +114,4 @@ describe('BattleComponent', () => {
     let element = el.queryAll(By.css(".confirmation"));
     expect(element.length).toBe(0);
   });
-
-
-  // should show hit plane parts
-  // should show dead planes
-  // should show missed shots
-  // should show not found planes number
-  // should show damaged planes number
-  // should show dead planes number
-  // show victory when all planes are shot
 });

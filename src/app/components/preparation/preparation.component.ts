@@ -37,7 +37,6 @@ export class PreparationComponent implements OnInit {
   }
 
   onCellHover($event) {
-    
   }
 
   onCellClick() {

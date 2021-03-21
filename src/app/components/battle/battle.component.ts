@@ -35,8 +35,8 @@ export class BattleComponent implements OnInit {
     this.setCellHighlighted(cells, coordinate);
   }
 
-  onCellClick(cells: BoardCell[][]) {
-    this.openConfirmationWindow(cells, this.targetCross.position);
+  onCellClick() {
+    this.openConfirmationWindow(this.targetCross.position);
   }
 
   private setCellHighlighted(cells: any, coordinate: any) {
@@ -45,14 +45,12 @@ export class BattleComponent implements OnInit {
     cells[coordinate.y][coordinate.x].planePart.part = PlanePartsEnum.TARGET_CROSS;
   }
 
-  private openConfirmationWindow(cells: BoardCell[][], coordintae: any) {
-    if (this.isReserved(cells, coordintae)) {
-      this.confirmationWindowVisible = true;
-    }
+  private openConfirmationWindow(coordinate: any) {
+    this.confirmationWindowVisible = true;
   }
 
-  private isReserved(cells: BoardCell[][], coordintae: any) {
-    return cells[coordintae.y][coordintae.x].state != BoardCellStateEnum.RESERVED;
+  private isReserved(cells: BoardCell[][], coordinate: any) {
+    return cells[coordinate.y][coordinate.x].state != BoardCellStateEnum.RESERVED;
   }
 
   private resetHighlightedCells(cells: BoardCell[][]){
