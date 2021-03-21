@@ -150,5 +150,19 @@ describe('BattleComponent', () => {
     expect(component.hitPlanes.next).toHaveBeenCalledWith(hitPlanes);
 
   }));
+
+  it('should hide confirmation after sucessfull shooting', fakeAsync(() => {
+    component.confirmationWindowVisible = true;
+
+    let hitPlanes = [new FakePlane()];
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of(hitPlanes));
+
+    component.confirmShoot();
+
+    flush();
+
+    expect(component.confirmationWindowVisible).toBeFalsy();
+
+  }));
   
 });

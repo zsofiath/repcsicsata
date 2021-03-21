@@ -43,6 +43,7 @@ export class BattleComponent implements OnInit {
   confirmShoot(){
     this.battleService.sendShooting(this.targetCross.position).subscribe(planes => {
       this.hitPlanes.next(planes);
+      this.confirmationWindowVisible = false;
     });
   }
 
@@ -59,7 +60,6 @@ export class BattleComponent implements OnInit {
   private openConfirmationWindow() {
     this.confirmationWindowVisible = true;
   }
-
 
   private resetHighlightedCells(cells: BoardCell[][]){
     cells.forEach(row => {
