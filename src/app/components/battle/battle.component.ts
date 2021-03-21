@@ -37,11 +37,13 @@ export class BattleComponent implements OnInit {
   }
 
   onCellClick() {
-    this.openConfirmationWindow(this.targetCross.position);
+    this.openConfirmationWindow();
   }
 
   confirmShoot(){
-    this.battleService.sendShooting(this.targetCross.position);
+    this.battleService.sendShooting(this.targetCross.position).subscribe(planes => {
+      this.hitPlanes.next(planes);
+    });
   }
 
   cancekShoot(){
@@ -54,13 +56,10 @@ export class BattleComponent implements OnInit {
     cells[coordinate.y][coordinate.x].planePart.part = PlanePartsEnum.TARGET_CROSS;
   }
 
-  private openConfirmationWindow(coordinate: any) {
+  private openConfirmationWindow() {
     this.confirmationWindowVisible = true;
   }
 
-  private isReserved(cells: BoardCell[][], coordinate: any) {
-    return cells[coordinate.y][coordinate.x].state != BoardCellStateEnum.RESERVED;
-  }
 
   private resetHighlightedCells(cells: BoardCell[][]){
     cells.forEach(row => {

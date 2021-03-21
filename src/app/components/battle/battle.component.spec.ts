@@ -1,6 +1,7 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { PlanePartsEnum } from 'src/app/constants/PlanePartsEnum';
 import BoardCell from 'src/app/model/BoardCell';
@@ -135,5 +136,19 @@ describe('BattleComponent', () => {
 
     expect(component.confirmationWindowVisible).toBeFalsy();
   });
+
+  it('should change plane list when shoot is competed in the service', fakeAsync(() => {
+
+    let hitPlanes = [new FakePlane()];
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of(hitPlanes));
+    spyOn(component.hitPlanes, 'next');
+
+    component.confirmShoot();
+
+    flush();
+
+    expect(component.hitPlanes.next).toHaveBeenCalledWith(hitPlanes);
+
+  }));
   
 });
