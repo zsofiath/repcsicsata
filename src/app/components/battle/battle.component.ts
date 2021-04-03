@@ -32,8 +32,6 @@ export class BattleComponent implements OnInit {
   }
 
   onCellHover({activeElement, cells, coordinate}) {
-    this.resetHighlightedCells(cells);
-    this.setCellHighlighted(cells, coordinate);
   }
 
   onCellClick() {
@@ -51,22 +49,7 @@ export class BattleComponent implements OnInit {
     this.confirmationWindowVisible = false;
   }
 
-  private setCellHighlighted(cells: any, coordinate: any) {
-    cells[coordinate.y][coordinate.x].state = BoardCellStateEnum.HIGHLIGHTED;
-    cells[coordinate.y][coordinate.x].planePart = new PlanePart();
-    cells[coordinate.y][coordinate.x].planePart.part = PlanePartsEnum.TARGET_CROSS;
-  }
-
   private openConfirmationWindow() {
     this.confirmationWindowVisible = true;
-  }
-
-  private resetHighlightedCells(cells: BoardCell[][]){
-    cells.forEach(row => {
-      row.forEach(cell => {
-        cell.setFree();
-        if(cell.state != BoardCellStateEnum.RESERVED) cell.planePart = null;
-      });
-    });
   }
 }
