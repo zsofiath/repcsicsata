@@ -46,36 +46,6 @@ describe('BattleComponent', () => {
     expect(component.targetCross.getCoordinates().length).toBe(1);
   });
 
-  it('should change board on hover', () => {
-    let cells = [];
-    for (let i = 0; i < 2; i++) {
-      let c1 = new BoardCell();
-      c1.state = BoardCellStateEnum.FREE;
-      c1.x = 0;
-      c1.y = i;      
-      let c2 = new BoardCell();
-      c2.state = BoardCellStateEnum.FREE;
-      c2.x = 1;
-      c2.y = i;  
-      cells.push([
-        c1,
-        c2,
-      ]);
-    }
-    
-    let plane = new FakePlane();
-    let fakeDrawer1 = new FakePlaneDrawer();
-    plane.drawer = fakeDrawer1;
-    let coordinate = new Coordinate()
-    coordinate.x=1;
-    coordinate.y=1;
-
-    component.onCellHover({activeElement: plane, cells: cells, coordinate: coordinate})
-
-    expect(cells[1][1].planePart.part).toEqual(PlanePartsEnum.TARGET_CROSS);
-    expect(cells[1][1].state).toEqual(BoardCellStateEnum.HIGHLIGHTED);
-  });
-
   it('should open confirmation window when clicking empty field', () => {
     let plane = new FakePlane();
     component.targetCross = plane;
