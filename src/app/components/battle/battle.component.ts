@@ -19,8 +19,10 @@ export class BattleComponent implements OnInit {
   hitPlanes: BehaviorSubject<IGameBoardElement[]>;
   targetCross: IGameBoardElement;
   confirmationWindowVisible = false;
+  ownPlanes$: BehaviorSubject<IGameBoardElement[]>;
   constructor(public battleService: BattleService) { 
     this.hitPlanes = new BehaviorSubject([]);
+    this.ownPlanes$ = new BehaviorSubject([]);
     let drawer = new TargetCrossDrawer();
     let startPosition = new Coordinate();
     startPosition.x =  1;
@@ -29,6 +31,9 @@ export class BattleComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.battleService.getOwnPlanes().subscribe(planes => {
+      this.ownPlanes$.next(planes);
+    });
   }
 
   onCellHover({activeElement, cells, coordinate}) {

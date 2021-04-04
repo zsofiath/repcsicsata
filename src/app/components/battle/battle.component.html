@@ -9,3 +9,12 @@
     <button class="confirm-button" (click)="confirmShoot()">confirm_shooting</button>
     <button class="confirm-cancel-button" (click)="cancekShoot()">confirm_cancel</button>
 </div>
+
+<hr>
+
+<app-gameboard 
+[$elements]="ownPlanes$" 
+[activeElement]="targetCross" 
+(onCellHover)="onCellHover($event)"
+(onCellClick)="onCellClick($event)"
+></app-gameboard>

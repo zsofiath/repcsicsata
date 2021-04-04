@@ -26,15 +26,33 @@ describe('BattleComponent', () => {
   }));
 
   beforeEach(() => {
+    
     fixture = TestBed.createComponent(BattleComponent);
     component = fixture.componentInstance;
+    spyOn(component.battleService, 'getOwnPlanes').and.returnValue(of([new FakePlane()]));
+
     el = fixture.debugElement;
+
+    
     fixture.detectChanges();
+
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should get own planes create', fakeAsync(() => {
+
+    component.ownPlanes$.subscribe(planes => {
+      expect(planes.length).toEqual(1);
+    });
+
+
+    flush();
+
+
+  }));
 
   it('should use gameboard', () => {
     fixture.detectChanges();
@@ -134,5 +152,17 @@ describe('BattleComponent', () => {
     expect(component.confirmationWindowVisible).toBeFalsy();
 
   }));
+
+  it('should use one more board for own planes', () => {
+    fixture.detectChanges();
+    const el = fixture.debugElement;
+    let element = el.queryAll(By.css("app-gameboard"));
+
+    expect(element.length).toEqual(2);
+  });
+
+  it('should draw own planes', () => {
+    
+  });
   
 });
