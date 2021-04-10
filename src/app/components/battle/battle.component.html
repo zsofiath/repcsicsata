@@ -3,6 +3,7 @@
 [activeElement]="targetCross" 
 (onCellHover)="onCellHover($event)"
 (onCellClick)="onCellClick($event)"
+[disabled]="isWaitingForEnemyToShoot"
 ></app-gameboard>
 
 <div *ngIf="confirmationWindowVisible" class="confirmation">

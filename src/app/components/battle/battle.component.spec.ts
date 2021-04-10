@@ -169,5 +169,21 @@ describe('BattleComponent', () => {
 
     expect(element.length).toEqual(2);
   });
+
+  it('should disable attack board when shot is completed', () => {
+    component.confirmationWindowVisible = true;
+    component.targetCross = new FakePlane();
+    component.targetCross.position.x = 1;
+    component.targetCross.position.y = 2;
+    component.isWaitingForEnemyToShoot = false;
+    fixture.detectChanges();
+
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of([]));
+
+    let element = el.queryAll(By.css(".confirm-button"));
+    element[0].triggerEventHandler('click', null);
+
+    expect(component.isWaitingForEnemyToShoot).toBeTruthy();
+  });
   
 });
