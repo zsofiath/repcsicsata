@@ -37,4 +37,11 @@ export class BattleService {
   isStartingPlayer() : Observable<boolean> {
     return of(true);
   }
+
+  listenForShooting(): Observable<any> {
+    return new Observable(obsrver => {
+
+      obsrver.next();
+    });
+  }
 }

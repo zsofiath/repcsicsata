@@ -25,7 +25,8 @@ describe('BattleComponent creations', () => {
           ]);
         }),
         getOwnPlanes: () => of([new FakePlane()]),
-        isStartingPlayer: () => of(true)
+        isStartingPlayer: () => of(true),
+        listenForShooting: () => of(true)
       }}]
     })
     .compileComponents();
@@ -51,7 +52,8 @@ describe('BattleComponent creations', () => {
           ]);
         }),
         getOwnPlanes: () => of([new FakePlane()]),
-        isStartingPlayer: () => of(false)
+        isStartingPlayer: () => of(false),
+        listenForShooting: () => of(true)
       }}]
     })
     .compileComponents();
@@ -84,7 +86,8 @@ describe('BattleComponent', () => {
           ]);
         }),
         getOwnPlanes: () => of([new FakePlane()]),
-        isStartingPlayer: () => of(true)
+        isStartingPlayer: () => of(true),
+        listenForShooting: () => of(true)
       }}]
     })
     .compileComponents();
@@ -240,6 +243,24 @@ describe('BattleComponent', () => {
     element[0].triggerEventHandler('click', null);
 
     expect(component.isWaitingForEnemyToShoot).toBeTruthy();
+  });
+
+  it('should check enemy shooting', () => {
+    component.confirmationWindowVisible = true;
+    component.targetCross = new FakePlane();
+    component.targetCross.position.x = 1;
+    component.targetCross.position.y = 2;
+    component.isWaitingForEnemyToShoot = false;
+    fixture.detectChanges();
+
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of([]));
+    spyOn(component.battleService, 'listenForShooting').and.returnValue(of([]));
+
+    let element = el.queryAll(By.css(".confirm-button"));
+    element[0].triggerEventHandler('click', null);
+
+    expect(component.battleService.listenForShooting).toHaveBeenCalled();
+
   });
   
 });
