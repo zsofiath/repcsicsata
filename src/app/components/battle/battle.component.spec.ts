@@ -229,22 +229,6 @@ describe('BattleComponent', () => {
     expect(element.length).toEqual(2);
   });
 
-  it('should disable attack board when shot is completed', () => {
-    component.confirmationWindowVisible = true;
-    component.targetCross = new FakePlane();
-    component.targetCross.position.x = 1;
-    component.targetCross.position.y = 2;
-    component.isWaitingForEnemyToShoot = false;
-    fixture.detectChanges();
-
-    spyOn(component.battleService, 'sendShooting').and.returnValue(of([]));
-
-    let element = el.queryAll(By.css(".confirm-button"));
-    element[0].triggerEventHandler('click', null);
-
-    expect(component.isWaitingForEnemyToShoot).toBeTruthy();
-  });
-
   it('should check enemy shooting', () => {
     component.confirmationWindowVisible = true;
     component.targetCross = new FakePlane();
@@ -262,5 +246,40 @@ describe('BattleComponent', () => {
     expect(component.battleService.listenForShooting).toHaveBeenCalled();
 
   });
+
+  it('should enable (current player shoot) and disable (other player shoot) gameboard ', () => {
+    component.confirmationWindowVisible = true;
+    component.targetCross = new FakePlane();
+    component.targetCross.position.x = 1;
+    component.targetCross.position.y = 2;
+    component.isWaitingForEnemyToShoot = false;
+    fixture.detectChanges();
+
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of([]));
+    spyOn(component.battleService, 'listenForShooting').and.returnValue(new Observable(o => {
+      setTimeout(() => {
+        o.next();
+      }, 500);
+    }));
+
+    let element = el.queryAll(By.css(".confirm-button"));
+
+    let timerCallback = jasmine.createSpy("timerCallback");
+    jasmine.clock().install();
+
+
+    element[0].triggerEventHandler('click', null);
+
+    expect(component.isWaitingForEnemyToShoot).toBeTruthy();
+    jasmine.clock().tick(101);
+    expect(component.isWaitingForEnemyToShoot).toBeTruthy();
+    jasmine.clock().tick(501);
+    expect(component.isWaitingForEnemyToShoot).toBeFalsy();
+
+    jasmine.clock().uninstall();
+
+  });
+
+  //requestből kell jönnie. hogy nyert, vagy veszített
   
 });

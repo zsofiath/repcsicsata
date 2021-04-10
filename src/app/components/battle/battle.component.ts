@@ -55,7 +55,9 @@ export class BattleComponent implements OnInit {
       this.hitPlanes.next(planes);
       this.confirmationWindowVisible = false;
 
-      this.battleService.listenForShooting();
+      this.battleService.listenForShooting().subscribe(()=>{
+        this.isWaitingForEnemyToShoot = false;
+      });
     });
   }
 
