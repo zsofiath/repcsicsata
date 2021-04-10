@@ -175,7 +175,7 @@ describe('BattleComponent', () => {
     component.targetCross.position.y = 2;
     fixture.detectChanges();
 
-    spyOn(component.battleService, 'sendShooting').and.returnValue(of([]));
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: false, elements: []}));
 
     let element = el.queryAll(By.css(".confirm-button"));
     element[0].triggerEventHandler('click', null);
@@ -196,7 +196,7 @@ describe('BattleComponent', () => {
   it('should change plane list when shoot is competed in the service', fakeAsync(() => {
 
     let hitPlanes = [new FakePlane()];
-    spyOn(component.battleService, 'sendShooting').and.returnValue(of(hitPlanes));
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: false, elements: hitPlanes}));
     spyOn(component.hitPlanes, 'next');
 
     component.confirmShoot();
@@ -207,11 +207,43 @@ describe('BattleComponent', () => {
 
   }));
 
+  it('should show you won message', fakeAsync(() => {
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: true, elements: []}));
+    spyOn(component.hitPlanes, 'next');
+
+    component.confirmShoot();
+
+    flush();
+
+    fixture.detectChanges();
+
+    let element = el.queryAll(By.css(".victory-message"));
+
+    expect(element.length).toBe(1);
+
+  }));
+
+  it('should NOT show you won message', fakeAsync(() => {
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: false, elements: []}));
+    spyOn(component.hitPlanes, 'next');
+
+    component.confirmShoot();
+
+    flush();
+
+    fixture.detectChanges();
+
+    let element = el.queryAll(By.css(".victory-message"));
+
+    expect(element.length).toBe(0);
+
+  }));
+
   it('should hide confirmation after sucessfull shooting', fakeAsync(() => {
     component.confirmationWindowVisible = true;
 
     let hitPlanes = [new FakePlane()];
-    spyOn(component.battleService, 'sendShooting').and.returnValue(of(hitPlanes));
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: false, elements: hitPlanes}));
 
     component.confirmShoot();
 
@@ -237,7 +269,7 @@ describe('BattleComponent', () => {
     component.isWaitingForEnemyToShoot = false;
     fixture.detectChanges();
 
-    spyOn(component.battleService, 'sendShooting').and.returnValue(of([]));
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: false, elements: []}));
     spyOn(component.battleService, 'listenForShooting').and.returnValue(of([]));
 
     let element = el.queryAll(By.css(".confirm-button"));
@@ -255,7 +287,7 @@ describe('BattleComponent', () => {
     component.isWaitingForEnemyToShoot = false;
     fixture.detectChanges();
 
-    spyOn(component.battleService, 'sendShooting').and.returnValue(of([]));
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: false, elements: []}));
     spyOn(component.battleService, 'listenForShooting').and.returnValue(new Observable(o => {
       setTimeout(() => {
         o.next();
@@ -280,6 +312,6 @@ describe('BattleComponent', () => {
 
   });
 
-  //requestből kell jönnie. hogy nyert, vagy veszített
+ 
   
 });

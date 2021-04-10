@@ -16,12 +16,14 @@ export class BattleService {
 
   constructor() { }
 
-  sendShooting(position: Coordinate): Observable<IGameBoardElement[]>{
+  sendShooting(position: Coordinate): Observable<{won: boolean, elements: IGameBoardElement[]}>{
     return new Observable(obs => {
-      obs.next([
+      obs.next({
+        won: false,
+        elements:[
         new Plane(new PlaneDrawerLeft(10), {x: 1, y:2}),
         new DamagedPlane(new PlaneDrawerPart(10), {x: 6, y:7})
-      ]);
+      ]});
     });
   }
 
@@ -40,8 +42,9 @@ export class BattleService {
 
   listenForShooting(): Observable<any> {
     return new Observable(obsrver => {
-
-      obsrver.next();
+      setTimeout(() => {
+        obsrver.next();
+      }, 5000);
     });
   }
 }

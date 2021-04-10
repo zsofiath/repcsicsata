@@ -20,3 +20,5 @@
 (onCellClick)="onCellClick($event)"
 [disabled]="true"
 ></app-gameboard>
+
+<div *ngIf="isVictory" class="victory-message">Victory</div>

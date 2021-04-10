@@ -21,6 +21,7 @@ export class BattleComponent implements OnInit {
   confirmationWindowVisible = false;
   ownPlanes$: BehaviorSubject<IGameBoardElement[]>;
   isWaitingForEnemyToShoot = true;
+  isVictory = false;
 
   constructor(public battleService: BattleService) { 
     this.hitPlanes = new BehaviorSubject([]);
@@ -51,8 +52,9 @@ export class BattleComponent implements OnInit {
 
   confirmShoot(){
     this.isWaitingForEnemyToShoot = true;
-    this.battleService.sendShooting(this.targetCross.position).subscribe(planes => {
-      this.hitPlanes.next(planes);
+    this.battleService.sendShooting(this.targetCross.position).subscribe(shotResult => {
+      this.isVictory = shotResult.won;
+      this.hitPlanes.next(shotResult.elements);
       this.confirmationWindowVisible = false;
 
       this.battleService.listenForShooting().subscribe(()=>{
