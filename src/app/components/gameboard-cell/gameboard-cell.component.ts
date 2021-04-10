@@ -42,26 +42,6 @@ export class GameboardCellComponent implements OnInit {
     return this.properties && this.properties.state == BoardCellStateEnum.RESERVED;
   }
 
-  isUp(): Boolean {
-    if(!this.properties) return false;
-    return this.properties.planePart ? this.properties.planePart.direction == DirectionEnum.UP : false;
-  }
-
-  isDown(): Boolean {
-    if(!this.properties) return false;
-    return this.properties.planePart ? this.properties.planePart.direction == DirectionEnum.DOWN : false;
-  }
-
-  isLeft(): Boolean {
-    if(!this.properties) return false;
-    return this.properties.planePart ? this.properties.planePart.direction == DirectionEnum.LEFT : false;
-  }
-
-  isRight(): Boolean {
-    if(!this.properties) return false;
-    return this.properties.planePart ? this.properties.planePart.direction == DirectionEnum.RIGHT : false;
-  }
-
   isHead(): Boolean {
     if(!this.properties) return false;
     return this.properties.planePart ? this.properties.planePart.part == PlanePartsEnum.HEAD : false;
