@@ -6,12 +6,9 @@
 }">
     <div
     [ngClass]="{
-        'direction': true,
-        'up': isUp(),
-        'down': isDown(),
-        'left': isLeft(),
-        'right': isRight()
-    }">
+        'direction': true
+    }"
+    class="{{properties?.planePart?.direction}}">
         <div [ngClass]="{
             'element': true,
             'head': isHead(),
