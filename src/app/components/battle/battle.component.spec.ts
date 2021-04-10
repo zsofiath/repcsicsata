@@ -14,6 +14,61 @@ import { GameboardComponent } from '../gameboard/gameboard.component';
 
 import { BattleComponent } from './battle.component';
 
+describe('BattleComponent creations', () => {
+  it('should create with starting state', () => {
+    TestBed.configureTestingModule({
+      declarations: [ BattleComponent,  GameboardComponent, GameboardCellComponent],
+      providers: [{provide: BattleService, useValue: {
+        sendShooting: (position: Coordinate) => new Observable(obs => {
+          obs.next([
+            new FakePlane()
+          ]);
+        }),
+        getOwnPlanes: () => of([new FakePlane()]),
+        isStartingPlayer: () => of(true)
+      }}]
+    })
+    .compileComponents();
+    let fixture = TestBed.createComponent(BattleComponent);
+    let component = fixture.componentInstance;
+    spyOn(component.battleService, 'getOwnPlanes').and.returnValue(of([new FakePlane()]));
+
+    let el = fixture.debugElement;
+
+    
+    fixture.detectChanges();
+
+    expect(component.isWaitingForEnemyToShoot).toBeFalsy();
+  });
+
+  it('should create without starting state', () => {
+    TestBed.configureTestingModule({
+      declarations: [ BattleComponent,  GameboardComponent, GameboardCellComponent],
+      providers: [{provide: BattleService, useValue: {
+        sendShooting: (position: Coordinate) => new Observable(obs => {
+          obs.next([
+            new FakePlane()
+          ]);
+        }),
+        getOwnPlanes: () => of([new FakePlane()]),
+        isStartingPlayer: () => of(false)
+      }}]
+    })
+    .compileComponents();
+    let fixture = TestBed.createComponent(BattleComponent);
+    let component = fixture.componentInstance;
+    spyOn(component.battleService, 'getOwnPlanes').and.returnValue(of([new FakePlane()]));
+
+    let el = fixture.debugElement;
+
+    
+    fixture.detectChanges();
+
+    expect(component.isWaitingForEnemyToShoot).toBeTruthy();
+  });
+});
+
+
 describe('BattleComponent', () => {
   let component: BattleComponent;
   let fixture: ComponentFixture<BattleComponent>;
@@ -28,7 +83,8 @@ describe('BattleComponent', () => {
             new FakePlane()
           ]);
         }),
-        getOwnPlanes: () => of([new FakePlane()])
+        getOwnPlanes: () => of([new FakePlane()]),
+        isStartingPlayer: () => of(true)
       }}]
     })
     .compileComponents();

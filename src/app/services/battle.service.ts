@@ -33,4 +33,8 @@ export class BattleService {
       new Plane(new PlaneDrawerLeft(10), {x: 7, y:7})
     ]);
   }
+
+  isStartingPlayer() : Observable<boolean> {
+    return of(true);
+  }
 }

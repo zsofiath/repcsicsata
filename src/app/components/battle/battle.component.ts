@@ -33,6 +33,10 @@ export class BattleComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.battleService.isStartingPlayer().subscribe(starterPlayer => {
+      this.isWaitingForEnemyToShoot = !starterPlayer;
+    });
+
     this.battleService.getOwnPlanes().subscribe(planes => {
       this.ownPlanes$.next(planes);
     });
