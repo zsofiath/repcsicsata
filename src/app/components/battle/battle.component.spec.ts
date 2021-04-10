@@ -1,12 +1,13 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import { PlanePartsEnum } from 'src/app/constants/PlanePartsEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 import FakePlaneDrawer from 'src/app/model/planeDrawer/FakePlaneDrawer';
+import { BattleService } from 'src/app/services/battle.service';
 import FakePlane from 'src/testMocks/MockPlane';
 import { GameboardCellComponent } from '../gameboard-cell/gameboard-cell.component';
 import { GameboardComponent } from '../gameboard/gameboard.component';
@@ -20,7 +21,15 @@ describe('BattleComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BattleComponent,  GameboardComponent, GameboardCellComponent]
+      declarations: [ BattleComponent,  GameboardComponent, GameboardCellComponent],
+      providers: [{provide: BattleService, useValue: {
+        sendShooting: (position: Coordinate) => new Observable(obs => {
+          obs.next([
+            new FakePlane()
+          ]);
+        }),
+        getOwnPlanes: () => of([new FakePlane()])
+      }}]
     })
     .compileComponents();
   }));
@@ -107,7 +116,7 @@ describe('BattleComponent', () => {
     component.targetCross.position.y = 2;
     fixture.detectChanges();
 
-    spyOn(component.battleService, 'sendShooting');
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of([]));
 
     let element = el.queryAll(By.css(".confirm-button"));
     element[0].triggerEventHandler('click', null);
@@ -159,10 +168,6 @@ describe('BattleComponent', () => {
     let element = el.queryAll(By.css("app-gameboard"));
 
     expect(element.length).toEqual(2);
-  });
-
-  it('should draw own planes', () => {
-    
   });
   
 });
