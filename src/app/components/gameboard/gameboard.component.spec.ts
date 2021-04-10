@@ -441,4 +441,76 @@ describe('GameboardComponent', () => {
 
     flush();
   }));
+
+  it('should NOT run hover method on hover when gameboard is disabled', fakeAsync(() => {
+
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    component.cells = cells;
+    component.disabled = true;
+    let plane = new FakePlane();
+    let fakeDrawer1 = new FakePlaneDrawer();
+    plane.drawer = fakeDrawer1;
+    component.activeElement = plane;
+
+    component.onCellHover.subscribe((param)=>{
+      fail('should not hover when disabled');
+    })
+
+    component.onHover({x:1, y: 1});
+
+    flush();
+  }));
+
+  it('should NOT run click method on click when gameboard is disabled', fakeAsync(() => {
+
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;      
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([
+        c1,
+        c2,
+      ]);
+    }
+    
+    component.cells = cells;
+    component.disabled = true;
+    let plane = new FakePlane();
+    let fakeDrawer1 = new FakePlaneDrawer();
+    plane.drawer = fakeDrawer1;
+    component.activeElement = plane;
+
+    component.onCellClick.subscribe((param)=>{
+      fail('should not click when disabled');
+    })
+
+    component.onClick();
+
+    flush();
+  }));
+
+
+
+
 });

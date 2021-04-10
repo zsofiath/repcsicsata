@@ -19,6 +19,7 @@ const MAX_PLANES_NUM = 4;
 export class GameboardComponent implements OnInit {
 
   @Input() $elements: BehaviorSubject<IGameBoardElement[]>;
+  @Input() disabled = false;
   @Output() onCellHover = new EventEmitter();
   @Output() onCellClick = new EventEmitter();
   elements: IGameBoardElement[];
@@ -66,8 +67,10 @@ export class GameboardComponent implements OnInit {
   }
 
   onClick(){
-    this.checkIfOverlapping();    
-    this.onCellClick.emit();
+    if(!this.disabled) {
+      this.checkIfOverlapping();    
+      this.onCellClick.emit();
+    }
   }
 
   private checkIfOverlapping() { 
@@ -76,8 +79,10 @@ export class GameboardComponent implements OnInit {
   }
 
   onHover(coord: Coordinate){
-    this.onCellHover.emit({activeElement: this.activeElement, cells: this.cells, coordinate: coord});
-    this.drawPlaneOnCells(coord);
+    if(!this.disabled) {
+      this.onCellHover.emit({activeElement: this.activeElement, cells: this.cells, coordinate: coord});
+      this.drawPlaneOnCells(coord);
+    }
   }
 
   drawPlaneOnCells(coord: Coordinate) {
