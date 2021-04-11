@@ -279,6 +279,24 @@ describe('BattleComponent', () => {
 
   });
 
+  it('should not check enemy shooting if player won', () => {
+    component.confirmationWindowVisible = true;
+    component.targetCross = new FakePlane();
+    component.targetCross.position.x = 1;
+    component.targetCross.position.y = 2;
+    component.isWaitingForEnemyToShoot = false;
+    fixture.detectChanges();
+
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: true, elements: []}));
+    spyOn(component.battleService, 'listenForShooting').and.returnValue(of([]));
+
+    let element = el.queryAll(By.css(".confirm-button"));
+    element[0].triggerEventHandler('click', null);
+
+    expect(component.battleService.listenForShooting).not.toHaveBeenCalled();
+
+  });
+
   it('should enable (current player shoot) and disable (other player shoot) gameboard ', () => {
     component.confirmationWindowVisible = true;
     component.targetCross = new FakePlane();

@@ -1,12 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
-import { PlanePartsEnum } from 'src/app/constants/PlanePartsEnum';
-import BoardCell from 'src/app/model/BoardCell';
 import Coordinate from 'src/app/model/Coordinate';
 import IGameBoardElement from 'src/app/model/IGameBoardElement';
 import TargetCrossDrawer from 'src/app/model/planeDrawer/TargetCrossDrawer';
-import PlanePart from 'src/app/model/PlanePart';
 import TargetCross from 'src/app/model/TargetCross';
 import { BattleService } from 'src/app/services/battle.service';
 
@@ -53,13 +49,23 @@ export class BattleComponent implements OnInit {
   confirmShoot(){
     this.isWaitingForEnemyToShoot = true;
     this.battleService.sendShooting(this.targetCross.position).subscribe(shotResult => {
-      this.isVictory = shotResult.won;
-      this.hitPlanes.next(shotResult.elements);
-      this.confirmationWindowVisible = false;
+      this.processShootResult(shotResult);
+    });
+  }
 
-      this.battleService.listenForShooting().subscribe(()=>{
-        this.isWaitingForEnemyToShoot = false;
-      });
+  private processShootResult(shotResult: { won: boolean; elements: IGameBoardElement[]; }) {
+    this.isVictory = shotResult.won;
+    this.hitPlanes.next(shotResult.elements);
+    this.confirmationWindowVisible = false;
+
+    if (!this.isVictory) {
+      this.WaitForEnemy();
+    }
+  }
+
+  private WaitForEnemy() {
+    this.battleService.listenForShooting().subscribe(() => {
+      this.isWaitingForEnemyToShoot = false;
     });
   }
 
