@@ -296,7 +296,6 @@ describe('BattleComponent', () => {
 
     let element = el.queryAll(By.css(".confirm-button"));
 
-    let timerCallback = jasmine.createSpy("timerCallback");
     jasmine.clock().install();
 
 
