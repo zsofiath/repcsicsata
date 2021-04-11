@@ -360,6 +360,21 @@ describe('BattleComponent', () => {
 
   });
 
+  it('should show you lost message', () => {
+    component.isLost = true;
+    fixture.detectChanges();
+
+    let element = el.queryAll(By.css(".lost-message"));
+    expect(element.length).toBe(1);
+  });
+
+  it('should NOT show you lost message', () => {
+    component.isLost = false;
+    fixture.detectChanges();
+
+    let element = el.queryAll(By.css(".lost-message"));
+    expect(element.length).toBe(0);
+  });
  
   
 });
