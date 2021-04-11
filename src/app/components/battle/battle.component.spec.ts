@@ -26,7 +26,7 @@ describe('BattleComponent creations', () => {
         }),
         getOwnPlanes: () => of([new FakePlane()]),
         isStartingPlayer: () => of(true),
-        listenForShooting: () => of(true)
+        listenForShooting: () => of({})
       }}]
     })
     .compileComponents();
@@ -53,7 +53,7 @@ describe('BattleComponent creations', () => {
         }),
         getOwnPlanes: () => of([new FakePlane()]),
         isStartingPlayer: () => of(false),
-        listenForShooting: () => of(true)
+        listenForShooting: () => of({})
       }}]
     })
     .compileComponents();
@@ -87,7 +87,7 @@ describe('BattleComponent', () => {
         }),
         getOwnPlanes: () => of([new FakePlane()]),
         isStartingPlayer: () => of(true),
-        listenForShooting: () => of(true)
+        listenForShooting: () => of({})
       }}]
     })
     .compileComponents();
@@ -270,7 +270,7 @@ describe('BattleComponent', () => {
     fixture.detectChanges();
 
     spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: false, elements: []}));
-    spyOn(component.battleService, 'listenForShooting').and.returnValue(of([]));
+    spyOn(component.battleService, 'listenForShooting').and.returnValue(of({}));
 
     let element = el.queryAll(By.css(".confirm-button"));
     element[0].triggerEventHandler('click', null);
@@ -288,7 +288,7 @@ describe('BattleComponent', () => {
     fixture.detectChanges();
 
     spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: true, elements: []}));
-    spyOn(component.battleService, 'listenForShooting').and.returnValue(of([]));
+    spyOn(component.battleService, 'listenForShooting').and.returnValue(of({}));
 
     let element = el.queryAll(By.css(".confirm-button"));
     element[0].triggerEventHandler('click', null);
@@ -308,7 +308,7 @@ describe('BattleComponent', () => {
     spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: false, elements: []}));
     spyOn(component.battleService, 'listenForShooting').and.returnValue(new Observable(o => {
       setTimeout(() => {
-        o.next();
+        o.next({});
       }, 500);
     }));
 
@@ -324,6 +324,37 @@ describe('BattleComponent', () => {
     expect(component.isWaitingForEnemyToShoot).toBeTruthy();
     jasmine.clock().tick(501);
     expect(component.isWaitingForEnemyToShoot).toBeFalsy();
+
+    jasmine.clock().uninstall();
+
+  });
+
+  it('should show you lost message if player lost ', () => {
+    component.confirmationWindowVisible = true;
+    component.targetCross = new FakePlane();
+    component.targetCross.position.x = 1;
+    component.targetCross.position.y = 2;
+    component.isWaitingForEnemyToShoot = false;
+    fixture.detectChanges();
+
+    spyOn(component.battleService, 'sendShooting').and.returnValue(of({won: false, elements: []}));
+    spyOn(component.battleService, 'listenForShooting').and.returnValue(new Observable(o => {
+      setTimeout(() => {
+        o.next({lost: true});
+      }, 500);
+    }));
+
+    let element = el.queryAll(By.css(".confirm-button"));
+
+    jasmine.clock().install();
+
+
+    element[0].triggerEventHandler('click', null);
+
+    expect(component.isLost).toBeFalsy();
+
+    jasmine.clock().tick(501);
+    expect(component.isLost).toBeTruthy();
 
     jasmine.clock().uninstall();
 

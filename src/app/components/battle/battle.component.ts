@@ -18,6 +18,7 @@ export class BattleComponent implements OnInit {
   ownPlanes$: BehaviorSubject<IGameBoardElement[]>;
   isWaitingForEnemyToShoot = true;
   isVictory = false;
+  isLost = false;
 
   constructor(public battleService: BattleService) { 
     this.hitPlanes = new BehaviorSubject([]);
@@ -64,8 +65,9 @@ export class BattleComponent implements OnInit {
   }
 
   private WaitForEnemy() {
-    this.battleService.listenForShooting().subscribe(() => {
+    this.battleService.listenForShooting().subscribe(attackResult => {
       this.isWaitingForEnemyToShoot = false;
+      this.isLost = attackResult.lost;
     });
   }
 
