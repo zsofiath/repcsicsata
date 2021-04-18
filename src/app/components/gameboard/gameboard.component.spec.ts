@@ -208,6 +208,32 @@ describe('GameboardComponent', () => {
     expect(cells[0][0].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
+  xit('should draw plane (received planes)', () => {
+    let plane = new FakePlane();
+    plane.position = {x:0, y:0};
+
+    let cells = [];
+    for (let i = 0; i < 2; i++) {
+      let c1 = new BoardCell();
+      c1.state = BoardCellStateEnum.FREE;
+      c1.x = 0;
+      c1.y = i;
+      let c2 = new BoardCell();
+      c2.state = BoardCellStateEnum.FREE;
+      c2.x = 1;
+      c2.y = i;  
+      cells.push([c1, c2]);
+    }
+    
+
+    component.cells = cells;
+    component.$elements.next([plane]);
+
+    fixture.detectChanges();
+
+    expect(cells[0][0].planePart).toBe(BoardCellStateEnum.RESERVED);
+  });
+
   it('should show only current plane position by cells on hover, and show reserved cells', () => {
     let cells = [];
     for (let i = 0; i < 2; i++) {
@@ -358,7 +384,7 @@ describe('GameboardComponent', () => {
     }
     
     component.cells = cells;
-    component.$elements = new BehaviorSubject([new Plane(null, null)]);
+    component.$elements = new BehaviorSubject([new FakePlane()]);
 
     component.$elements.next([]);
     

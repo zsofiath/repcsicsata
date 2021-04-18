@@ -5,6 +5,7 @@ import { BoardCellStateEnum } from 'src/app/constants/BoardCellStatesEnum';
 import BoardCell from 'src/app/model/BoardCell';
 import Plane from 'src/app/model/Plane';
 import PlanePart from 'src/app/model/PlanePart';
+import FakePlane from 'src/testMocks/MockPlane';
 
 import { ClearPlanesComponent } from './clear-planes.component';
 
@@ -35,7 +36,7 @@ describe('ClearPlanesComponent', () => {
 
 
   it('should delete all planes', fakeAsync(() => {
-    component.$planes = new BehaviorSubject([new Plane(null, null)]);
+    component.$planes = new BehaviorSubject([new FakePlane()]);
 
     let el = fixture.debugElement.queryAll(By.css('.clear-all'))[0];
 

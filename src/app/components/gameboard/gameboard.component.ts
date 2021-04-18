@@ -54,6 +54,7 @@ export class GameboardComponent implements OnInit {
   private setPartsReserved(element: IGameBoardElement) {
     element.getCoordinates().forEach(elementPart => {
       this.cells[elementPart.y][elementPart.x].setReserved();
+      //draw
     });
   }
 
@@ -66,7 +67,7 @@ export class GameboardComponent implements OnInit {
     });
   }
 
-  onClick(){
+  onClick() {
     if(!this.disabled) {
       this.checkIfOverlapping();    
       this.onCellClick.emit();

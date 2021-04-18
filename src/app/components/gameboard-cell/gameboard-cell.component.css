@@ -88,11 +88,10 @@
     transform: rotate(-90deg);
 }
 
-.down.wing-5, .down.tail-3, .down.wing-1, .down.tail-1 {
-    transform: rotate(0deg);
-    transform: scaleY(-1);
+.down .wing-5, .down .tail-3, .down .wing-1, .down .tail-1 {
+    transform: scaleX(-1);
 }
 
-.left.wing-5, .left.tail-3, .left.wing-1, .left.tail-1 {
-    transform: scaleY(-1) rotate(-90deg);
+.left .wing-5, .left .tail-3, .left .wing-1, .left .tail-1 {
+    transform: scaleX(-1);
 }

@@ -4,13 +4,8 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import { PreparationService } from './preparation.service';
 import { HttpClientModule } from '@angular/common/http';
 import Plane from '../model/Plane';
+import MockPlane from 'src/testMocks/MockPlane';
 
-class FakePlane extends Plane{
-  constructor() {
-    super(null, null);
-    
-  }
-}
 
 describe('PreparationService', () => {
 
@@ -34,7 +29,7 @@ describe('PreparationService', () => {
   });
 
   it('should send the prepared planes', () => {
-    service.sendPlanes([new FakePlane(), new FakePlane()]).subscribe(res =>{
+    service.sendPlanes([new MockPlane(), new MockPlane()]).subscribe(res =>{
       expect(res).toBeTruthy();
     });
 

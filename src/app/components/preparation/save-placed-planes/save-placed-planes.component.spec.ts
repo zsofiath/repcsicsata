@@ -3,6 +3,7 @@ import { async, ComponentFixture, fakeAsync, flush, TestBed } from '@angular/cor
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject, Observable } from 'rxjs';
 import Plane from 'src/app/model/Plane';
+import MockPlane from 'src/testMocks/MockPlane';
 
 import { SavePlacedPlanesComponent } from './save-placed-planes.component';
 
@@ -39,7 +40,7 @@ describe('SavePlacedPlanesComponent', () => {
   });
 
   it('should change planes array when planes number changes', fakeAsync(() => {
-    component.$planes.next([new Plane(null, null)]);
+    component.$planes.next([new MockPlane()]);
 
     flush();
 
@@ -48,7 +49,7 @@ describe('SavePlacedPlanesComponent', () => {
 
   it('should display - 3 more to place - when 1 plane is placed', () => {
     const compiled = fixture.debugElement.nativeElement;
-    component.planes = [new Plane(null, null)];
+    component.planes = [new MockPlane()];
 
     fixture.detectChanges();
 
@@ -59,7 +60,7 @@ describe('SavePlacedPlanesComponent', () => {
 
   it('should display - 2 more to place - when 2 plane is placed', () => {
     const compiled = fixture.debugElement.nativeElement;
-    component.planes = [new Plane(null, null), new Plane(null, null)];
+    component.planes = [new MockPlane(), new MockPlane()];
 
     fixture.detectChanges();
 
@@ -69,7 +70,7 @@ describe('SavePlacedPlanesComponent', () => {
 
   it('should display - 1 more to place - when 3 plane is placed', () => {
     const compiled = fixture.debugElement.nativeElement;
-    component.planes = [new Plane(null, null), new Plane(null, null), new Plane(null, null)];
+    component.planes = [new MockPlane(), new MockPlane(), new MockPlane()];
 
     fixture.detectChanges();
 
@@ -79,7 +80,7 @@ describe('SavePlacedPlanesComponent', () => {
 
   it('should display - Go - when 4 plane is placed', fakeAsync(() => {
     const compiled = fixture.debugElement.nativeElement;
-    component.$planes.next([new Plane(null, null), new Plane(null, null), new Plane(null, null), new Plane(null, null)]);
+    component.$planes.next([new MockPlane(), new MockPlane(), new MockPlane(), new MockPlane()]);
     flush();
     
     fixture.detectChanges();

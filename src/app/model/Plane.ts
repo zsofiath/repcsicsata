@@ -8,12 +8,14 @@ import PlanePart from "./PlanePart";
 export default class Plane implements IGameBoardElement {
     private _drawer: IPlaneDrawer;
     private _position: Coordinate;
-
-    numberOfWholePlane = 10;
+    parts;
+    numberOfWholePlane;
 
     constructor(drawer: IPlaneDrawer, position: Coordinate) {
         this._drawer = drawer;
         this._position = position;
+        this.parts = this.getPlaneParts();
+        this.numberOfWholePlane = 10;
     }
 
     get drawer(){
@@ -33,15 +35,20 @@ export default class Plane implements IGameBoardElement {
     }
 
     getCoordinates(): PlanePart[]{
+        const planeCoordinates = this.getPlaneParts();
+        return planeCoordinates;
+    }
+
+    private getPlaneParts() {
         const planeCoordinates = [];
 
         planeCoordinates.push(...this.drawer.drawHead(this.position));
         planeCoordinates.push(...this.drawer.drawWings(this.position));
         planeCoordinates.push(...this.drawer.drawBody(this.position));
         planeCoordinates.push(...this.drawer.drawTail(this.position));
-
-        if(planeCoordinates.length < this.numberOfWholePlane) throw new OutOfBoardError(planeCoordinates);
-
+        
+        if (planeCoordinates.length < this.numberOfWholePlane)
+            throw new OutOfBoardError(planeCoordinates);
         return planeCoordinates;
     }
 

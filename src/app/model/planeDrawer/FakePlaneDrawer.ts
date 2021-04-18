@@ -8,7 +8,7 @@ export default class FakePlaneDrawer implements IPlaneDrawer {
 
     boardSideSize: number;
     key: DirectionEnum = DirectionEnum.UP;
-
+    numberOfWholePlane = 1;
 
     constructor(boardSideSize: number = 10){
         this.boardSideSize = boardSideSize;
@@ -30,5 +30,7 @@ export default class FakePlaneDrawer implements IPlaneDrawer {
     drawTail(planeCenter: Coordinate): PlanePart[] {
         return [];
     }
+
+
 
 }

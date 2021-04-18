@@ -28,9 +28,10 @@ export class BattleService {
   }
 
   getOwnPlanes() : Observable<IGameBoardElement[]> {
+    let plane = new Plane(new PlaneDrawerLeft(10), {x: 1, y:7});
     return of([
       new Plane(new PlaneDrawerLeft(10), {x: 1, y:2}),
-      new Plane(new PlaneDrawerLeft(10), {x: 1, y:7}),
+      plane,
       new Plane(new PlaneDrawerLeft(10), {x: 7, y:2}),
       new Plane(new PlaneDrawerLeft(10), {x: 7, y:7})
     ]);
