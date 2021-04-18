@@ -2,12 +2,14 @@ import OutOfBoardError from "../exceptions/OutOfBoardError";
 import Coordinate from "./Coordinate";
 import ElementState from "./helper/ElementState";
 import IGameBoardElement from "./IGameBoardElement";
+import IGameBoardElementPart from "./IGameBoardElementPart";
 import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 import PlanePart from "./PlanePart";
 
 export default class DamagedPlane implements IGameBoardElement {
     private _drawer: IPlaneDrawer;
     private _position: Coordinate;
+    parts: IGameBoardElementPart;
 
     numberOfWholePlane = 1;
 

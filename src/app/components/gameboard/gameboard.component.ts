@@ -92,16 +92,29 @@ export class GameboardComponent implements OnInit {
     this.resetHighlightedCells();
     
     try {
-      if(this.activeElement.isOverlappingOtherPlane(this.elements)) this.setErrorCells(this.activeElement);
-      else {
-        this.setHighlightedCells(this.activeElement);
-      }
+      this.drawElementInBoard();
     } catch (error) {
-      let err = error as OutOfBoardError;
+      if(error instanceof OutOfBoardError) this.handleOutOfBoardError(error);
+      else {
+        throw error; 
+      }  
+    }
+  }
 
-      err.coordinates.forEach(c => {            
-        this.cells[c.y][c.x].setErrored();
-      });
+  private handleOutOfBoardError(error: OutOfBoardError) {
+    let err = error;
+
+    err.coordinates.forEach(c => {
+      this.cells[c.y][c.x].setErrored();
+    });
+  }
+
+  private drawElementInBoard() {
+    this.setHighlightedCells(this.activeElement);
+
+    if (this.activeElement.isOverlappingOtherPlane(this.elements))
+      this.setErrorCells(this.activeElement);
+    else {
     }
   }
 
@@ -112,10 +125,10 @@ export class GameboardComponent implements OnInit {
     });
   }
 
-  private setHighlightedCells(plane: IGameBoardElement){    
+  private setHighlightedCells(plane: IGameBoardElement) {    
     plane.getCoordinates().forEach(c => {            
       this.cells[c.y][c.x].setHighlighted();
-      this.cells[c.y][c.x].planePart = c;
+      this.cells[c.y][c.x].refreshPart(c);
     });
   }
 

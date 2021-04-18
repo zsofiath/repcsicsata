@@ -279,6 +279,9 @@ describe('GameboardComponent', () => {
       c1.y = i;      
       let c2 = new BoardCell();
       c2.state = BoardCellStateEnum.RESERVED;
+      c2.planePart = new PlanePart();
+      c2.planePart.part = PlanePartsEnum.BODY;
+      c2.planePart.direction = DirectionEnum.RIGHT;
       c2.x = 1;
       c2.y = i;  
       cells.push([
@@ -294,6 +297,8 @@ describe('GameboardComponent', () => {
     component.activeElement = plane;
     component.drawPlaneOnCells({x:1, y:0});
     expect(cells[0][1].state).toEqual(BoardCellStateEnum.RESERVED);
+    expect(cells[0][1].planePart.part).toEqual(PlanePartsEnum.BODY);
+    expect(cells[0][1].planePart.direction).toEqual(DirectionEnum.RIGHT);
   });
 
   it('it should show error when plane is drow on an already placed plane', () => {
