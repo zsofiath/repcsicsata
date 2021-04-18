@@ -17,61 +17,61 @@
 }
 
 .head {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  -60px 0;
     background-size: 150px;
 }
 
 .body {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  -60px -60px;
     background-size: 150px;
 }
 
 .wing-1 {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  0 -30px;
     background-size: 150px;
 }
 
 .wing-2 {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  -30px -30px;
     background-size: 150px;
 }
 
 .wing-3 {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  -60px -30px;
     background-size: 150px;
 }
 
 .wing-4 {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  -90px -30px;
     background-size: 150px;
 }
 
 .wing-5 {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  -120px -30px;
     background-size: 150px;
 }
 
 .tail-1 {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  -30px -90px;
     background-size: 150px;
 }
 
 .tail-2 {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  -60px -90px;
     background-size: 150px;
 }
 
 .tail-3 {
-    background-image: url('/assets/unnamed.jpg');
+    background-image: url('/assets/unnamed.png');
     background-position:  -90px -90px;
     background-size: 150px;
 }

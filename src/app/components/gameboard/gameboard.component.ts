@@ -54,6 +54,7 @@ export class GameboardComponent implements OnInit {
   private setPartsReserved(element: IGameBoardElement) {
     element.getCoordinates().forEach(elementPart => {
       this.cells[elementPart.y][elementPart.x].setReserved();
+      this.cells[elementPart.y][elementPart.x].planePart = elementPart;
       //draw
     });
   }

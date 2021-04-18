@@ -21,6 +21,7 @@ import { SavePlacedPlanesComponent } from '../preparation/save-placed-planes/sav
 
 import { GameboardComponent } from './gameboard.component';
 import FakePlane from 'src/testMocks/MockPlane';
+import { PlanePartsEnum } from 'src/app/constants/PlanePartsEnum';
 
 describe('GameboardComponent', () => {
   let component: GameboardComponent;
@@ -208,7 +209,7 @@ describe('GameboardComponent', () => {
     expect(cells[0][0].state).toBe(BoardCellStateEnum.RESERVED);
   });
 
-  xit('should draw plane (received planes)', () => {
+  it('should draw plane (received planes)', () => {
     let plane = new FakePlane();
     plane.position = {x:0, y:0};
 
@@ -231,7 +232,8 @@ describe('GameboardComponent', () => {
 
     fixture.detectChanges();
 
-    expect(cells[0][0].planePart).toBe(BoardCellStateEnum.RESERVED);
+    expect(cells[0][0].planePart.direction).toBe(DirectionEnum.LEFT);
+    expect(cells[0][0].planePart.part).toBe(PlanePartsEnum.HEAD);
   });
 
   it('should show only current plane position by cells on hover, and show reserved cells', () => {
