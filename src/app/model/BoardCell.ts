@@ -21,7 +21,7 @@ export default class BoardCell {
        this.isError = false;
     }
 
-    refreshPart(part: IGameBoardElementPart) {
+    refreshPart(part: IGameBoardElementPart) {        
         if(this.state != BoardCellStateEnum.RESERVED) this.planePart = part;
         this.isError = false;
      }

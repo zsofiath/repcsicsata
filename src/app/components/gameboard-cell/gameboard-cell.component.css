@@ -9,7 +9,8 @@
 }
 
 .target-cross {
-    background-color: red;
+    background-image: url('/assets/target.png');
+    background-size: 100%;
 }
 
 .hit {

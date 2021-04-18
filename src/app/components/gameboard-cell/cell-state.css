@@ -8,7 +8,7 @@
     background: radial-gradient(transparent, transparent);
 }
 .cell-highlighted {
-    background: radial-gradient(transparent, yellow);
+    background: radial-gradient(transparent 70%, yellow 30%);
 }
 .cell-error {
     background: radial-gradient(transparent, red);
