@@ -2,13 +2,15 @@ import Coordinate from "./Coordinate";
 import ElementState from "./helper/ElementState";
 import IGameBoardElement from "./IGameBoardElement";
 import IGameBoardElementPart from "./IGameBoardElementPart";
-import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 import TargetCrossDrawer from "./planeDrawer/TargetCrossDrawer";
+import TargetCrossPart from "./TargetCrossPart";
 
 export default class TargetCross implements IGameBoardElement {
     position: any;
     drawer: TargetCrossDrawer;
     numberOfWholePlane: any;
+    parts: IGameBoardElementPart;
+
 
     constructor(drawer, position) {
         this.drawer = drawer;
@@ -17,14 +19,10 @@ export default class TargetCross implements IGameBoardElement {
 
 
     getCoordinates(): IGameBoardElementPart[] {
-        const planeCoordinates = [];
-
-        planeCoordinates.push(...this.drawer.drawHead(this.position));
-        planeCoordinates.push(...this.drawer.drawWings(this.position));
-        planeCoordinates.push(...this.drawer.drawBody(this.position));
-        planeCoordinates.push(...this.drawer.drawTail(this.position));
-
-        return planeCoordinates;
+        let target = new TargetCrossPart();
+        target.x = this.position.x;
+        target.y = this.position.y;
+        return [target];
     }
 
     deepCopy() {
