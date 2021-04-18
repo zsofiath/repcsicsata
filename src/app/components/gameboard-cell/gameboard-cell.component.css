@@ -17,6 +17,10 @@
     background-color: red;
 }
 
+.damaged {
+    background-color: red;
+}
+
 .head {
     background-image: url('/assets/unnamed.png');
     background-position:  -60px 0;

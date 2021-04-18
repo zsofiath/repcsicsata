@@ -6,7 +6,7 @@ export default interface IGameBoardElement {
     position;
     drawer: IPlaneDrawer;
     numberOfWholePlane;
-    parts: IGameBoardElementPart;
+    parts: IGameBoardElementPart[];
     isOverlappingOtherPlane(planes: IGameBoardElement[]): IGameBoardElement;
     getCoordinates(): IGameBoardElementPart[];
     deepCopy()

@@ -10,7 +10,8 @@
     }"
     class="{{properties?.planePart?.direction}}">
         <div [ngClass]="{
-            'element': true
+            'element': true,
+            'damaged': properties?.planePart?.isDamaged
         }"
         class="{{properties?.planePart?.part}}">
             <div [ngClass]="{

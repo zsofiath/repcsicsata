@@ -8,4 +8,5 @@ export default class PlanePart implements IGameBoardElementPart {
     y: number;
     direction: DirectionEnum;
     part: PlanePartsEnum;
+    isDamaged: boolean;
 }

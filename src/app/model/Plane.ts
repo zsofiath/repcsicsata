@@ -2,13 +2,14 @@ import OutOfBoardError from "../exceptions/OutOfBoardError";
 import Coordinate from "./Coordinate";
 import ElementState from "./helper/ElementState";
 import IGameBoardElement from "./IGameBoardElement";
+import IGameBoardElementPart from "./IGameBoardElementPart";
 import IPlaneDrawer from "./planeDrawer/IPlaneDrawer";
 import PlanePart from "./PlanePart";
 
 export default class Plane implements IGameBoardElement {
     private _drawer: IPlaneDrawer;
     private _position: Coordinate;
-    parts;
+    parts: IGameBoardElementPart[];
     numberOfWholePlane;
 
     constructor(drawer: IPlaneDrawer, position: Coordinate) {
@@ -68,6 +69,10 @@ export default class Plane implements IGameBoardElement {
         }
     
         return i < planes.length ? planes[i] : null;
-      }
+    }
+
+    setHeadDamaged() {
+        this.parts[0].isDamaged = true;
+    }
 
 }

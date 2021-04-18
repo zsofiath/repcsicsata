@@ -511,6 +511,18 @@ describe('Plane', () => {
                 ]));
             }
         });
+
+        it('should set head damaged', () => {
+            let centerPosition = new Coordinate();
+            centerPosition.x = 2;
+            centerPosition.y = 1;
+    
+            let drawer = new Plane(new PlaneDrawerUp(), centerPosition);
+             
+            drawer.setHeadDamaged();
+
+            expect(drawer.parts[0].isDamaged).toBeTruthy();
+        });
     });
 });
 

@@ -7,4 +7,5 @@ export default class TargetCrossPart implements IGameBoardElementPart {
     y: number;
     direction = DirectionEnum.UP;
     part = PlanePartsEnum.TARGET_CROSS;
+    isDamaged = false;
 }

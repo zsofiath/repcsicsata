@@ -5,5 +5,6 @@ export default interface IGameBoardElementPart {
     x: number;
     y: number;
     direction: DirectionEnum;
-    part: PlanePartsEnum;   
+    part: PlanePartsEnum;
+    isDamaged: boolean;
 }

@@ -9,7 +9,7 @@ export default class TargetCross implements IGameBoardElement {
     position: any;
     drawer: TargetCrossDrawer;
     numberOfWholePlane: any;
-    parts: IGameBoardElementPart;
+    parts: IGameBoardElementPart[];
 
 
     constructor(drawer, position) {
